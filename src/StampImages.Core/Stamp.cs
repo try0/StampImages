@@ -3,10 +3,14 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
 
-namespace StampImages
+namespace StampImages.Core
 {
-    public class StampTexts : IDisposable
+    /// <summary>
+    /// スタンプ
+    /// </summary>
+    public class Stamp : IDisposable
     {
+
         /// <summary>
         /// 上段テキスト
         /// </summary>
@@ -21,6 +25,11 @@ namespace StampImages
         /// 下段テキスト
         /// </summary>
         public StampText BottomText { get; set; }
+
+        /// <summary>
+        /// スタンプ設定
+        /// </summary>
+        public StampOption Option { get; set; } = new StampOption();
 
 
         public void SetFont(Font font)
@@ -68,6 +77,11 @@ namespace StampImages
             if (BottomText != null)
             {
                 BottomText.Dispose();
+            }
+
+            if (Option != null)
+            {
+                Option.Dispose();
             }
         }
     }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace StampImages
+namespace StampImages.Core
 {
     internal static class StampUtils
     {

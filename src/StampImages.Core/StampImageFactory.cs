@@ -1,24 +1,25 @@
-﻿using System;
+﻿using StampImages.Core;
+using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 
-namespace StampImages
+namespace StampImages.Core
 {
 
     /// <summary>
-    /// 職印イメージファクトリー
+    /// 職印画像生成処理
     /// </summary>
-    public class StampFactory : IDisposable
+    public class StampImageFactory : IDisposable
     {
         /// <summary>
         /// 設定
         /// </summary>
-        public StampFactoryConfig Config { get; set; } = new StampFactoryConfig();
+        public StampImageFactoryConfig Config { get; set; } = new StampImageFactoryConfig();
 
         /// <summary>
         /// コンストラクター
         /// </summary>
-        public StampFactory()
+        public StampImageFactory()
         {
         }
 
@@ -26,7 +27,7 @@ namespace StampImages
         /// コンストラクター
         /// </summary>
         /// <param name="config"></param>
-        public StampFactory(StampFactoryConfig config)
+        public StampImageFactory(StampImageFactoryConfig config)
         {
             this.Config = config;
         }
@@ -60,7 +61,7 @@ namespace StampImages
         {
             StampUtils.RequiredArgument(fileName, "fileName");
 
-            var texts = new StampTexts
+            var texts = new Stamp
             {
                 TopText = new StampText(topString),
                 MiddleText = new StampText(middleString),
@@ -70,12 +71,12 @@ namespace StampImages
             Save(texts, fileName);
         }
 
-        public void Save(StampTexts texts, string fileName)
+        public void Save(Stamp stamp, string fileName)
         {
-            StampUtils.RequiredArgument(texts, "texts");
+            StampUtils.RequiredArgument(stamp, "stamp");
             StampUtils.RequiredArgument(fileName, "fileName");
 
-            using (Bitmap image = Create(texts))
+            using (Bitmap image = Create(stamp))
             {
 
                 if (!fileName.ToLower().EndsWith(".png"))
@@ -95,7 +96,7 @@ namespace StampImages
         /// <returns></returns>
         public Bitmap Create(string middleString)
         {
-            return Create(new StampTexts { MiddleText = new StampText(middleString) });
+            return Create(new Stamp { MiddleText = new StampText(middleString) });
         }
 
         /// <summary>
@@ -103,12 +104,12 @@ namespace StampImages
         /// </summary>
         /// <param name="texts"></param>
         /// <returns></returns>
-        public Bitmap Create(StampTexts texts)
+        public Bitmap Create(Stamp stamp)
         {
-            StampUtils.RequiredArgument(texts, "texts");
+            StampUtils.RequiredArgument(stamp, "stamp");
 
-            int edgeSize = Config.ImageEdgeSize;
-            Pen pen = Config.Pen;
+            int edgeSize = stamp.Option.ImageEdgeSize;
+            Pen pen = stamp.Option.Pen;
 
             Bitmap stampImage = new Bitmap(edgeSize, edgeSize);
 
@@ -156,11 +157,11 @@ namespace StampImages
 
             int stringX = edgeSize / 2;
             // 上段テキスト
-            StampText topText = texts.TopText;
+            StampText topText = stamp.TopText;
             if (topText != null)
             {
                 SizeF topStringSize = graphics.MeasureString(topText.Value, topText.Font);
-                int topStringY = (int)Math.Round(topLineY - topStringSize.Height / 2 - Config.TopBottomTextOffset);
+                int topStringY = (int)Math.Round(topLineY - topStringSize.Height / 2 - stamp.Option.TopBottomTextOffset);
                 graphics.DrawString(topText.Value, topText.Font, topText.Brush, stringX, topStringY, sf);
 
 
@@ -173,7 +174,7 @@ namespace StampImages
             }
 
             // 中段テキスト
-            StampText middleText = texts.MiddleText;
+            StampText middleText = stamp.MiddleText;
             if (middleText != null)
             {
                 SizeF middleStringSize = graphics.MeasureString(middleText.Value, middleText.Font);
@@ -189,11 +190,11 @@ namespace StampImages
             }
 
             // 下段テキスト
-            StampText bottomText = texts.BottomText;
+            StampText bottomText = stamp.BottomText;
             if (bottomText != null)
             {
                 SizeF bottomStringSize = graphics.MeasureString(bottomText.Value, bottomText.Font);
-                int bottomStringY = (int)Math.Round(bottomLineY + bottomStringSize.Height / 2 + Config.TopBottomTextOffset);
+                int bottomStringY = (int)Math.Round(bottomLineY + bottomStringSize.Height / 2 + stamp.Option.TopBottomTextOffset);
                 graphics.DrawString(bottomText.Value, bottomText.Font, bottomText.Brush, stringX, bottomStringY, sf);
 
 #if DEBUG

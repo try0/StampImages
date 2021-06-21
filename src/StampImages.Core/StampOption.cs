@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
 
-namespace StampImages
+namespace StampImages.Core
 {
     /// <summary>
     /// 設定
     /// </summary>
-    public class StampFactoryConfig : IDisposable
+    public class StampOption : IDisposable
     {
         /// <summary>
         /// 出力画像サイズ

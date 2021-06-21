@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Runtime.Serialization;
 using System.Text;
 
-namespace StampImages
+namespace StampImages.Core
 {
     public class StampText : IDisposable
     {
