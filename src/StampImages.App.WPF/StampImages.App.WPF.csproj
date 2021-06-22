@@ -1,18 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
-
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWPF>true</UseWPF>
+    <AssemblyName>StampImages.App.WPF</AssemblyName>
   </PropertyGroup>
-
   <ItemGroup>
+    <PackageReference Include="MahApps.Metro" Version="2.4.6" />
     <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications" Version="7.0.2" />
+    <PackageReference Include="Prism.Unity" Version="8.0.0.1909" />
+    <PackageReference Include="ReactiveProperty.WPF" Version="7.11.0" />
     <PackageReference Include="System.Drawing.Common" Version="5.0.2" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\StampImages.Core\StampImages.Core.csproj" />
   </ItemGroup>
-
 </Project>
