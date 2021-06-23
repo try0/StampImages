@@ -27,11 +27,12 @@
                 <TextBox HorizontalAlignment="Left" Margin="33,92,0,0" Text="{Binding BottomText.Value, Mode=TwoWay}" TextWrapping="Wrap" VerticalAlignment="Top" Width="166"/>
 
                 <DatePicker HorizontalAlignment="Left" Margin="204,61,0,0" VerticalAlignment="Top" Width="25" Text="{Binding MiddleText.Value, Mode=TwoWay}"/>
-                
-                
+
+
                 <Button Content="コピー" Width="128" HorizontalAlignment="Left" Margin="363,167,0,0" VerticalAlignment="Top" Command="{Binding CopyImageCommand}"/>
                 <Image HorizontalAlignment="Left" Height="128" Margin="363,30,0,0" VerticalAlignment="Top" Width="128" Source="{Binding StampImageSource.Value}"/>
-                
+                <Controls:ToggleSwitch Header="2重" Height="72" Margin="33,146,0,0" VerticalAlignment="Top" Width="111" IsOn="{Binding IsDoubleStampEdge.Value, Mode=TwoWay}" />
+
             </Grid>
         </StackPanel>
     </DockPanel>

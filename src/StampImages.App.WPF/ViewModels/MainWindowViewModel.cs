@@ -21,20 +21,45 @@ namespace StampImages.App.WPF.ViewModels
     {
         StampImageFactory _stampImageFactory = new StampImageFactory(new Core.StampImageFactoryConfig());
 
+        /// <summary>
+        /// Windowタイトル
+        /// </summary>
         public ReactiveProperty<string> Title { get; } = new ReactiveProperty<string>("StampImages");
 
+
+        /// <summary>
+        /// 上段テキスト
+        /// </summary>
         public ReactiveProperty<string> TopText { get; } = new ReactiveProperty<string>();
+        /// <summary>
+        /// 中段テキスト
+        /// </summary>
         public ReactiveProperty<string> MiddleText { get; } = new ReactiveProperty<string>(DateTime.Now.ToString("yyyy.MM.dd"));
+        /// <summary>
+        /// 下段テキスト
+        /// </summary>
         public ReactiveProperty<string> BottomText { get; } = new ReactiveProperty<string>();
 
+        /// <summary>
+        /// 2重円
+        /// </summary>
+        public ReactiveProperty<bool> IsDoubleStampEdge { get; } = new ReactiveProperty<bool>(false);
 
+
+        /// <summary>
+        /// プレビュー画像
+        /// </summary>
         public ReactiveProperty<Bitmap> StampImage { get; } = new ReactiveProperty<Bitmap>();
         public ReactiveProperty<BitmapSource> StampImageSource { get; } = new ReactiveProperty<BitmapSource>();
 
 
-
+        /// <summary>
+        /// 画面ロードコマンド
+        /// </summary>
         public DelegateCommand LoadedCommand { get; }
-
+        /// <summary>
+        /// 画像コピーコマンド
+        /// </summary>
         public DelegateCommand CopyImageCommand { get; }
 
         /// <summary>
@@ -58,6 +83,23 @@ namespace StampImages.App.WPF.ViewModels
             {
                 UpdateStampImage();
             });
+            IsDoubleStampEdge.Delay(TimeSpan.FromMilliseconds(500)).Subscribe(_ =>
+            {
+                UpdateStampImage();
+            });
+
+
+            StampImage.Subscribe(img =>
+            {
+                if (img != null)
+                {
+                    StampImageSource.Value = ConvertToBitmapSource(StampImage.Value);
+                }
+                else
+                {
+                    StampImageSource.Value = null;
+                }
+            });
         }
 
         /// <summary>
@@ -65,7 +107,7 @@ namespace StampImages.App.WPF.ViewModels
         /// </summary>
         private void ExecuteLoadedCommand()
         {
-                
+
         }
 
         /// <summary>
@@ -105,12 +147,15 @@ namespace StampImages.App.WPF.ViewModels
                 MiddleText = new StampText { Value = MiddleText.Value, Font = StampText.GetDefaultFont(30) },
                 BottomText = new StampText { Value = BottomText.Value, Font = StampText.GetDefaultFont(25) }
             };
+
+            stamp.Option.IsDoubleStampEdge = IsDoubleStampEdge.Value;
+
             var stampImage = _stampImageFactory.Create(stamp);
 
             Application.Current.Dispatcher.Invoke(() =>
             {
                 StampImage.Value = stampImage;
-                StampImageSource.Value = ConvertToBitmapSource(StampImage.Value);
+
             });
         }
 

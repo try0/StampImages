@@ -28,6 +28,13 @@ namespace StampImages.Core
         /// </summary>
         public int TopBottomTextOffset { get; set; } = 10;
 
+        /// <summary>
+        /// 2重円
+        /// </summary>
+        public bool IsDoubleStampEdge { get; set; } = false;
+
+        public int DoubleStampEdgeOffset { get; set; } = 10;
+
         public void Dispose()
         {
             Pen.Dispose();

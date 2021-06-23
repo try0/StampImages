@@ -117,9 +117,23 @@ namespace StampImages.Core
 
             // 半径
             int r = (edgeSize - (edgeSize / 20)) / 2;
+
             //int r = 120;
             // 画像の縁からスタンプの縁までの上下左右の最も短い絶対値
             int outerSpace = (edgeSize - (r * 2)) / 2;
+
+
+            if (stamp.Option.IsDoubleStampEdge)
+            {
+                // 外周円描画
+                graphics.DrawEllipse(pen, outerSpace, outerSpace, 2 * r, 2 * r);
+
+
+                // 内周円の設定へ更新
+                r -= stamp.Option.DoubleStampEdgeOffset;
+                outerSpace += stamp.Option.DoubleStampEdgeOffset;
+
+            }
 
             // 分割ライン描画用の角度　高さや弦の算出基準
             int angle = 15;
