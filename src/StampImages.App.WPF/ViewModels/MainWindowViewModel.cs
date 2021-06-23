@@ -130,6 +130,7 @@ namespace StampImages.App.WPF.ViewModels
             Clipboard.SetData("PNG", ms);
 
             new ToastContentBuilder()
+                .AddAudio(new ToastAudio() { Silent = true })
                 .AddText("クリップボードにコピーしました")
                 .Show();
 
