@@ -6,6 +6,7 @@
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro" 
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         TitleCharacterCasing="Normal"
+        ResizeMode="CanMinimize"
         Title="{Binding Title.Value}" Height="350" Width="525"
         >
 
