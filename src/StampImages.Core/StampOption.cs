@@ -33,7 +33,20 @@ namespace StampImages.Core
         /// </summary>
         public bool IsDoubleStampEdge { get; set; } = false;
 
+        /// <summary>
+        /// 2重円間隔調整池
+        /// </summary>
         public int DoubleStampEdgeOffset { get; set; } = 10;
+
+        /// <summary>
+        /// 回転角度
+        /// </summary>
+        public int RotationAngle { get; set; } = 0;
+
+        /// <summary>
+        /// ノイズ
+        /// </summary>
+        public bool IsAppendNoise { get; set; } = false;
 
         public void Dispose()
         {

@@ -16,6 +16,7 @@ namespace StampImages.Core
         /// </summary>
         public StampImageFactoryConfig Config { get; set; } = new StampImageFactoryConfig();
 
+
         /// <summary>
         /// コンストラクター
         /// </summary>
@@ -115,6 +116,13 @@ namespace StampImages.Core
 
             Graphics graphics = Graphics.FromImage(stampImage);
 
+            // 回転
+            int halfImageSize = stamp.Option.ImageEdgeSize / 2;
+
+            graphics.TranslateTransform(-halfImageSize, -halfImageSize);
+            graphics.RotateTransform(-stamp.Option.RotationAngle, System.Drawing.Drawing2D.MatrixOrder.Append);
+            graphics.TranslateTransform(halfImageSize, halfImageSize, System.Drawing.Drawing2D.MatrixOrder.Append);
+
             // 半径
             int r = (edgeSize - (edgeSize / 20)) / 2;
 
@@ -123,13 +131,14 @@ namespace StampImages.Core
             int outerSpace = (edgeSize - (r * 2)) / 2;
 
 
+            // 2重円
             if (stamp.Option.IsDoubleStampEdge)
             {
-                // 外周円描画
+                // 外円描画
                 graphics.DrawEllipse(pen, outerSpace, outerSpace, 2 * r, 2 * r);
 
 
-                // 内周円の設定へ更新
+                // 内円の設定へ更新
                 r -= stamp.Option.DoubleStampEdgeOffset;
                 outerSpace += stamp.Option.DoubleStampEdgeOffset;
 
@@ -222,6 +231,33 @@ namespace StampImages.Core
 
             // 背景透過
             stampImage.MakeTransparent();
+
+
+
+            if (stamp.Option.IsAppendNoise)
+            {
+                // TODO 適当だからもっとスタンプ風になる加工あるか調べよ
+                Random rand = new Random();
+
+                for (int i = 0; i < stamp.Option.ImageEdgeSize; i++)
+                {
+                    for (int j = 0; j < stamp.Option.ImageEdgeSize; j++)
+                    {
+                        Color pixelColor = stampImage.GetPixel(i, j);
+
+                        if (pixelColor.A == 0)
+                        {
+                            continue;
+                        }
+
+                        if (1 > rand.Next(5))
+                        {
+                            stampImage.SetPixel(i, j, Color.FromArgb(rand.Next(64), pixelColor));
+                        }
+                    }
+                }
+            }
+
 
 
             graphics.Dispose();

@@ -7,6 +7,7 @@
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         TitleCharacterCasing="Normal"
         ResizeMode="CanMinimize"
+        Icon="/icon.png"
         Title="{Binding Title.Value}" Height="350" Width="525"
         >
 
@@ -29,10 +30,18 @@
 
                 <DatePicker HorizontalAlignment="Left" Margin="204,61,0,0" VerticalAlignment="Top" Width="25" Text="{Binding MiddleText.Value, Mode=TwoWay}"/>
 
+                <Controls:ToggleSwitch Header="2重" Height="54" Margin="33,135,0,0" VerticalAlignment="Top" Width="111" IsOn="{Binding IsDoubleStampEdge.Value, Mode=TwoWay}" />
+                <Controls:ToggleSwitch Header="ノイズ" Margin="33,194,0,21" VerticalAlignment="Stretch" Width="137" IsOn="{Binding IsAppendNoise.Value, Mode=TwoWay}" />
 
-                <Button Content="コピー" Width="128" HorizontalAlignment="Left" Margin="363,167,0,0" VerticalAlignment="Top" Command="{Binding CopyImageCommand}"/>
+
+
                 <Image HorizontalAlignment="Left" Height="128" Margin="363,30,0,0" VerticalAlignment="Top" Width="128" Source="{Binding StampImageSource.Value}"/>
-                <Controls:ToggleSwitch Header="2重" Height="72" Margin="33,146,0,0" VerticalAlignment="Top" Width="111" IsOn="{Binding IsDoubleStampEdge.Value, Mode=TwoWay}" />
+
+                <Slider HorizontalAlignment="Left" Margin="363,162,0,0" VerticalAlignment="Top" Width="128" Minimum="-180" Maximum="180" Value="{Binding RotationAngle.Value, Mode=TwoWay}"/>
+
+
+                <Button Content="コピー" Width="85" HorizontalAlignment="Left" Margin="363,191,0,0" VerticalAlignment="Top" Command="{Binding CopyImageCommand}"/>
+                <Button Content="クリア" HorizontalAlignment="Left" Margin="453,191,0,0" VerticalAlignment="Top" Width="38" Command="{Binding ClearCommand}"/>
 
             </Grid>
         </StackPanel>

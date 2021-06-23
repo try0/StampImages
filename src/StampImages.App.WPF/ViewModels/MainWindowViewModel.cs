@@ -21,6 +21,8 @@ namespace StampImages.App.WPF.ViewModels
     {
         StampImageFactory _stampImageFactory = new StampImageFactory(new Core.StampImageFactoryConfig());
 
+        private bool _isInitialized = false;
+
         /// <summary>
         /// Windowタイトル
         /// </summary>
@@ -45,6 +47,15 @@ namespace StampImages.App.WPF.ViewModels
         /// </summary>
         public ReactiveProperty<bool> IsDoubleStampEdge { get; } = new ReactiveProperty<bool>(false);
 
+        /// <summary>
+        /// 回転角度
+        /// </summary>
+        public ReactiveProperty<int> RotationAngle { get; } = new ReactiveProperty<int>(0);
+
+        /// <summary>
+        /// ノイズ付与
+        /// </summary>
+        public ReactiveProperty<bool> IsAppendNoise { get; } = new ReactiveProperty<bool>(false);
 
         /// <summary>
         /// プレビュー画像
@@ -61,6 +72,10 @@ namespace StampImages.App.WPF.ViewModels
         /// 画像コピーコマンド
         /// </summary>
         public DelegateCommand CopyImageCommand { get; }
+        /// <summary>
+        /// 初期化コマンド
+        /// </summary>
+        public DelegateCommand ClearCommand { get; }
 
         /// <summary>
         /// コンストラクター
@@ -69,6 +84,7 @@ namespace StampImages.App.WPF.ViewModels
         {
             LoadedCommand = new DelegateCommand(ExecuteLoadedCommand);
             CopyImageCommand = new DelegateCommand(ExecuteCopyImageCommand);
+            ClearCommand = new DelegateCommand(ExecuteClearCommand);
 
 
             TopText.Delay(TimeSpan.FromMilliseconds(500)).Subscribe(_ =>
@@ -87,7 +103,14 @@ namespace StampImages.App.WPF.ViewModels
             {
                 UpdateStampImage();
             });
-
+            RotationAngle.Delay(TimeSpan.FromMilliseconds(500)).Subscribe(_ =>
+            {
+                UpdateStampImage();
+            });
+            IsAppendNoise.Delay(TimeSpan.FromMilliseconds(500)).Subscribe(_ =>
+            {
+                UpdateStampImage();
+            });
 
             StampImage.Subscribe(img =>
             {
@@ -107,7 +130,8 @@ namespace StampImages.App.WPF.ViewModels
         /// </summary>
         private void ExecuteLoadedCommand()
         {
-
+            _isInitialized = true;
+            UpdateStampImage();
         }
 
         /// <summary>
@@ -136,12 +160,35 @@ namespace StampImages.App.WPF.ViewModels
 
         }
 
+
+        private void ExecuteClearCommand()
+        {
+            _isInitialized = false;
+
+            TopText.Value = null;
+            MiddleText.Value = DateTime.Now.ToString("yyyy.MM.dd");
+            BottomText.Value = null;
+
+            RotationAngle.Value = 0;
+            IsAppendNoise.Value = false;
+            IsDoubleStampEdge.Value = false;
+
+            _isInitialized = true;
+            UpdateStampImage();
+
+
+        }
+
         /// <summary>
         /// プレビュー画像を更新します。
         /// </summary>
         [MethodImpl(MethodImplOptions.Synchronized)]
         private void UpdateStampImage()
         {
+            if (!_isInitialized)
+            {
+                return;
+            }
             var stamp = new Stamp
             {
                 TopText = new StampText { Value = TopText.Value, Font = StampText.GetDefaultFont(22) },
@@ -149,7 +196,10 @@ namespace StampImages.App.WPF.ViewModels
                 BottomText = new StampText { Value = BottomText.Value, Font = StampText.GetDefaultFont(25) }
             };
 
-            stamp.Option.IsDoubleStampEdge = IsDoubleStampEdge.Value;
+            var option = stamp.Option;
+            option.IsDoubleStampEdge = IsDoubleStampEdge.Value;
+            option.RotationAngle = RotationAngle.Value;
+            option.IsAppendNoise = IsAppendNoise.Value;
 
             var stampImage = _stampImageFactory.Create(stamp);
 
