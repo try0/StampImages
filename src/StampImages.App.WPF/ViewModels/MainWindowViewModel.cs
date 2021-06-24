@@ -60,6 +60,11 @@ namespace StampImages.App.WPF.ViewModels
         /// ノイズ付与
         /// </summary>
         public ReactiveProperty<bool> IsAppendNoise { get; } = new ReactiveProperty<bool>(false);
+        /// <summary>
+        /// スタンプカラー
+        /// </summary>
+        public ReactiveProperty<System.Windows.Media.Color> StampColor { get; }
+            = new ReactiveProperty<System.Windows.Media.Color>(System.Windows.Media.Color.FromRgb(Stamp.DEFAULT_STAMP_COLOR.R, Stamp.DEFAULT_STAMP_COLOR.G, Stamp.DEFAULT_STAMP_COLOR.B));
 
         /// <summary>
         /// プレビュー画像
@@ -130,6 +135,10 @@ namespace StampImages.App.WPF.ViewModels
             {
                 RequestUpdateStampImage();
             });
+            StampColor.Subscribe(_ =>
+            {
+                RequestUpdateStampImage();
+            });
 
             StampImage.Subscribe(img =>
             {
@@ -192,6 +201,8 @@ namespace StampImages.App.WPF.ViewModels
             IsAppendNoise.Value = false;
             IsDoubleStampEdge.Value = false;
 
+            StampColor.Value = System.Windows.Media.Color.FromRgb(Stamp.DEFAULT_STAMP_COLOR.R, Stamp.DEFAULT_STAMP_COLOR.G, Stamp.DEFAULT_STAMP_COLOR.B);
+
             this.isInitialized = true;
             UpdateStampImage();
 
@@ -232,6 +243,11 @@ namespace StampImages.App.WPF.ViewModels
             option.IsDoubleStampEdge = IsDoubleStampEdge.Value;
             option.RotationAngle = RotationAngle.Value;
             option.IsAppendNoise = IsAppendNoise.Value;
+
+            Color drawingColor = Color.FromArgb(StampColor.Value.A, StampColor.Value.R, StampColor.Value.G, StampColor.Value.B);
+            option.Pen.Color = drawingColor;
+            stamp.SetBrush(StampText.GetDefaultBrush(drawingColor));
+
 
             var stampImage = this.stampImageFactory.Create(stamp);
 
