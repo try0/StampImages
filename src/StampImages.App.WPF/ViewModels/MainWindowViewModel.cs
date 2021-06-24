@@ -11,6 +11,7 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 
 namespace StampImages.App.WPF.ViewModels
 {
@@ -19,9 +20,12 @@ namespace StampImages.App.WPF.ViewModels
     /// </summary>
     public class MainWindowViewModel : BindableBase
     {
-        StampImageFactory _stampImageFactory = new StampImageFactory(new Core.StampImageFactoryConfig());
+        private readonly StampImageFactory stampImageFactory = new StampImageFactory(new Core.StampImageFactoryConfig());
 
-        private bool _isInitialized = false;
+        private bool isInitialized = false;
+
+        private readonly DispatcherTimer timer;
+
 
         /// <summary>
         /// Windowタイトル
@@ -64,6 +68,9 @@ namespace StampImages.App.WPF.ViewModels
         public ReactiveProperty<BitmapSource> StampImageSource { get; } = new ReactiveProperty<BitmapSource>();
 
 
+
+
+
         /// <summary>
         /// 画面ロードコマンド
         /// </summary>
@@ -82,34 +89,41 @@ namespace StampImages.App.WPF.ViewModels
         /// </summary>
         public MainWindowViewModel()
         {
+            this.timer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(300) };
+            timer.Tick += (s, args) =>
+            {
+                timer.Stop();
+                UpdateStampImage();
+            };
+
             LoadedCommand = new DelegateCommand(ExecuteLoadedCommand);
             CopyImageCommand = new DelegateCommand(ExecuteCopyImageCommand);
             ClearCommand = new DelegateCommand(ExecuteClearCommand);
 
 
-            TopText.Delay(TimeSpan.FromMilliseconds(500)).Subscribe(_ =>
+            TopText.Subscribe(_ =>
             {
-                UpdateStampImage();
+                RequestUpdateStampImage();
             });
-            MiddleText.Delay(TimeSpan.FromMilliseconds(500)).Subscribe(_ =>
+            MiddleText.Subscribe(_ =>
             {
-                UpdateStampImage();
+                RequestUpdateStampImage();
             });
-            BottomText.Delay(TimeSpan.FromMilliseconds(500)).Subscribe(_ =>
+            BottomText.Subscribe(_ =>
             {
-                UpdateStampImage();
+                RequestUpdateStampImage();
             });
-            IsDoubleStampEdge.Delay(TimeSpan.FromMilliseconds(500)).Subscribe(_ =>
+            IsDoubleStampEdge.Subscribe(_ =>
             {
-                UpdateStampImage();
+                RequestUpdateStampImage();
             });
-            RotationAngle.Delay(TimeSpan.FromMilliseconds(500)).Subscribe(_ =>
+            RotationAngle.Subscribe(_ =>
             {
-                UpdateStampImage();
+                RequestUpdateStampImage();
             });
-            IsAppendNoise.Delay(TimeSpan.FromMilliseconds(500)).Subscribe(_ =>
+            IsAppendNoise.Subscribe(_ =>
             {
-                UpdateStampImage();
+                RequestUpdateStampImage();
             });
 
             StampImage.Subscribe(img =>
@@ -130,7 +144,7 @@ namespace StampImages.App.WPF.ViewModels
         /// </summary>
         private void ExecuteLoadedCommand()
         {
-            _isInitialized = true;
+            this.isInitialized = true;
             UpdateStampImage();
         }
 
@@ -144,7 +158,7 @@ namespace StampImages.App.WPF.ViewModels
                 return;
             }
 
-            var resized = _stampImageFactory.Resize(StampImage.Value, 128, 128);
+            var resized = this.stampImageFactory.Resize(StampImage.Value, 128, 128);
             var source = ConvertToBitmapSource(resized);
             PngBitmapEncoder pngEnc = new PngBitmapEncoder();
             pngEnc.Frames.Add(BitmapFrame.Create(source));
@@ -163,7 +177,7 @@ namespace StampImages.App.WPF.ViewModels
 
         private void ExecuteClearCommand()
         {
-            _isInitialized = false;
+            this.isInitialized = false;
 
             TopText.Value = null;
             MiddleText.Value = DateTime.Now.ToString("yyyy.MM.dd");
@@ -173,10 +187,18 @@ namespace StampImages.App.WPF.ViewModels
             IsAppendNoise.Value = false;
             IsDoubleStampEdge.Value = false;
 
-            _isInitialized = true;
+            this.isInitialized = true;
             UpdateStampImage();
 
 
+        }
+
+        private void RequestUpdateStampImage()
+        {
+            if (!timer.IsEnabled)
+            {
+                timer.Start();
+            }
         }
 
         /// <summary>
@@ -185,7 +207,7 @@ namespace StampImages.App.WPF.ViewModels
         [MethodImpl(MethodImplOptions.Synchronized)]
         private void UpdateStampImage()
         {
-            if (!_isInitialized)
+            if (!this.isInitialized)
             {
                 return;
             }
@@ -201,12 +223,11 @@ namespace StampImages.App.WPF.ViewModels
             option.RotationAngle = RotationAngle.Value;
             option.IsAppendNoise = IsAppendNoise.Value;
 
-            var stampImage = _stampImageFactory.Create(stamp);
+            var stampImage = this.stampImageFactory.Create(stamp);
 
             Application.Current.Dispatcher.Invoke(() =>
             {
                 StampImage.Value = stampImage;
-
             });
         }
 
