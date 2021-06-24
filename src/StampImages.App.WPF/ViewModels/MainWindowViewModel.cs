@@ -83,6 +83,11 @@ namespace StampImages.App.WPF.ViewModels
         /// 初期化コマンド
         /// </summary>
         public DelegateCommand ClearCommand { get; }
+        /// <summary>
+        /// 回転クリア
+        /// </summary>
+        public DelegateCommand ClearRotationCommand { get; }
+
 
         /// <summary>
         /// コンストラクター
@@ -99,7 +104,7 @@ namespace StampImages.App.WPF.ViewModels
             LoadedCommand = new DelegateCommand(ExecuteLoadedCommand);
             CopyImageCommand = new DelegateCommand(ExecuteCopyImageCommand);
             ClearCommand = new DelegateCommand(ExecuteClearCommand);
-
+            ClearRotationCommand = new DelegateCommand(ExecuteClearRotationCommand);
 
             TopText.Subscribe(_ =>
             {
@@ -191,6 +196,11 @@ namespace StampImages.App.WPF.ViewModels
             UpdateStampImage();
 
 
+        }
+
+        private void ExecuteClearRotationCommand()
+        {
+            RotationAngle.Value = 0;
         }
 
         private void RequestUpdateStampImage()
