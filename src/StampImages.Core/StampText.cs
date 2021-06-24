@@ -43,7 +43,7 @@ namespace StampImages.Core
         /// <summary>
         /// ブラシ
         /// </summary>
-        public Brush Brush { get; set; } = GetDefaultBrush(Color.Red);
+        public Brush Brush { get; set; } = GetDefaultBrush(Stamp.DEFAULT_STAMP_COLOR);
 
         /// <summary>
         /// コンストラクター

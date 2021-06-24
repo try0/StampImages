@@ -1,6 +1,7 @@
 ﻿using StampImages.Core;
 using System;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 
 namespace StampImages.Core
@@ -48,6 +49,8 @@ namespace StampImages.Core
             Bitmap canvas = new Bitmap(width, height);
 
             Graphics g = Graphics.FromImage(canvas);
+
+            g.SmoothingMode = SmoothingMode.HighQuality;
 
             g.InterpolationMode =
                 System.Drawing.Drawing2D.InterpolationMode.High;
@@ -115,6 +118,8 @@ namespace StampImages.Core
             Bitmap stampImage = new Bitmap(edgeSize, edgeSize);
 
             Graphics graphics = Graphics.FromImage(stampImage);
+
+            graphics.SmoothingMode = SmoothingMode.HighQuality;
 
             // 回転
             int halfImageSize = stamp.Option.ImageEdgeSize / 2;

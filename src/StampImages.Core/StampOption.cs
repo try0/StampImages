@@ -18,7 +18,7 @@ namespace StampImages.Core
         /// <summary>
         /// 縁、分割ライン描画用のPen
         /// </summary>
-        public Pen Pen { get; set; } = new Pen(Color.Red)
+        public Pen Pen { get; set; } = new Pen(Stamp.DEFAULT_STAMP_COLOR)
         {
             Width = 5
         };

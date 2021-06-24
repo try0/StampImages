@@ -10,6 +10,10 @@ namespace StampImages.Core
     /// </summary>
     public class Stamp : IDisposable
     {
+        /// <summary>
+        /// 朱色
+        /// </summary>
+        public static readonly Color DEFAULT_STAMP_COLOR = Color.FromArgb(239, 69, 74);
 
         /// <summary>
         /// 上段テキスト
