@@ -49,7 +49,8 @@
 
 
                 <Button Content="コピー" Width="100" HorizontalAlignment="Left" Margin="392,282,0,0" VerticalAlignment="Top" Command="{Binding CopyImageCommand}"/>
-                <Button Content="クリア" HorizontalAlignment="Left" Margin="313,282,0,0" VerticalAlignment="Top" Width="74" Command="{Binding ClearCommand}"/>
+                <Button Content="クリア" HorizontalAlignment="Left" Margin="234,282,0,0" VerticalAlignment="Top" Width="74" Command="{Binding ClearCommand}"/>
+                <Button Content="保存" Width="74" HorizontalAlignment="Left" Margin="313,282,0,0" VerticalAlignment="Top" Command="{Binding SaveImageCommand}"/>
 
 
             </Grid>

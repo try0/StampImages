@@ -1,4 +1,5 @@
 ﻿using Microsoft.Toolkit.Uwp.Notifications;
+using Microsoft.Win32;
 using Prism.Commands;
 using Prism.Mvvm;
 using Reactive.Bindings;
@@ -94,6 +95,8 @@ namespace StampImages.App.WPF.ViewModels
         public DelegateCommand ClearRotationCommand { get; }
 
 
+        public DelegateCommand SaveImageCommand { get; }
+
         /// <summary>
         /// コンストラクター
         /// </summary>
@@ -110,6 +113,7 @@ namespace StampImages.App.WPF.ViewModels
             CopyImageCommand = new DelegateCommand(ExecuteCopyImageCommand);
             ClearCommand = new DelegateCommand(ExecuteClearCommand);
             ClearRotationCommand = new DelegateCommand(ExecuteClearRotationCommand);
+            SaveImageCommand = new DelegateCommand(ExecuteSaveImageCommand);
 
             TopText.Subscribe(_ =>
             {
@@ -212,6 +216,40 @@ namespace StampImages.App.WPF.ViewModels
         private void ExecuteClearRotationCommand()
         {
             RotationAngle.Value = 0;
+        }
+
+        private void ExecuteSaveImageCommand()
+        {
+            var dialog = new SaveFileDialog();
+            dialog.FileName = "stamp.png";
+            dialog.Filter = "PNGファイル(*.png)|*.png";
+
+            // ファイル保存ダイアログを表示します。
+            var result = dialog.ShowDialog() ?? false;
+
+            // 保存ボタン以外が押下された場合
+            if (!result)
+            {
+                // 終了します。
+                return;
+            }
+
+            var isDirectory = File
+                .GetAttributes(dialog.FileName)
+                .HasFlag(FileAttributes.Directory);
+
+            if (isDirectory)
+            {
+                dialog.FileName = Path.Combine(dialog.FileName, "stamp.png");
+            }
+
+            StampImage.Value.Save(dialog.FileName);
+
+            new ToastContentBuilder()
+                .AddAudio(new ToastAudio() { Silent = true })
+                .AddInlineImage(new Uri(dialog.FileName))
+                .AddText("保存しました")
+                .Show();
         }
 
         private void RequestUpdateStampImage()
