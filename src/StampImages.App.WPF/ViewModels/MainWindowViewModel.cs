@@ -5,14 +5,17 @@ using Prism.Mvvm;
 using Reactive.Bindings;
 using StampImages.Core;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Reactive.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Interop;
+using Media = System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
+using System.Windows.Media;
 
 namespace StampImages.App.WPF.ViewModels
 {
@@ -41,11 +44,24 @@ namespace StampImages.App.WPF.ViewModels
         /// <summary>
         /// 中段テキスト
         /// </summary>
-        public ReactiveProperty<string> MiddleText { get; } = new ReactiveProperty<string>(DateTime.Now.ToString("yyyy.MM.dd"));
+        public ReactiveProperty<string> MiddleText { get; } = new ReactiveProperty<string>(DateTime.Now.ToString("yyyyMM.dd"));
         /// <summary>
         /// 下段テキスト
         /// </summary>
         public ReactiveProperty<string> BottomText { get; } = new ReactiveProperty<string>();
+
+        /// <summary>
+        /// 上段テキストサイズ
+        /// </summary>
+        public ReactiveProperty<double> TopFontSize { get; } = new ReactiveProperty<double>(27);
+        /// <summary>
+        /// 中段テキストサイズ
+        /// </summary>
+        public ReactiveProperty<double> MiddleFontSize { get; } = new ReactiveProperty<double>(27);
+        /// <summary>
+        /// 下段テキストサイズ
+        /// </summary>
+        public ReactiveProperty<double> BottomFontSize { get; } = new ReactiveProperty<double>(27);
 
         /// <summary>
         /// 2重円
@@ -64,13 +80,26 @@ namespace StampImages.App.WPF.ViewModels
         /// <summary>
         /// スタンプカラー
         /// </summary>
-        public ReactiveProperty<System.Windows.Media.Color> StampColor { get; }
-            = new ReactiveProperty<System.Windows.Media.Color>(System.Windows.Media.Color.FromRgb(Stamp.DEFAULT_STAMP_COLOR.R, Stamp.DEFAULT_STAMP_COLOR.G, Stamp.DEFAULT_STAMP_COLOR.B));
+        public ReactiveProperty<Media.Color> StampColor { get; }
+            = new ReactiveProperty<Media.Color>(Media.Color.FromRgb(Stamp.DEFAULT_STAMP_COLOR.R, Stamp.DEFAULT_STAMP_COLOR.G, Stamp.DEFAULT_STAMP_COLOR.B));
 
+        /// <summary>
+        /// フォント一覧
+        /// </summary>
+        public ReactiveProperty<ICollection<Media.FontFamily>> SystemFontFamilies { get; }
+            = new ReactiveProperty<ICollection<Media.FontFamily>>(Fonts.SystemFontFamilies);
+        /// <summary>
+        /// 描画フォント
+        /// </summary>
+        public ReactiveProperty<Media.FontFamily> FontFamily { get; set; }
+            = new ReactiveProperty<Media.FontFamily>(new Media.FontFamily("MS UI Gothic"));
         /// <summary>
         /// プレビュー画像
         /// </summary>
         public ReactiveProperty<Bitmap> StampImage { get; } = new ReactiveProperty<Bitmap>();
+        /// <summary>
+        /// プレビュー画像イメージソース
+        /// </summary>
         public ReactiveProperty<BitmapSource> StampImageSource { get; } = new ReactiveProperty<BitmapSource>();
 
 
@@ -93,8 +122,9 @@ namespace StampImages.App.WPF.ViewModels
         /// 回転クリア
         /// </summary>
         public DelegateCommand ClearRotationCommand { get; }
-
-
+        /// <summary>
+        /// 画像保存
+        /// </summary>
         public DelegateCommand SaveImageCommand { get; }
 
         /// <summary>
@@ -108,41 +138,24 @@ namespace StampImages.App.WPF.ViewModels
                 timer.Stop();
                 UpdateStampImage();
             };
-
             LoadedCommand = new DelegateCommand(ExecuteLoadedCommand);
             CopyImageCommand = new DelegateCommand(ExecuteCopyImageCommand);
             ClearCommand = new DelegateCommand(ExecuteClearCommand);
             ClearRotationCommand = new DelegateCommand(ExecuteClearRotationCommand);
             SaveImageCommand = new DelegateCommand(ExecuteSaveImageCommand);
 
-            TopText.Subscribe(_ =>
-            {
-                RequestUpdateStampImage();
-            });
-            MiddleText.Subscribe(_ =>
-            {
-                RequestUpdateStampImage();
-            });
-            BottomText.Subscribe(_ =>
-            {
-                RequestUpdateStampImage();
-            });
-            IsDoubleStampEdge.Subscribe(_ =>
-            {
-                RequestUpdateStampImage();
-            });
-            RotationAngle.Subscribe(_ =>
-            {
-                RequestUpdateStampImage();
-            });
-            IsAppendNoise.Subscribe(_ =>
-            {
-                RequestUpdateStampImage();
-            });
-            StampColor.Subscribe(_ =>
-            {
-                RequestUpdateStampImage();
-            });
+            TopText.Subscribe(_ => RequestUpdateStampImage());
+            MiddleText.Subscribe(_ => RequestUpdateStampImage());
+            BottomText.Subscribe(_ => RequestUpdateStampImage());
+            TopFontSize.Subscribe(_ => RequestUpdateStampImage());
+            MiddleFontSize.Subscribe(_ => RequestUpdateStampImage());
+            BottomFontSize.Subscribe(_ => RequestUpdateStampImage());
+
+            IsDoubleStampEdge.Subscribe(_ => RequestUpdateStampImage());
+            RotationAngle.Subscribe(_ => RequestUpdateStampImage());
+            IsAppendNoise.Subscribe(_ => RequestUpdateStampImage());
+            StampColor.Subscribe(_ => RequestUpdateStampImage());
+            FontFamily.Subscribe(_ => RequestUpdateStampImage());
 
             StampImage.Subscribe(img =>
             {
@@ -201,11 +214,17 @@ namespace StampImages.App.WPF.ViewModels
             MiddleText.Value = DateTime.Now.ToString("yyyy.MM.dd");
             BottomText.Value = null;
 
+            TopFontSize.Value = 27;
+            MiddleFontSize.Value = 27;
+            BottomFontSize.Value = 27;
+
             RotationAngle.Value = 0;
             IsAppendNoise.Value = false;
             IsDoubleStampEdge.Value = false;
 
-            StampColor.Value = System.Windows.Media.Color.FromRgb(Stamp.DEFAULT_STAMP_COLOR.R, Stamp.DEFAULT_STAMP_COLOR.G, Stamp.DEFAULT_STAMP_COLOR.B);
+            FontFamily.Value = new Media.FontFamily("MS UI Gothic");
+
+            StampColor.Value = Media.Color.FromRgb(Stamp.DEFAULT_STAMP_COLOR.R, Stamp.DEFAULT_STAMP_COLOR.G, Stamp.DEFAULT_STAMP_COLOR.B);
 
             this.isInitialized = true;
             UpdateStampImage();
@@ -272,9 +291,9 @@ namespace StampImages.App.WPF.ViewModels
             }
             var stamp = new Stamp
             {
-                TopText = new StampText { Value = TopText.Value, Font = StampText.GetDefaultFont(22) },
-                MiddleText = new StampText { Value = MiddleText.Value, Font = StampText.GetDefaultFont(30) },
-                BottomText = new StampText { Value = BottomText.Value, Font = StampText.GetDefaultFont(25) }
+                TopText = new StampText { Value = TopText.Value, Font = new Font(FontFamily.Value.Source, (float)TopFontSize.Value) },
+                MiddleText = new StampText { Value = MiddleText.Value, Font = new Font(FontFamily.Value.Source, (float)MiddleFontSize.Value) },
+                BottomText = new StampText { Value = BottomText.Value, Font = new Font(FontFamily.Value.Source, (float)BottomFontSize.Value) }
             };
 
             var option = stamp.Option;
@@ -282,7 +301,7 @@ namespace StampImages.App.WPF.ViewModels
             option.RotationAngle = RotationAngle.Value;
             option.IsAppendNoise = IsAppendNoise.Value;
 
-            Color drawingColor = Color.FromArgb(StampColor.Value.A, StampColor.Value.R, StampColor.Value.G, StampColor.Value.B);
+            System.Drawing.Color drawingColor = System.Drawing.Color.FromArgb(StampColor.Value.A, StampColor.Value.R, StampColor.Value.G, StampColor.Value.B);
             option.Pen.Color = drawingColor;
             stamp.SetBrush(StampText.GetDefaultBrush(drawingColor));
 

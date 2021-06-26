@@ -5,11 +5,10 @@
         prism:ViewModelLocator.AutoWireViewModel="True"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro" 
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-        xmlns:tools="http://propertytools.org/wpf"
         TitleCharacterCasing="Normal"
         ResizeMode="CanMinimize"
         Icon="/icon.png"
-        Title="{Binding Title.Value}" Height="400" Width="525"
+        Title="{Binding Title.Value}" Height="420" Width="525"
         >
 
     <i:Interaction.Triggers>
@@ -25,32 +24,43 @@
         <StackPanel>
             <Grid x:Name="ContainerGrid"  Focusable="True" Height="348" >
 
-                <TextBox HorizontalAlignment="Left" Margin="33,30,0,0" Text="{Binding TopText.Value, Mode=TwoWay}" TextWrapping="Wrap" VerticalAlignment="Top" Width="166"/>
-                <TextBox HorizontalAlignment="Left" Margin="33,61,0,0" Text="{Binding MiddleText.Value, Mode=TwoWay}" TextWrapping="Wrap" VerticalAlignment="Top" Width="166"/>
-                <TextBox HorizontalAlignment="Left" Margin="33,92,0,0" Text="{Binding BottomText.Value, Mode=TwoWay}" TextWrapping="Wrap" VerticalAlignment="Top" Width="166"/>
+                <TextBox HorizontalAlignment="Left" Margin="33,30,0,0" Text="{Binding TopText.Value, Mode=TwoWay}" TextWrapping="Wrap" VerticalAlignment="Top" Width="167"/>
+                <TextBox HorizontalAlignment="Left" Margin="33,61,0,0" Text="{Binding MiddleText.Value, Mode=TwoWay}" TextWrapping="Wrap" VerticalAlignment="Top" Width="136"/>
+                <TextBox HorizontalAlignment="Left" Margin="33,92,0,0" Text="{Binding BottomText.Value, Mode=TwoWay}" TextWrapping="Wrap" VerticalAlignment="Top" Width="167"/>
 
-                <DatePicker HorizontalAlignment="Left" Margin="204,61,0,0" VerticalAlignment="Top" Width="25" Text="{Binding MiddleText.Value, Mode=TwoWay}"/>
+                <DatePicker HorizontalAlignment="Left" Margin="175,61,0,0" VerticalAlignment="Top" Width="25" Text="{Binding MiddleText.Value, Mode=TwoWay}"/>
+                
+                <Controls:NumericUpDown HorizontalAlignment="Left" Margin="205,30,0,0" VerticalAlignment="Top" Value="{Binding TopFontSize.Value}"/>
+                <Controls:NumericUpDown HorizontalAlignment="Left" Margin="205,61,0,0" VerticalAlignment="Top" Value="{Binding MiddleFontSize.Value}"/>
+                <Controls:NumericUpDown HorizontalAlignment="Left" Margin="205,92,0,0" VerticalAlignment="Top" Value="{Binding BottomFontSize.Value}"/>
 
-                <Controls:ToggleSwitch Header="" Content="2重" Height="49" Margin="33,127,0,0" VerticalAlignment="Top" Width="111" IsOn="{Binding IsDoubleStampEdge.Value, Mode=TwoWay}" />
-                <Controls:ToggleSwitch Header="" Content="ノイズ"  Margin="33,159,0,95" VerticalAlignment="Stretch" Width="204" IsOn="{Binding IsAppendNoise.Value, Mode=TwoWay}" Controls:HeaderedControlHelper.HeaderHorizontalContentAlignment="Stretch" Controls:HeaderedControlHelper.HeaderVerticalContentAlignment="Bottom" Controls:HeaderedControlHelper.HeaderMargin="0,0,0,0" />
+
+
+                <Controls:ToggleSwitch Header="" Content="2重" Height="49" Margin="33,117,0,0" Width="111" IsOn="{Binding IsDoubleStampEdge.Value, Mode=TwoWay}" VerticalAlignment="Top" />
+                <Controls:ToggleSwitch Header="" Content="ノイズ"  Margin="33,148,0,148" VerticalAlignment="Stretch" Width="204" IsOn="{Binding IsAppendNoise.Value, Mode=TwoWay}" Controls:HeaderedControlHelper.HeaderHorizontalContentAlignment="Stretch" Controls:HeaderedControlHelper.HeaderVerticalContentAlignment="Bottom" Controls:HeaderedControlHelper.HeaderMargin="0,0,0,0" />
 
 
 
 
-                <Image HorizontalAlignment="Left" Height="128" Margin="313,19,0,0" VerticalAlignment="Top" Width="128" Source="{Binding StampImageSource.Value}"/>
+                <Image HorizontalAlignment="Left" Height="128" Margin="341,30,0,0" VerticalAlignment="Top" Width="128" Source="{Binding StampImageSource.Value}"/>
 
-                <Slider HorizontalAlignment="Left" Margin="313,162,0,0" VerticalAlignment="Top" Width="128" Minimum="-180" Maximum="180" Value="{Binding RotationAngle.Value, Mode=TwoWay}"/>
-                <Button Content="-" HorizontalAlignment="Left" Margin="454,160,0,0" VerticalAlignment="Top" Width="38" Command="{Binding ClearRotationCommand}"/>
+                <Slider HorizontalAlignment="Left" Margin="313,175,0,0" VerticalAlignment="Top" Width="128" Minimum="-180" Maximum="180" Value="{Binding RotationAngle.Value, Mode=TwoWay}"/>
+                <Button Content="-" HorizontalAlignment="Left" Margin="454,173,0,0" VerticalAlignment="Top" Width="38" Command="{Binding ClearRotationCommand}"/>
 
+                <ComboBox HorizontalAlignment="Left" Margin="313,207,0,0" VerticalAlignment="Top" Width="179" 
+                          ItemsSource="{Binding SystemFontFamilies.Value}" SelectedValue="{Binding FontFamily.Value}"
+                          DisplayMemberPath="Source"/>
 
                 <Controls:ColorPicker SelectedColor="{Binding StampColor.Value, Mode=TwoWay}" 
                      SelectedColorTemplate="{DynamicResource MahApps.Templates.ColorPickerContent.ColorAndName}" 
-                     AddToRecentColorsTrigger="SelectedColorChanged" Margin="313,206,33,115" />
+                     AddToRecentColorsTrigger="SelectedColorChanged" Margin="313,238,31,84" />
 
 
-                <Button Content="コピー" Width="100" HorizontalAlignment="Left" Margin="392,282,0,0" VerticalAlignment="Top" Command="{Binding CopyImageCommand}"/>
-                <Button Content="クリア" HorizontalAlignment="Left" Margin="234,282,0,0" VerticalAlignment="Top" Width="74" Command="{Binding ClearCommand}"/>
-                <Button Content="保存" Width="74" HorizontalAlignment="Left" Margin="313,282,0,0" VerticalAlignment="Top" Command="{Binding SaveImageCommand}"/>
+                <Button Content="コピー" Width="100" HorizontalAlignment="Left" Margin="392,311,0,0" VerticalAlignment="Top" Command="{Binding CopyImageCommand}"/>
+                <Button Content="クリア" HorizontalAlignment="Left" Margin="234,311,0,0" VerticalAlignment="Top" Width="74" Command="{Binding ClearCommand}"/>
+                <Button Content="保存" Width="74" HorizontalAlignment="Left" Margin="313,311,0,0" VerticalAlignment="Top" Command="{Binding SaveImageCommand}"/>
+
+
 
 
             </Grid>
