@@ -44,7 +44,7 @@ namespace StampImages.App.WPF.ViewModels
         /// <summary>
         /// 中段テキスト
         /// </summary>
-        public ReactiveProperty<string> MiddleText { get; } = new ReactiveProperty<string>(DateTime.Now.ToString("yyyyMM.dd"));
+        public ReactiveProperty<string> MiddleText { get; } = new ReactiveProperty<string>(DateTime.Now.ToString("yyyy/MM/dd"));
         /// <summary>
         /// 下段テキスト
         /// </summary>
@@ -211,7 +211,7 @@ namespace StampImages.App.WPF.ViewModels
             this.isInitialized = false;
 
             TopText.Value = null;
-            MiddleText.Value = DateTime.Now.ToString("yyyy.MM.dd");
+            MiddleText.Value = DateTime.Now.ToString("yyyy/MM/dd");
             BottomText.Value = null;
 
             TopFontSize.Value = 27;
