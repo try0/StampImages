@@ -15,7 +15,7 @@ namespace StampImages.Test.NetFramework
         [TestMethod]
         public void ExampleCreateStamp()
         {
-            var stamp = new ThreeAreaStamp
+            var stamp = new ThreeAreaCircularStamp
             {
                 TopText = new StampText { Value = "èäëÆïîñÂ", Size = 22 },
                 MiddleText = new StampText { Value = DateTime.Now.ToString("yyyy.MM.dd"), Size = 30 },
@@ -27,7 +27,7 @@ namespace StampImages.Test.NetFramework
         [TestMethod]
         public void ExampleResizeStamp()
         {
-            var stamp = new ThreeAreaStamp
+            var stamp = new ThreeAreaCircularStamp
             {
                 TopText = new StampText { Value = "èäëÆïîñÂ", Size = 22 },
                 MiddleText = new StampText { Value = DateTime.Now.ToString("yyyy.MM.dd"), Size = 30 },
@@ -43,6 +43,20 @@ namespace StampImages.Test.NetFramework
             stampImage.Dispose();
             resized.Dispose();
 
+        }
+
+        [TestMethod]
+        public void ExampleCreateSquareStamp()
+        {
+            var stamp = new SquareStamp
+            {
+                EdgeType = StampEdgeType.DOUBLE,
+                TextOrientationType = TextOrientationType.VERTICAL,
+                Text = new StampText { Value = "èäëÆïîñÂ", Size = 40 },
+            };
+            stamp.EffectTypes.Add(StampEffectType.NOISE);
+
+            stampImageFactory.Create(stamp).Save("./inkan_sq_256.png");
         }
     }
 }

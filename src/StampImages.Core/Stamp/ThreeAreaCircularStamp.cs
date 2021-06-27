@@ -8,7 +8,7 @@ namespace StampImages.Core
     /// <summary>
     /// スタンプ
     /// </summary>
-    public class ThreeAreaStamp : BaseStamp
+    public class ThreeAreaCircularStamp : BaseStamp
     {
         /// <summary>
         /// 上段テキスト
@@ -36,7 +36,7 @@ namespace StampImages.Core
         public int TopBottomTextOffset { get; set; } = 10;
 
 
-        public void SetFontFamily(FontFamily fontfamily)
+        public override void SetFontFamily(FontFamily fontfamily)
         {
             if (TopText != null)
             {

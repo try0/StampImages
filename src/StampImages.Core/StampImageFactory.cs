@@ -65,7 +65,7 @@ namespace StampImages.Core
         {
             StampUtils.RequiredArgument(fileName, "fileName");
 
-            var texts = new ThreeAreaStamp
+            var texts = new ThreeAreaCircularStamp
             {
                 TopText = new StampText(topString),
                 MiddleText = new StampText(middleString),
@@ -75,7 +75,7 @@ namespace StampImages.Core
             Save(texts, fileName);
         }
 
-        public void Save(ThreeAreaStamp stamp, string fileName)
+        public void Save(ThreeAreaCircularStamp stamp, string fileName)
         {
             StampUtils.RequiredArgument(stamp, "stamp");
             StampUtils.RequiredArgument(fileName, "fileName");
@@ -100,7 +100,7 @@ namespace StampImages.Core
         /// <returns></returns>
         public Bitmap Create(string middleString)
         {
-            return Create(new ThreeAreaStamp { MiddleText = new StampText(middleString) });
+            return Create(new ThreeAreaCircularStamp { MiddleText = new StampText(middleString) });
         }
 
         /// <summary>
@@ -108,13 +108,14 @@ namespace StampImages.Core
         /// </summary>
         /// <param name="texts"></param>
         /// <returns></returns>
-        public Bitmap Create(ThreeAreaStamp stamp)
+        public Bitmap Create(ThreeAreaCircularStamp stamp)
         {
             StampUtils.RequiredArgument(stamp, "stamp");
 
             int imageHeight = stamp.Size.Height;
             int imageWidth = stamp.Size.Width;
-            Pen edgePen = new Pen(stamp.Color) {
+            Pen edgePen = new Pen(stamp.Color)
+            {
                 Width = stamp.EdgeWidth
             };
 
@@ -142,7 +143,7 @@ namespace StampImages.Core
 
 
             // 2重円
-            if (stamp.EdgeType == ThreeAreaStamp.StampEdgeType.DOUBLE)
+            if (stamp.EdgeType == StampEdgeType.DOUBLE)
             {
                 // 外円描画
                 graphics.DrawEllipse(edgePen, outerSpace, outerSpace, 2 * r, 2 * r);
@@ -253,28 +254,9 @@ namespace StampImages.Core
 
 
 
-            if (stamp.EffectTypes.Contains(BaseStamp.StampEffectType.NOISE))
+            if (stamp.EffectTypes.Contains(StampEffectType.NOISE))
             {
-                // TODO 適当だからもっとスタンプ風になる加工あるか調べよ
-                Random rand = new Random();
-
-                for (int i = 0; i < stamp.Size.Width; i++)
-                {
-                    for (int j = 0; j < stamp.Size.Height; j++)
-                    {
-                        Color pixelColor = stampImage.GetPixel(i, j);
-
-                        if (pixelColor.A == 0)
-                        {
-                            continue;
-                        }
-
-                        if (1 > rand.Next(5))
-                        {
-                            stampImage.SetPixel(i, j, Color.FromArgb(rand.Next(64), pixelColor));
-                        }
-                    }
-                }
+                AppendNoise(stamp, stampImage);
             }
 
 
@@ -285,9 +267,175 @@ namespace StampImages.Core
 
         }
 
+        public Bitmap Create(SquareStamp stamp)
+        {
+            StampUtils.RequiredArgument(stamp, "stamp");
+
+            int imageHeight = stamp.Size.Height;
+            int imageWidth = stamp.Size.Width;
+            Pen edgePen = new Pen(stamp.Color)
+            {
+                Width = stamp.EdgeWidth
+            };
+
+
+            Bitmap stampImage = new Bitmap(imageWidth, imageHeight);
+
+            Graphics graphics = Graphics.FromImage(stampImage);
+
+            graphics.SmoothingMode = SmoothingMode.HighQuality;
+
+            // 回転
+            int halfImageHeight = imageHeight / 2;
+            int halfImageWidth = imageWidth / 2;
+
+            graphics.TranslateTransform(-halfImageWidth, -halfImageHeight);
+            graphics.RotateTransform(-stamp.RotationAngle, MatrixOrder.Append);
+            graphics.TranslateTransform(halfImageWidth, halfImageHeight, MatrixOrder.Append);
+
+            // 半径
+            int stampHeight = (imageWidth - (imageWidth / 20));
+            int stampWidth = (imageHeight - (imageHeight / 20));
+
+            int outerSpaceX = (imageWidth - stampWidth) / 2;
+            int outerSpaceY = (imageHeight - stampHeight) / 2;
+
+            int edgeRadius = stamp.EdgeRadius;
+
+            // 2重
+            if (stamp.EdgeType == StampEdgeType.DOUBLE)
+            {
+                // 外描画
+                DrawRoundedRectangle(graphics, edgePen, outerSpaceX, outerSpaceY, stampWidth, stampHeight, edgeRadius);
+
+                // 内の設定へ更新
+                stampHeight -= stamp.DoubleEdgeOffset * 2;
+                stampWidth -= stamp.DoubleEdgeOffset * 2;
+                outerSpaceX += stamp.DoubleEdgeOffset;
+                outerSpaceY += stamp.DoubleEdgeOffset;
+
+                if (edgeRadius > stamp.DoubleEdgeOffset)
+                {
+                    // できるだけ、コーナーの線の距離を直線とそろえる
+                    edgeRadius -= stamp.DoubleEdgeOffset;
+                }
+            }
+
+
+            // 印鑑の縁
+            DrawRoundedRectangle(graphics, edgePen, outerSpaceX, outerSpaceY, stampWidth, stampHeight, edgeRadius);
+
+
+
+            StringFormat sf = new StringFormat();
+
+            if (stamp.TextOrientationType == TextOrientationType.VERTICAL)
+            {
+                sf.FormatFlags = StringFormatFlags.DirectionVertical;
+            }
+            sf.LineAlignment = StringAlignment.Center;
+            sf.Alignment = StringAlignment.Center;
+
+            Brush fontBrush = new SolidBrush(stamp.Color);
+            int stringX = imageWidth / 2;
+            // 上段テキスト
+            StampText stampText = stamp.Text;
+            if (stampText != null)
+            {
+                Font font = new Font(stampText.FontFamily, stampText.Size);
+                SizeF topStringSize = graphics.MeasureString(stampText.Value, font);
+                int stringY = imageWidth / 2;
+                graphics.DrawString(stampText.Value, font, fontBrush, stringX, stringY, sf);
+
+            }
+
+
+
+
+            // 背景透過
+            stampImage.MakeTransparent();
+
+
+
+            if (stamp.EffectTypes.Contains(StampEffectType.NOISE))
+            {
+                AppendNoise(stamp, stampImage);
+            }
+
+
+
+            graphics.Dispose();
+
+            return stampImage;
+
+        }
+
+        static void AppendNoise(BaseStamp stamp, Bitmap stampImage)
+        {
+            // TODO 適当だからもっとスタンプ風になる加工あるか調べよ
+            Random rand = new Random();
+
+            for (int i = 0; i < stamp.Size.Width; i++)
+            {
+                for (int j = 0; j < stamp.Size.Height; j++)
+                {
+                    Color pixelColor = stampImage.GetPixel(i, j);
+
+                    if (pixelColor.A == 0)
+                    {
+                        continue;
+                    }
+
+                    if (1 > rand.Next(5))
+                    {
+                        stampImage.SetPixel(i, j, Color.FromArgb(rand.Next(64), pixelColor));
+                    }
+                }
+            }
+        }
+
+        static void DrawRoundedRectangle(Graphics graphics, Pen pen, int x, int y, int width, int height, int radius)
+        {
+
+            if (radius == 0)
+            {
+                graphics.DrawRectangle(pen, x, y, width, height);
+                return;
+            }
+
+            GraphicsPath path = new GraphicsPath();
+            // 左上
+            path.AddArc(x, y, 2 * radius, 2 * radius, 180, 90);
+
+            // 上ライン
+            path.AddLine(x + radius, y, x + width - radius, y);
+
+            // 右上
+            path.AddArc(x + width - 2 * radius, y, 2 * radius, 2 * radius, 270, 90);
+
+            // 右ライン
+            path.AddLine(x + width, y + radius, x + width, y + height - radius);
+
+            // 右下
+            path.AddArc(x + width - 2 * radius, y + height - 2 * radius, radius + radius, radius + radius, 0, 90);
+
+            // 下ライン
+            path.AddLine(x + radius, y + height, x + width - radius, y + height);
+
+            // 左下
+            path.AddArc(x, y + height - 2 * radius, 2 * radius, 2 * radius, 90, 90);
+
+
+            path.CloseFigure();
+            graphics.DrawPath(pen, path);
+        }
+
         public void Dispose()
         {
             Config.Dispose();
         }
     }
+
+
+
 }

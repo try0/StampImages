@@ -7,24 +7,8 @@ namespace StampImages.Core
     /// <summary>
     /// スタンプ
     /// </summary>
-    public abstract class BaseStamp : IDisposable
+    public abstract partial class BaseStamp : IDisposable
     {
-        /// <summary>
-        /// スタンプ縁タイプ
-        /// </summary>
-        public enum StampEdgeType
-        {
-            SINGLE,
-            DOUBLE
-        }
-
-        /// <summary>
-        /// 加工フラグ
-        /// </summary>
-        public enum StampEffectType
-        {
-            NOISE
-        }
 
         /// <summary>
         /// 朱色
@@ -67,6 +51,9 @@ namespace StampImages.Core
         public ICollection<StampEffectType> EffectTypes { get; } = new List<StampEffectType>();
 
 
+
+
+        public abstract void SetFontFamily(FontFamily fontFamily);
 
         public virtual void Dispose()
         {
