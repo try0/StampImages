@@ -81,7 +81,7 @@ namespace StampImages.App.WPF.ViewModels
         /// スタンプカラー
         /// </summary>
         public ReactiveProperty<Media.Color> StampColor { get; }
-            = new ReactiveProperty<Media.Color>(Media.Color.FromRgb(Stamp.DEFAULT_STAMP_COLOR.R, Stamp.DEFAULT_STAMP_COLOR.G, Stamp.DEFAULT_STAMP_COLOR.B));
+            = new ReactiveProperty<Media.Color>(Media.Color.FromRgb(ThreeAreaStamp.DEFAULT_STAMP_COLOR.R, ThreeAreaStamp.DEFAULT_STAMP_COLOR.G, ThreeAreaStamp.DEFAULT_STAMP_COLOR.B));
 
         /// <summary>
         /// フォント一覧
@@ -224,7 +224,7 @@ namespace StampImages.App.WPF.ViewModels
 
             FontFamily.Value = new Media.FontFamily("MS UI Gothic");
 
-            StampColor.Value = Media.Color.FromRgb(Stamp.DEFAULT_STAMP_COLOR.R, Stamp.DEFAULT_STAMP_COLOR.G, Stamp.DEFAULT_STAMP_COLOR.B);
+            StampColor.Value = Media.Color.FromRgb(ThreeAreaStamp.DEFAULT_STAMP_COLOR.R, ThreeAreaStamp.DEFAULT_STAMP_COLOR.G, ThreeAreaStamp.DEFAULT_STAMP_COLOR.B);
 
             this.isInitialized = true;
             UpdateStampImage();
@@ -289,28 +289,34 @@ namespace StampImages.App.WPF.ViewModels
             {
                 return;
             }
-            var stamp = new Stamp
+            var stamp = new ThreeAreaStamp
             {
-                TopText = new StampText { 
-                    Value = TopText.Value, 
-                    Size = (float)TopFontSize.Value 
+                TopText = new StampText
+                {
+                    Value = TopText.Value,
+                    Size = (float)TopFontSize.Value
                 },
-                MiddleText = new StampText { 
-                    Value = MiddleText.Value, 
+                MiddleText = new StampText
+                {
+                    Value = MiddleText.Value,
                     Size = (float)MiddleFontSize.Value
                 },
-                BottomText = new StampText { 
-                    Value = BottomText.Value, 
+                BottomText = new StampText
+                {
+                    Value = BottomText.Value,
                     Size = (float)BottomFontSize.Value
                 }
             };
 
             stamp.SetFontFamily(new System.Drawing.FontFamily(FontFamily.Value.Source));
 
- 
-            stamp.EdgeType = IsDoubleStampEdge.Value ? Stamp.StampEdgeType.DOUBLE : Stamp.StampEdgeType.SINGLE;
+
+            stamp.EdgeType = IsDoubleStampEdge.Value ? BaseStamp.StampEdgeType.DOUBLE : BaseStamp.StampEdgeType.SINGLE;
             stamp.RotationAngle = RotationAngle.Value;
-            stamp.IsAppendNoise = IsAppendNoise.Value;
+            if (IsAppendNoise.Value)
+            {
+                stamp.EffectTypes.Add(BaseStamp.StampEffectType.NOISE);
+            }
 
             System.Drawing.Color drawingColor = System.Drawing.Color.FromArgb(StampColor.Value.A, StampColor.Value.R, StampColor.Value.G, StampColor.Value.B);
             stamp.Color = drawingColor;

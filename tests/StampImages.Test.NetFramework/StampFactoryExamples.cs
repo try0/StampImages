@@ -15,7 +15,7 @@ namespace StampImages.Test.NetFramework
         [TestMethod]
         public void ExampleCreateStamp()
         {
-            var stamp = new Stamp
+            var stamp = new ThreeAreaStamp
             {
                 TopText = new StampText { Value = "èäëÆïîñÂ", Size = 22 },
                 MiddleText = new StampText { Value = DateTime.Now.ToString("yyyy.MM.dd"), Size = 30 },
@@ -27,7 +27,7 @@ namespace StampImages.Test.NetFramework
         [TestMethod]
         public void ExampleResizeStamp()
         {
-            var stamp = new Stamp
+            var stamp = new ThreeAreaStamp
             {
                 TopText = new StampText { Value = "èäëÆïîñÂ", Size = 22 },
                 MiddleText = new StampText { Value = DateTime.Now.ToString("yyyy.MM.dd"), Size = 30 },

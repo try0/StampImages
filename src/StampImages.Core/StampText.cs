@@ -10,17 +10,6 @@ namespace StampImages.Core
     {
         public static readonly FontFamily DEFAULT_FONT_FAMILY = new FontFamily("MS UI Gothic");
 
-        /// <summary>
-        /// <see cref="SolidBrush"/>
-        /// </summary>
-        /// <param name="color"></param>
-        /// <returns></returns>
-        public static Brush GetDefaultBrush(Color color)
-        {
-            return new SolidBrush(color);
-        }
-
-
 
         /// <summary>
         /// 出力対象文字列

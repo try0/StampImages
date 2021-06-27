@@ -65,7 +65,7 @@ namespace StampImages.Core
         {
             StampUtils.RequiredArgument(fileName, "fileName");
 
-            var texts = new Stamp
+            var texts = new ThreeAreaStamp
             {
                 TopText = new StampText(topString),
                 MiddleText = new StampText(middleString),
@@ -75,7 +75,7 @@ namespace StampImages.Core
             Save(texts, fileName);
         }
 
-        public void Save(Stamp stamp, string fileName)
+        public void Save(ThreeAreaStamp stamp, string fileName)
         {
             StampUtils.RequiredArgument(stamp, "stamp");
             StampUtils.RequiredArgument(fileName, "fileName");
@@ -100,7 +100,7 @@ namespace StampImages.Core
         /// <returns></returns>
         public Bitmap Create(string middleString)
         {
-            return Create(new Stamp { MiddleText = new StampText(middleString) });
+            return Create(new ThreeAreaStamp { MiddleText = new StampText(middleString) });
         }
 
         /// <summary>
@@ -108,7 +108,7 @@ namespace StampImages.Core
         /// </summary>
         /// <param name="texts"></param>
         /// <returns></returns>
-        public Bitmap Create(Stamp stamp)
+        public Bitmap Create(ThreeAreaStamp stamp)
         {
             StampUtils.RequiredArgument(stamp, "stamp");
 
@@ -142,7 +142,7 @@ namespace StampImages.Core
 
 
             // 2重円
-            if (stamp.EdgeType == Stamp.StampEdgeType.DOUBLE)
+            if (stamp.EdgeType == ThreeAreaStamp.StampEdgeType.DOUBLE)
             {
                 // 外円描画
                 graphics.DrawEllipse(edgePen, outerSpace, outerSpace, 2 * r, 2 * r);
@@ -253,7 +253,7 @@ namespace StampImages.Core
 
 
 
-            if (stamp.IsAppendNoise)
+            if (stamp.EffectTypes.Contains(BaseStamp.StampEffectType.NOISE))
             {
                 // TODO 適当だからもっとスタンプ風になる加工あるか調べよ
                 Random rand = new Random();
