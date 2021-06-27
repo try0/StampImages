@@ -20,7 +20,9 @@ namespace StampImages.Core
         /// </summary>
         public TextOrientationType TextOrientationType { get; set; } = TextOrientationType.HORIZONTAL;
 
-        // コーナーRadius
+        /// <summary>
+        /// コーナーRadius
+        /// </summary>
         public int EdgeRadius { get; set; } = 20;
 
 
