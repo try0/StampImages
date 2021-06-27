@@ -1,0 +1,62 @@
+﻿<UserControl x:Class="StampImages.App.WPF.Views.StampPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:prism="http://prismlibrary.com/"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro" 
+             xmlns:views="clr-namespace:StampImages.App.WPF.Views"
+             xmlns:vm="clr-namespace:StampImages.App.WPF.ViewModels" 
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             mc:Ignorable="d" 
+             d:DesignHeight="348" d:DesignWidth="575">
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadedCommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
+
+    <Grid>
+
+        <ContentControl x:Name="StampPropControl" Content="{Binding}" HorizontalAlignment="Left" Margin="33,30,0,0" VerticalAlignment="Top" Height="140" Width="249">
+            <ContentControl.Resources>
+                <DataTemplate DataType="{x:Type vm:ThreeAreaCircularStampViewModel}" >
+                    <views:ThreeAreaCircularStampPropControl></views:ThreeAreaCircularStampPropControl>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type vm:SquareStampPanelViewModel}" >
+                    <views:SquareStampPropControl></views:SquareStampPropControl>
+                </DataTemplate>
+            </ContentControl.Resources>
+
+        </ContentControl>
+
+        <Controls:ToggleSwitch Header="" Content="2重" Height="49" Margin="33,151,0,0" Width="111" IsOn="{Binding IsDoubleStampEdge.Value, Mode=TwoWay}" VerticalAlignment="Top" />
+        <Controls:ToggleSwitch Header="" Content="ノイズ"  Margin="33,192,0,104" VerticalAlignment="Stretch" Width="204" IsOn="{Binding IsAppendNoise.Value, Mode=TwoWay}" Controls:HeaderedControlHelper.HeaderHorizontalContentAlignment="Stretch" Controls:HeaderedControlHelper.HeaderVerticalContentAlignment="Bottom" Controls:HeaderedControlHelper.HeaderMargin="0,0,0,0" />
+
+
+
+
+        <Image HorizontalAlignment="Left" Height="128" Margin="392,30,0,0" VerticalAlignment="Top" Width="128" Source="{Binding StampImageSource.Value}"/>
+
+        <Slider HorizontalAlignment="Left" Margin="364,175,0,0" VerticalAlignment="Top" Width="128" Minimum="-180" Maximum="180" Value="{Binding RotationAngle.Value, Mode=TwoWay}"/>
+        <Button Content="-" HorizontalAlignment="Left" Margin="505,173,0,0" VerticalAlignment="Top" Width="38" Command="{Binding ClearRotationCommand}"/>
+
+        <ComboBox HorizontalAlignment="Left" Margin="364,207,0,0" VerticalAlignment="Top" Width="179" 
+                          ItemsSource="{Binding SystemFontFamilies.Value}" SelectedValue="{Binding FontFamily.Value}"
+                          DisplayMemberPath="Source"/>
+
+        <Controls:ColorPicker SelectedColor="{Binding StampColor.Value, Mode=TwoWay}" 
+                     SelectedColorTemplate="{DynamicResource MahApps.Templates.ColorPickerContent.ColorAndName}" 
+                     AddToRecentColorsTrigger="SelectedColorChanged" Margin="364,238,24,84" />
+
+
+        <Button Content="コピー" Width="100" HorizontalAlignment="Left" Margin="444,311,0,0" VerticalAlignment="Top" Command="{Binding CopyImageCommand}"/>
+        <Button Content="クリア" HorizontalAlignment="Left" Margin="285,311,0,0" VerticalAlignment="Top" Width="75" Command="{Binding ClearCommand}"/>
+        <Button Content="保存" Width="75" HorizontalAlignment="Left" Margin="364,311,0,0" VerticalAlignment="Top" Command="{Binding SaveImageCommand}"/>
+
+
+    </Grid>
+</UserControl>

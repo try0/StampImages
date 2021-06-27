@@ -24,317 +24,40 @@ namespace StampImages.App.WPF.ViewModels
     /// </summary>
     public class MainWindowViewModel : BindableBase
     {
-        private readonly StampImageFactory stampImageFactory = new StampImageFactory(new Core.StampImageFactoryConfig());
 
-        private bool isInitialized = false;
-
-        private readonly DispatcherTimer timer;
+        public static ReactiveProperty<StampPanelBaseViewModel> CurrentTabViewModel { get; }
+            = new ReactiveProperty<StampPanelBaseViewModel>();
 
 
-        /// <summary>
-        /// Windowタイトル
-        /// </summary>
         public ReactiveProperty<string> Title { get; } = new ReactiveProperty<string>("StampImages");
 
 
-        /// <summary>
-        /// 上段テキスト
-        /// </summary>
-        public ReactiveProperty<string> TopText { get; } = new ReactiveProperty<string>();
-        /// <summary>
-        /// 中段テキスト
-        /// </summary>
-        public ReactiveProperty<string> MiddleText { get; } = new ReactiveProperty<string>(DateTime.Now.ToString("yyyy/MM/dd"));
-        /// <summary>
-        /// 下段テキスト
-        /// </summary>
-        public ReactiveProperty<string> BottomText { get; } = new ReactiveProperty<string>();
+        private ThreeAreaCircularStampViewModel vm1 = new ThreeAreaCircularStampViewModel();
+        private SquareStampPanelViewModel vm2 = new SquareStampPanelViewModel();
 
-        /// <summary>
-        /// 上段テキストサイズ
-        /// </summary>
-        public ReactiveProperty<double> TopFontSize { get; } = new ReactiveProperty<double>(27);
-        /// <summary>
-        /// 中段テキストサイズ
-        /// </summary>
-        public ReactiveProperty<double> MiddleFontSize { get; } = new ReactiveProperty<double>(27);
-        /// <summary>
-        /// 下段テキストサイズ
-        /// </summary>
-        public ReactiveProperty<double> BottomFontSize { get; } = new ReactiveProperty<double>(27);
-
-        /// <summary>
-        /// 2重円
-        /// </summary>
-        public ReactiveProperty<bool> IsDoubleStampEdge { get; } = new ReactiveProperty<bool>(false);
-
-        /// <summary>
-        /// 回転角度
-        /// </summary>
-        public ReactiveProperty<int> RotationAngle { get; } = new ReactiveProperty<int>(0);
-
-        /// <summary>
-        /// ノイズ付与
-        /// </summary>
-        public ReactiveProperty<bool> IsAppendNoise { get; } = new ReactiveProperty<bool>(false);
-        /// <summary>
-        /// スタンプカラー
-        /// </summary>
-        public ReactiveProperty<Media.Color> StampColor { get; }
-            = new ReactiveProperty<Media.Color>(Media.Color.FromRgb(ThreeAreaCircularStamp.DEFAULT_STAMP_COLOR.R, ThreeAreaCircularStamp.DEFAULT_STAMP_COLOR.G, ThreeAreaCircularStamp.DEFAULT_STAMP_COLOR.B));
-
-        /// <summary>
-        /// フォント一覧
-        /// </summary>
-        public ReactiveProperty<ICollection<Media.FontFamily>> SystemFontFamilies { get; }
-            = new ReactiveProperty<ICollection<Media.FontFamily>>(Fonts.SystemFontFamilies);
-        /// <summary>
-        /// 描画フォント
-        /// </summary>
-        public ReactiveProperty<Media.FontFamily> FontFamily { get; set; }
-            = new ReactiveProperty<Media.FontFamily>(new Media.FontFamily("MS UI Gothic"));
-        /// <summary>
-        /// プレビュー画像
-        /// </summary>
-        public ReactiveProperty<Bitmap> StampImage { get; } = new ReactiveProperty<Bitmap>();
-        /// <summary>
-        /// プレビュー画像イメージソース
-        /// </summary>
-        public ReactiveProperty<BitmapSource> StampImageSource { get; } = new ReactiveProperty<BitmapSource>();
+        public ReactiveProperty<bool> IsSelectedThreeAreaStamp { get; } = new ReactiveProperty<bool>(true);
+        public ReactiveProperty<bool> IsSelectedSquareStamp { get; } = new ReactiveProperty<bool>(false);
 
 
 
-
-
-        /// <summary>
-        /// 画面ロードコマンド
-        /// </summary>
-        public DelegateCommand LoadedCommand { get; }
-        /// <summary>
-        /// 画像コピーコマンド
-        /// </summary>
-        public DelegateCommand CopyImageCommand { get; }
-        /// <summary>
-        /// 初期化コマンド
-        /// </summary>
-        public DelegateCommand ClearCommand { get; }
-        /// <summary>
-        /// 回転クリア
-        /// </summary>
-        public DelegateCommand ClearRotationCommand { get; }
-        /// <summary>
-        /// 画像保存
-        /// </summary>
-        public DelegateCommand SaveImageCommand { get; }
-
-        /// <summary>
-        /// コンストラクター
-        /// </summary>
         public MainWindowViewModel()
         {
-            this.timer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(300) };
-            timer.Tick += (s, args) =>
+            IsSelectedThreeAreaStamp.Subscribe(val =>
             {
-                timer.Stop();
-                UpdateStampImage();
-            };
-            LoadedCommand = new DelegateCommand(ExecuteLoadedCommand);
-            CopyImageCommand = new DelegateCommand(ExecuteCopyImageCommand);
-            ClearCommand = new DelegateCommand(ExecuteClearCommand);
-            ClearRotationCommand = new DelegateCommand(ExecuteClearRotationCommand);
-            SaveImageCommand = new DelegateCommand(ExecuteSaveImageCommand);
-
-            TopText.Subscribe(_ => RequestUpdateStampImage());
-            MiddleText.Subscribe(_ => RequestUpdateStampImage());
-            BottomText.Subscribe(_ => RequestUpdateStampImage());
-            TopFontSize.Subscribe(_ => RequestUpdateStampImage());
-            MiddleFontSize.Subscribe(_ => RequestUpdateStampImage());
-            BottomFontSize.Subscribe(_ => RequestUpdateStampImage());
-
-            IsDoubleStampEdge.Subscribe(_ => RequestUpdateStampImage());
-            RotationAngle.Subscribe(_ => RequestUpdateStampImage());
-            IsAppendNoise.Subscribe(_ => RequestUpdateStampImage());
-            StampColor.Subscribe(_ => RequestUpdateStampImage());
-            FontFamily.Subscribe(_ => RequestUpdateStampImage());
-
-            StampImage.Subscribe(img =>
-            {
-                if (img != null)
+                if (val)
                 {
-                    StampImageSource.Value = ConvertToBitmapSource(StampImage.Value);
-                }
-                else
-                {
-                    StampImageSource.Value = null;
+                    CurrentTabViewModel.Value = vm1;
+                    CurrentTabViewModel.Value.RequestUpdateStampImage();
                 }
             });
-        }
-
-        /// <summary>
-        /// 画面ロードコマンド
-        /// </summary>
-        private void ExecuteLoadedCommand()
-        {
-            this.isInitialized = true;
-            UpdateStampImage();
-        }
-
-        /// <summary>
-        /// プレビュー画像コピーコマンド
-        /// </summary>
-        private void ExecuteCopyImageCommand()
-        {
-            if (StampImageSource == null)
+            IsSelectedSquareStamp.Subscribe(val =>
             {
-                return;
-            }
-
-            var resized = this.stampImageFactory.Resize(StampImage.Value, 128, 128);
-            var source = ConvertToBitmapSource(resized);
-            PngBitmapEncoder pngEnc = new PngBitmapEncoder();
-            pngEnc.Frames.Add(BitmapFrame.Create(source));
-
-            using var ms = new MemoryStream();
-            pngEnc.Save(ms);
-            Clipboard.SetData("PNG", ms);
-
-            new ToastContentBuilder()
-                .AddAudio(new ToastAudio() { Silent = true })
-                .AddText("クリップボードにコピーしました")
-                .Show();
-
-        }
-
-
-        private void ExecuteClearCommand()
-        {
-            this.isInitialized = false;
-
-            TopText.Value = null;
-            MiddleText.Value = DateTime.Now.ToString("yyyy/MM/dd");
-            BottomText.Value = null;
-
-            TopFontSize.Value = 27;
-            MiddleFontSize.Value = 27;
-            BottomFontSize.Value = 27;
-
-            RotationAngle.Value = 0;
-            IsAppendNoise.Value = false;
-            IsDoubleStampEdge.Value = false;
-
-            FontFamily.Value = new Media.FontFamily("MS UI Gothic");
-
-            StampColor.Value = Media.Color.FromRgb(ThreeAreaCircularStamp.DEFAULT_STAMP_COLOR.R, ThreeAreaCircularStamp.DEFAULT_STAMP_COLOR.G, ThreeAreaCircularStamp.DEFAULT_STAMP_COLOR.B);
-
-            this.isInitialized = true;
-            UpdateStampImage();
-
-
-        }
-
-        private void ExecuteClearRotationCommand()
-        {
-            RotationAngle.Value = 0;
-        }
-
-        private void ExecuteSaveImageCommand()
-        {
-            var dialog = new SaveFileDialog();
-            dialog.FileName = "stamp.png";
-            dialog.Filter = "PNGファイル(*.png)|*.png";
-
-            // ファイル保存ダイアログを表示します。
-            var result = dialog.ShowDialog() ?? false;
-
-            // 保存ボタン以外が押下された場合
-            if (!result)
-            {
-                // 終了します。
-                return;
-            }
-
-            var isDirectory = File
-                .GetAttributes(dialog.FileName)
-                .HasFlag(FileAttributes.Directory);
-
-            if (isDirectory)
-            {
-                dialog.FileName = Path.Combine(dialog.FileName, "stamp.png");
-            }
-
-            StampImage.Value.Save(dialog.FileName);
-
-            new ToastContentBuilder()
-                .AddAudio(new ToastAudio() { Silent = true })
-                .AddInlineImage(new Uri(dialog.FileName))
-                .AddText("保存しました")
-                .Show();
-        }
-
-        private void RequestUpdateStampImage()
-        {
-            if (!timer.IsEnabled)
-            {
-                timer.Start();
-            }
-        }
-
-        /// <summary>
-        /// プレビュー画像を更新します。
-        /// </summary>
-        [MethodImpl(MethodImplOptions.Synchronized)]
-        private void UpdateStampImage()
-        {
-            if (!this.isInitialized)
-            {
-                return;
-            }
-            var stamp = new ThreeAreaCircularStamp
-            {
-                TopText = new StampText
+                if (val)
                 {
-                    Value = TopText.Value,
-                    Size = (float)TopFontSize.Value
-                },
-                MiddleText = new StampText
-                {
-                    Value = MiddleText.Value,
-                    Size = (float)MiddleFontSize.Value
-                },
-                BottomText = new StampText
-                {
-                    Value = BottomText.Value,
-                    Size = (float)BottomFontSize.Value
+                    CurrentTabViewModel.Value = vm2;
+                    CurrentTabViewModel.Value.RequestUpdateStampImage();
                 }
-            };
-
-            stamp.SetFontFamily(new System.Drawing.FontFamily(FontFamily.Value.Source));
-
-
-            stamp.EdgeType = IsDoubleStampEdge.Value ? StampEdgeType.DOUBLE : StampEdgeType.SINGLE;
-            stamp.RotationAngle = RotationAngle.Value;
-            if (IsAppendNoise.Value)
-            {
-                stamp.EffectTypes.Add(StampEffectType.NOISE);
-            }
-
-            System.Drawing.Color drawingColor = System.Drawing.Color.FromArgb(StampColor.Value.A, StampColor.Value.R, StampColor.Value.G, StampColor.Value.B);
-            stamp.Color = drawingColor;
-
-
-
-            var stampImage = this.stampImageFactory.Create(stamp);
-
-            Application.Current.Dispatcher.Invoke(() =>
-            {
-                StampImage.Value = stampImage;
             });
-        }
-
-
-        private BitmapSource ConvertToBitmapSource(Bitmap bitmap)
-        {
-            return Imaging.CreateBitmapSourceFromHBitmap(bitmap.GetHbitmap(), IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
         }
     }
 }

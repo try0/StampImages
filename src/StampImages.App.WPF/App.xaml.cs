@@ -1,4 +1,5 @@
 ﻿using Prism.Ioc;
+using StampImages.App.WPF.ViewModels;
 using StampImages.App.WPF.Views;
 using System.Windows;
 
