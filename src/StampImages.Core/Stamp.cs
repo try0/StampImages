@@ -11,6 +11,15 @@ namespace StampImages.Core
     public class Stamp : IDisposable
     {
         /// <summary>
+        /// スタンプ縁タイプ
+        /// </summary>
+        public enum StampEdgeType
+        {
+            SINGLE,
+            DOUBLE
+        }
+
+        /// <summary>
         /// 朱色
         /// </summary>
         public static readonly Color DEFAULT_STAMP_COLOR = Color.FromArgb(239, 69, 74);
@@ -30,43 +39,71 @@ namespace StampImages.Core
         /// </summary>
         public StampText BottomText { get; set; }
 
+
+
         /// <summary>
-        /// スタンプ設定
+        /// 出力画像サイズ
         /// </summary>
-        public StampOption Option { get; set; } = new StampOption();
+        public Size Size { get; set; } = new Size(256, 256);
+
+        /// <summary>
+        /// スタンプカラー
+        /// </summary>
+        public Color Color { get; set; } = DEFAULT_STAMP_COLOR;
+
+        /// <summary>
+        /// 縁
+        /// </summary>
+        public StampEdgeType EdgeType { get; set; } = StampEdgeType.SINGLE;
+
+        /// <summary>
+        /// 縁ライン幅
+        /// </summary>
+        public int EdgeWidth { get; set; } = 5;
+
+        /// <summary>
+        /// エリア分割ライン
+        /// </summary>
+        public int DividerWidth { get; set; } = 5;
+
+        /// <summary>
+        /// 分割ラインから上段、下段の文字列までの間隔
+        /// </summary>
+        public int TopBottomTextOffset { get; set; } = 10;
 
 
-        public void SetFont(Font font)
+        /// <summary>
+        /// 2重円間隔調整池
+        /// </summary>
+        public int DoubleEdgeOffset { get; set; } = 10;
+
+        /// <summary>
+        /// 回転角度
+        /// </summary>
+        public int RotationAngle { get; set; } = 0;
+
+        /// <summary>
+        /// ノイズ
+        /// </summary>
+        public bool IsAppendNoise { get; set; } = false;
+
+
+        public void SetFontFamily(FontFamily fontfamily)
         {
             if (TopText != null)
             {
-                TopText.Font = font;
+                TopText.FontFamily = fontfamily;
             }
             if (MiddleText != null)
             {
-                MiddleText.Font = font;
+                MiddleText.FontFamily = fontfamily;
             }
             if (BottomText != null)
             {
-                BottomText.Font = font;
+                BottomText.FontFamily = fontfamily;
             }
         }
 
-        public void SetBrush(Brush brush)
-        {
-            if (TopText != null)
-            {
-                TopText.Brush = brush;
-            }
-            if (MiddleText != null)
-            {
-                MiddleText.Brush = brush;
-            }
-            if (BottomText != null)
-            {
-                BottomText.Brush = brush;
-            }
-        }
 
         public void Dispose()
         {
@@ -81,11 +118,6 @@ namespace StampImages.Core
             if (BottomText != null)
             {
                 BottomText.Dispose();
-            }
-
-            if (Option != null)
-            {
-                Option.Dispose();
             }
         }
     }

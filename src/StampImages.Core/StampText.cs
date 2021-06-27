@@ -8,15 +8,7 @@ namespace StampImages.Core
 {
     public class StampText : IDisposable
     {
-        /// <summary>
-        /// MS UI Gothic
-        /// </summary>
-        /// <param name="size"></param>
-        /// <returns></returns>
-        public static Font GetDefaultFont(int size)
-        {
-            return new Font("MS UI Gothic", size);
-        }
+        public static readonly FontFamily DEFAULT_FONT_FAMILY = new FontFamily("MS UI Gothic");
 
         /// <summary>
         /// <see cref="SolidBrush"/>
@@ -34,16 +26,16 @@ namespace StampImages.Core
         /// 出力対象文字列
         /// </summary>
         public string Value { get; set; }
-
+        /// <summary>
+        /// emSize
+        /// </summary>
+        public float Size { get; set; } = 27;
         /// <summary>
         /// フォント
         /// </summary>
-        public Font Font { get; set; } = GetDefaultFont(22);
+        public FontFamily FontFamily { get; set; } = DEFAULT_FONT_FAMILY;
 
-        /// <summary>
-        /// ブラシ
-        /// </summary>
-        public Brush Brush { get; set; } = GetDefaultBrush(Stamp.DEFAULT_STAMP_COLOR);
+
 
         /// <summary>
         /// コンストラクター
@@ -63,15 +55,7 @@ namespace StampImages.Core
 
         public void Dispose()
         {
-            if (Font != null)
-            {
-                Font.Dispose();
-            }
 
-            if (Brush != null)
-            {
-                Brush.Dispose();
-            }
         }
 
 

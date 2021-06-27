@@ -17,9 +17,9 @@ namespace StampImages.Test.Net5
         {
             var stamp = new Stamp
             {
-                TopText = new StampText { Value = "所属部門", Font = StampText.GetDefaultFont(22) },
-                MiddleText = new StampText { Value = DateTime.Now.ToString("yyyy.MM.dd"), Font = StampText.GetDefaultFont(30) },
-                BottomText = new StampText { Value = "ユーザー名", Font = StampText.GetDefaultFont(25) }
+                TopText = new StampText { Value = "所属部門", Size = 22 },
+                MiddleText = new StampText { Value = DateTime.Now.ToString("yyyy.MM.dd"), Size = 30 },
+                BottomText = new StampText { Value = "ユーザー名", Size = 25 }
             };
             stampImageFactory.Save(stamp, "./inkan_256.png");
         }
@@ -29,9 +29,9 @@ namespace StampImages.Test.Net5
         {
             var stamp = new Stamp
             {
-                TopText = new StampText { Value = "所属部門", Font = StampText.GetDefaultFont(22) },
-                MiddleText = new StampText { Value = DateTime.Now.ToString("yyyy.MM.dd"), Font = StampText.GetDefaultFont(30) },
-                BottomText = new StampText { Value = "ユーザー名", Font = StampText.GetDefaultFont(25) }
+                TopText = new StampText { Value = "所属部門", Size = 22 },
+                MiddleText = new StampText { Value = DateTime.Now.ToString("yyyy.MM.dd"), Size = 30 },
+                BottomText = new StampText { Value = "ユーザー名", Size = 25 }
             };
 
             

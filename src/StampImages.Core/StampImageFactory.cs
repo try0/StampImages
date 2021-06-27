@@ -112,40 +112,45 @@ namespace StampImages.Core
         {
             StampUtils.RequiredArgument(stamp, "stamp");
 
-            int edgeSize = stamp.Option.ImageEdgeSize;
-            Pen pen = stamp.Option.Pen;
+            int imageHeight = stamp.Size.Height;
+            int imageWidth = stamp.Size.Width;
+            Pen edgePen = new Pen(stamp.Color) {
+                Width = stamp.EdgeWidth
+            };
 
-            Bitmap stampImage = new Bitmap(edgeSize, edgeSize);
+
+            Bitmap stampImage = new Bitmap(imageWidth, imageHeight);
 
             Graphics graphics = Graphics.FromImage(stampImage);
 
             graphics.SmoothingMode = SmoothingMode.HighQuality;
 
             // 回転
-            int halfImageSize = stamp.Option.ImageEdgeSize / 2;
+            int halfImageHeight = imageHeight / 2;
+            int halfImageWidth = imageWidth / 2;
 
-            graphics.TranslateTransform(-halfImageSize, -halfImageSize);
-            graphics.RotateTransform(-stamp.Option.RotationAngle, System.Drawing.Drawing2D.MatrixOrder.Append);
-            graphics.TranslateTransform(halfImageSize, halfImageSize, System.Drawing.Drawing2D.MatrixOrder.Append);
+            graphics.TranslateTransform(-halfImageWidth, -halfImageHeight);
+            graphics.RotateTransform(-stamp.RotationAngle, MatrixOrder.Append);
+            graphics.TranslateTransform(halfImageWidth, halfImageHeight, MatrixOrder.Append);
 
             // 半径
-            int r = (edgeSize - (edgeSize / 20)) / 2;
+            int r = (imageWidth - (imageWidth / 20)) / 2;
 
             //int r = 120;
             // 画像の縁からスタンプの縁までの上下左右の最も短い絶対値
-            int outerSpace = (edgeSize - (r * 2)) / 2;
+            int outerSpace = (imageWidth - (r * 2)) / 2;
 
 
             // 2重円
-            if (stamp.Option.IsDoubleStampEdge)
+            if (stamp.EdgeType == Stamp.StampEdgeType.DOUBLE)
             {
                 // 外円描画
-                graphics.DrawEllipse(pen, outerSpace, outerSpace, 2 * r, 2 * r);
+                graphics.DrawEllipse(edgePen, outerSpace, outerSpace, 2 * r, 2 * r);
 
 
                 // 内円の設定へ更新
-                r -= stamp.Option.DoubleStampEdgeOffset;
-                outerSpace += stamp.Option.DoubleStampEdgeOffset;
+                r -= stamp.DoubleEdgeOffset;
+                outerSpace += stamp.DoubleEdgeOffset;
 
             }
 
@@ -153,7 +158,7 @@ namespace StampImages.Core
             int angle = 15;
 
             // 印鑑の縁
-            graphics.DrawEllipse(pen, outerSpace, outerSpace, 2 * r, 2 * r);
+            graphics.DrawEllipse(edgePen, outerSpace, outerSpace, 2 * r, 2 * r);
 
 #if DEBUG
             if (StampUtils.IsDebug())
@@ -169,12 +174,18 @@ namespace StampImages.Core
             // 分割ラインと縁が重なる点からのスペース
             int space = (r * 2 - chord) / 2;
 
-            int topLineY = edgeSize / 2 - y;
-            int bottomLineY = edgeSize / 2 + y;
+            int topLineY = imageWidth / 2 - y;
+            int bottomLineY = imageWidth / 2 + y;
+
+            Pen dividerPen = new Pen(stamp.Color)
+            {
+                Width = stamp.DividerWidth
+            };
+
             // 上部ライン
-            graphics.DrawLine(pen, space + outerSpace, topLineY, edgeSize - (space + outerSpace), topLineY);
+            graphics.DrawLine(dividerPen, space + outerSpace, topLineY, imageWidth - (space + outerSpace), topLineY);
             // 下部ライン
-            graphics.DrawLine(pen, space + outerSpace, bottomLineY, edgeSize - (space + outerSpace), bottomLineY);
+            graphics.DrawLine(dividerPen, space + outerSpace, bottomLineY, imageWidth - (space + outerSpace), bottomLineY);
 
 
             StringFormat sf = new StringFormat();
@@ -182,15 +193,16 @@ namespace StampImages.Core
             sf.LineAlignment = StringAlignment.Center;
             sf.Alignment = StringAlignment.Center;
 
-
-            int stringX = edgeSize / 2;
+            Brush fontBrush = new SolidBrush(stamp.Color);
+            int stringX = imageWidth / 2;
             // 上段テキスト
             StampText topText = stamp.TopText;
             if (topText != null)
             {
-                SizeF topStringSize = graphics.MeasureString(topText.Value, topText.Font);
-                int topStringY = (int)Math.Round(topLineY - topStringSize.Height / 2 - stamp.Option.TopBottomTextOffset);
-                graphics.DrawString(topText.Value, topText.Font, topText.Brush, stringX, topStringY, sf);
+                Font font = new Font(topText.FontFamily, topText.Size);
+                SizeF topStringSize = graphics.MeasureString(topText.Value, font);
+                int topStringY = (int)Math.Round(topLineY - topStringSize.Height / 2 - stamp.TopBottomTextOffset);
+                graphics.DrawString(topText.Value, font, fontBrush, stringX, topStringY, sf);
 
 
 #if DEBUG
@@ -205,9 +217,10 @@ namespace StampImages.Core
             StampText middleText = stamp.MiddleText;
             if (middleText != null)
             {
-                SizeF middleStringSize = graphics.MeasureString(middleText.Value, middleText.Font);
-                int middleStringY = edgeSize / 2;
-                graphics.DrawString(middleText.Value, middleText.Font, middleText.Brush, stringX, middleStringY, sf);
+                Font font = new Font(middleText.FontFamily, middleText.Size);
+                SizeF middleStringSize = graphics.MeasureString(middleText.Value, font);
+                int middleStringY = imageWidth / 2;
+                graphics.DrawString(middleText.Value, font, fontBrush, stringX, middleStringY, sf);
 
 #if DEBUG
                 if (StampUtils.IsDebug())
@@ -221,9 +234,10 @@ namespace StampImages.Core
             StampText bottomText = stamp.BottomText;
             if (bottomText != null)
             {
-                SizeF bottomStringSize = graphics.MeasureString(bottomText.Value, bottomText.Font);
-                int bottomStringY = (int)Math.Round(bottomLineY + bottomStringSize.Height / 2 + stamp.Option.TopBottomTextOffset);
-                graphics.DrawString(bottomText.Value, bottomText.Font, bottomText.Brush, stringX, bottomStringY, sf);
+                Font font = new Font(bottomText.FontFamily, bottomText.Size);
+                SizeF bottomStringSize = graphics.MeasureString(bottomText.Value, font);
+                int bottomStringY = (int)Math.Round(bottomLineY + bottomStringSize.Height / 2 + stamp.TopBottomTextOffset);
+                graphics.DrawString(bottomText.Value, font, fontBrush, stringX, bottomStringY, sf);
 
 #if DEBUG
                 if (StampUtils.IsDebug())
@@ -239,14 +253,14 @@ namespace StampImages.Core
 
 
 
-            if (stamp.Option.IsAppendNoise)
+            if (stamp.IsAppendNoise)
             {
                 // TODO 適当だからもっとスタンプ風になる加工あるか調べよ
                 Random rand = new Random();
 
-                for (int i = 0; i < stamp.Option.ImageEdgeSize; i++)
+                for (int i = 0; i < stamp.Size.Width; i++)
                 {
-                    for (int j = 0; j < stamp.Option.ImageEdgeSize; j++)
+                    for (int j = 0; j < stamp.Size.Height; j++)
                     {
                         Color pixelColor = stampImage.GetPixel(i, j);
 

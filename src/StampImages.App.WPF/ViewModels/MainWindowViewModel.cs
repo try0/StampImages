@@ -291,19 +291,30 @@ namespace StampImages.App.WPF.ViewModels
             }
             var stamp = new Stamp
             {
-                TopText = new StampText { Value = TopText.Value, Font = new Font(FontFamily.Value.Source, (float)TopFontSize.Value) },
-                MiddleText = new StampText { Value = MiddleText.Value, Font = new Font(FontFamily.Value.Source, (float)MiddleFontSize.Value) },
-                BottomText = new StampText { Value = BottomText.Value, Font = new Font(FontFamily.Value.Source, (float)BottomFontSize.Value) }
+                TopText = new StampText { 
+                    Value = TopText.Value, 
+                    Size = (float)TopFontSize.Value 
+                },
+                MiddleText = new StampText { 
+                    Value = MiddleText.Value, 
+                    Size = (float)MiddleFontSize.Value
+                },
+                BottomText = new StampText { 
+                    Value = BottomText.Value, 
+                    Size = (float)BottomFontSize.Value
+                }
             };
 
-            var option = stamp.Option;
-            option.IsDoubleStampEdge = IsDoubleStampEdge.Value;
-            option.RotationAngle = RotationAngle.Value;
-            option.IsAppendNoise = IsAppendNoise.Value;
+            stamp.SetFontFamily(new System.Drawing.FontFamily(FontFamily.Value.Source));
+
+ 
+            stamp.EdgeType = IsDoubleStampEdge.Value ? Stamp.StampEdgeType.DOUBLE : Stamp.StampEdgeType.SINGLE;
+            stamp.RotationAngle = RotationAngle.Value;
+            stamp.IsAppendNoise = IsAppendNoise.Value;
 
             System.Drawing.Color drawingColor = System.Drawing.Color.FromArgb(StampColor.Value.A, StampColor.Value.R, StampColor.Value.G, StampColor.Value.B);
-            option.Pen.Color = drawingColor;
-            stamp.SetBrush(StampText.GetDefaultBrush(drawingColor));
+            stamp.Color = drawingColor;
+
 
 
             var stampImage = this.stampImageFactory.Create(stamp);
