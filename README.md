@@ -25,7 +25,7 @@ var stamp = new SquareStamp
 stamp.EffectTypes.Add(StampEffectType.NOISE);
 
 var bitmap = stampImageFactory.Create(stamp);
-bitmap.Save("./stamp_sq.png");
+bitmap.Save("./stamp_sq.png", ImageFormat.Png);
 ```
 
 ![inkan_sq_256](https://user-images.githubusercontent.com/17096601/123621690-72302400-d846-11eb-96b2-f63a3a75174d.png)
