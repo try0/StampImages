@@ -2,6 +2,9 @@
 印鑑画像 日付印 職印 スタンプ ただの画像
 
 
+netstandard2.0
+
+
 ```C#
 StampImageFactory stampImageFactory = new StampImageFactory(new StampImageFactoryConfig());
 var stamp = new ThreeAreaCircularStamp
