@@ -6,9 +6,9 @@ using System.Text;
 namespace StampImages.Core
 {
     /// <summary>
-    /// 四角形のスタンプ
+    /// 丸いのスタンプ
     /// </summary>
-    public class SquareStamp : BaseStamp
+    public class CircularStamp : BaseStamp
     {
         /// <summary>
         /// テキスト
@@ -20,16 +20,11 @@ namespace StampImages.Core
         /// </summary>
         public TextOrientationType TextOrientationType { get; set; } = TextOrientationType.HORIZONTAL;
 
-        /// <summary>
-        /// コーナーRadius
-        /// </summary>
-        public int EdgeRadius { get; set; } = 20;
-
 
         /// <summary>
         /// コンストラクター
         /// </summary>
-        public SquareStamp() : base()
+        public CircularStamp() : base()
         {
         }
 

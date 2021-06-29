@@ -338,18 +338,117 @@ namespace StampImages.Core
 
             Brush fontBrush = new SolidBrush(stamp.Color);
             int stringX = imageWidth / 2;
-            // 上段テキスト
+
             StampText stampText = stamp.Text;
             if (stampText != null)
             {
                 Font font = new Font(stampText.FontFamily, stampText.Size);
-                SizeF topStringSize = graphics.MeasureString(stampText.Value, font);
                 int stringY = imageWidth / 2;
                 graphics.DrawString(stampText.Value, font, fontBrush, stringX, stringY, sf);
-
             }
 
 
+            // 背景透過
+            stampImage.MakeTransparent();
+
+            if (stamp.EffectTypes.Contains(StampEffectType.NOISE))
+            {
+                AppendNoise(stamp, stampImage);
+            }
+
+
+
+            graphics.Dispose();
+
+            return stampImage;
+
+        }
+
+
+        public Bitmap Create(CircularStamp stamp)
+        {
+            StampUtils.RequiredArgument(stamp, "stamp");
+
+            int imageHeight = stamp.Size.Height;
+            int imageWidth = stamp.Size.Width;
+            Pen edgePen = new Pen(stamp.Color)
+            {
+                Width = stamp.EdgeWidth
+            };
+
+
+            Bitmap stampImage = new Bitmap(imageWidth, imageHeight);
+
+            Graphics graphics = Graphics.FromImage(stampImage);
+
+            graphics.SmoothingMode = SmoothingMode.HighQuality;
+
+            // 回転
+            int halfImageHeight = imageHeight / 2;
+            int halfImageWidth = imageWidth / 2;
+
+            graphics.TranslateTransform(-halfImageWidth, -halfImageHeight);
+            graphics.RotateTransform(-stamp.RotationAngle, MatrixOrder.Append);
+            graphics.TranslateTransform(halfImageWidth, halfImageHeight, MatrixOrder.Append);
+
+            // 半径
+            int r = (imageWidth - (imageWidth / 20)) / 2;
+
+            //int r = 120;
+            // 画像の縁からスタンプの縁までの上下左右の最も短い絶対値
+            int outerSpace = (imageWidth - (r * 2)) / 2;
+
+
+            // 2重円
+            if (stamp.EdgeType == StampEdgeType.DOUBLE)
+            {
+                // 外円描画
+                graphics.DrawEllipse(edgePen, outerSpace, outerSpace, 2 * r, 2 * r);
+
+
+                // 内円の設定へ更新
+                r -= stamp.DoubleEdgeOffset;
+                outerSpace += stamp.DoubleEdgeOffset;
+
+            }
+
+            // 印鑑の縁
+            graphics.DrawEllipse(edgePen, outerSpace, outerSpace, 2 * r, 2 * r);
+
+
+            // TODO 微妙にずれる
+            StringFormat sf = new StringFormat();
+
+            if (stamp.TextOrientationType == TextOrientationType.VERTICAL)
+            {
+                sf.FormatFlags = StringFormatFlags.DirectionVertical;
+            }
+            sf.LineAlignment = StringAlignment.Center;
+            sf.Alignment = StringAlignment.Center;
+
+            Brush fontBrush = new SolidBrush(stamp.Color);
+            int stringX = imageWidth / 2;
+
+            StampText stampText = stamp.Text;
+            if (stampText != null)
+            {
+                Font font = new Font(stampText.FontFamily, stampText.Size);
+                SizeF size = graphics.MeasureString(stampText.Value, font);
+                int stringY = imageWidth / 2;
+                graphics.DrawString(stampText.Value, font, fontBrush, stringX, stringY, sf);
+
+#if DEBUG
+                if (StampUtils.IsDebug())
+                {
+                    var dPen = new Pen(Color.Green)
+                    {
+                        Width = 2
+                    };
+                    graphics.DrawLine(dPen, stringX, 0, stringX, stamp.Size.Height);
+                    graphics.DrawLine(dPen, 0, stringY, stamp.Size.Width, stringY);
+                }
+#endif
+            }
 
 
             // 背景透過

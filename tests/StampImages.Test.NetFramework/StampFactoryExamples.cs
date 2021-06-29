@@ -52,11 +52,22 @@ namespace StampImages.Test.NetFramework
             {
                 EdgeType = StampEdgeType.DOUBLE,
                 TextOrientationType = TextOrientationType.VERTICAL,
-                Text = new StampText { Value = "èäëÆïîñÂ", Size = 40 },
+                Text = new StampText { Value = "è≥îF", Size = 60 },
             };
             stamp.EffectTypes.Add(StampEffectType.NOISE);
 
             stampImageFactory.Create(stamp).Save("./inkan_sq_256.png");
+        }
+
+        [TestMethod]
+        public void ExampleCreateCircularStamp()
+        {
+            var stamp = new CircularStamp
+            {
+                Text = new StampText { Value = "è≥îF", Size = 60 },
+            };
+
+            stampImageFactory.Create(stamp).Save("./inkan_circular_256.png");
         }
     }
 }
