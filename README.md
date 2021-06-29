@@ -2,7 +2,8 @@
 印鑑画像 日付印 職印 スタンプ ただの画像
 
 
-netstandard2.0
+netstandard2.0  
+[System.Drawing.Common](https://www.nuget.org/packages/System.Drawing.Common/)
 
 
 ```C#
