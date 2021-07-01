@@ -16,6 +16,7 @@ using Media = System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using System.Windows.Media;
+using StampImages.App.WPF.Services;
 
 namespace StampImages.App.WPF.ViewModels
 {
@@ -32,6 +33,10 @@ namespace StampImages.App.WPF.ViewModels
 
         private readonly DispatcherTimer timer;
 
+
+        public IConfigurationService ConfigurationService { get; set; }
+
+        protected abstract Type StampType { get; }
 
         /// <summary>
         /// 2重円
@@ -94,8 +99,9 @@ namespace StampImages.App.WPF.ViewModels
         /// <summary>
         /// コンストラクター
         /// </summary>
-        public StampPanelBaseViewModel()
+        public StampPanelBaseViewModel(IConfigurationService cs)
         {
+            this.ConfigurationService = cs;
             this.timer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(300) };
             timer.Tick += (s, args) =>
             {
@@ -108,6 +114,11 @@ namespace StampImages.App.WPF.ViewModels
             ClearRotationCommand = new DelegateCommand(ExecuteClearRotationCommand);
             SaveImageCommand = new DelegateCommand(ExecuteSaveImageCommand);
 
+            BaseStamp stamp = ConfigurationService.Deserialize(StampType);
+            if (stamp != null)
+            {
+                LoadStamp(stamp);
+            }
 
             IsDoubleStampEdge.Subscribe(_ => RequestUpdateStampImage());
             RotationAngle.Subscribe(_ => RequestUpdateStampImage());
@@ -129,6 +140,18 @@ namespace StampImages.App.WPF.ViewModels
 
             this.isInitialized = true;
             UpdateStampImage();
+        }
+
+        /// <summary>
+        /// 保存されているスタンププロパティーを復元します。
+        /// </summary>
+        /// <param name="stamp"></param>
+        protected virtual void LoadStamp(BaseStamp stamp)
+        {
+            IsDoubleStampEdge.Value = stamp.EdgeType == StampEdgeType.DOUBLE;
+            RotationAngle.Value = stamp.RotationAngle;
+            IsAppendNoise.Value = stamp.EffectTypes.Contains(StampEffectType.NOISE);
+            StampColor.Value = Media.Color.FromRgb(stamp.Color.R, stamp.Color.G, stamp.Color.B);
         }
 
 
@@ -258,10 +281,12 @@ namespace StampImages.App.WPF.ViewModels
             if (stamp is ThreeAreaCircularStamp)
             {
                 stampImage = this.stampImageFactory.Create((ThreeAreaCircularStamp)stamp);
+                ConfigurationService.Serialize((ThreeAreaCircularStamp)stamp);
             }
             else if (stamp is SquareStamp)
             {
                 stampImage = this.stampImageFactory.Create((SquareStamp)stamp);
+                ConfigurationService.Serialize((SquareStamp)stamp);
             }
 
             Application.Current.Dispatcher.Invoke(() =>
@@ -275,7 +300,6 @@ namespace StampImages.App.WPF.ViewModels
         {
             return Imaging.CreateBitmapSourceFromHBitmap(bitmap.GetHbitmap(), IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
         }
-
 
     }
 }

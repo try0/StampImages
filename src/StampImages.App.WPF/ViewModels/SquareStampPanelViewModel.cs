@@ -1,5 +1,6 @@
 ﻿using Prism.Mvvm;
 using Reactive.Bindings;
+using StampImages.App.WPF.Services;
 using StampImages.Core;
 using System;
 using System.Collections.Generic;
@@ -10,15 +11,27 @@ namespace StampImages.App.WPF.ViewModels
     public class SquareStampPanelViewModel : StampPanelBaseViewModel
     {
 
+        protected override Type StampType => typeof(SquareStamp);
+
         public ReactiveProperty<string> Text { get; } = new ReactiveProperty<string>();
 
-        public ReactiveProperty<int> FontSize { get; } = new ReactiveProperty<int>(30);
+        public ReactiveProperty<float> FontSize { get; } = new ReactiveProperty<float>(70);
 
-        public SquareStampPanelViewModel() : base()
+        public SquareStampPanelViewModel(IConfigurationService cs) : base(cs)
         {
 
             Text.Subscribe(_ => RequestUpdateStampImage());
             FontSize.Subscribe(_ => RequestUpdateStampImage());
+        }
+
+        protected override void LoadStamp(BaseStamp stamp)
+        {
+            base.LoadStamp(stamp);
+            SquareStamp myStamp = (SquareStamp)stamp;
+
+            Text.Value = myStamp.Text.Value;
+            FontSize.Value = myStamp.Text.Size;
+
         }
 
         protected override BaseStamp NewStamp()

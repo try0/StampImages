@@ -31,22 +31,23 @@ namespace StampImages.App.WPF.ViewModels
 
         public ReactiveProperty<string> Title { get; } = new ReactiveProperty<string>("StampImages");
 
-
-        private ThreeAreaCircularStampViewModel vm1 = new ThreeAreaCircularStampViewModel();
-        private SquareStampPanelViewModel vm2 = new SquareStampPanelViewModel();
+        public ThreeAreaCircularStampViewModel VM1 { get; set; }
+        public SquareStampPanelViewModel VM2 { get; set; }
 
         public ReactiveProperty<bool> IsSelectedThreeAreaStamp { get; } = new ReactiveProperty<bool>(true);
         public ReactiveProperty<bool> IsSelectedSquareStamp { get; } = new ReactiveProperty<bool>(false);
 
 
 
-        public MainWindowViewModel()
+        public MainWindowViewModel(ThreeAreaCircularStampViewModel vm1, SquareStampPanelViewModel vm2)
         {
+            VM1 = vm1;
+            VM2 = vm2;
             IsSelectedThreeAreaStamp.Subscribe(val =>
             {
                 if (val)
                 {
-                    CurrentTabViewModel.Value = vm1;
+                    CurrentTabViewModel.Value = VM1;
                     CurrentTabViewModel.Value.RequestUpdateStampImage();
                 }
             });
@@ -54,7 +55,7 @@ namespace StampImages.App.WPF.ViewModels
             {
                 if (val)
                 {
-                    CurrentTabViewModel.Value = vm2;
+                    CurrentTabViewModel.Value = VM2;
                     CurrentTabViewModel.Value.RequestUpdateStampImage();
                 }
             });

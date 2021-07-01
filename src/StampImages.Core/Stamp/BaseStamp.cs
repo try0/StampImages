@@ -48,7 +48,7 @@ namespace StampImages.Core
         /// <summary>
         /// エフェクトリスト
         /// </summary>
-        public ICollection<StampEffectType> EffectTypes { get; } = new List<StampEffectType>();
+        public ICollection<StampEffectType> EffectTypes { get; set; } = new List<StampEffectType>();
 
 
 

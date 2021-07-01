@@ -16,12 +16,14 @@ using Media = System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using System.Windows.Media;
+using StampImages.App.WPF.Services;
 
 namespace StampImages.App.WPF.ViewModels
 {
     public class ThreeAreaCircularStampViewModel : StampPanelBaseViewModel
     {
 
+        protected override Type StampType => typeof(ThreeAreaCircularStamp);
 
         /// <summary>
         /// 上段テキスト
@@ -49,7 +51,7 @@ namespace StampImages.App.WPF.ViewModels
         /// </summary>
         public ReactiveProperty<double> BottomFontSize { get; } = new ReactiveProperty<double>(27);
 
-      
+
 
 
 
@@ -57,7 +59,7 @@ namespace StampImages.App.WPF.ViewModels
         /// <summary>
         /// コンストラクター
         /// </summary>
-        public ThreeAreaCircularStampViewModel() : base()
+        public ThreeAreaCircularStampViewModel(IConfigurationService cs) : base(cs)
         {
 
             TopText.Subscribe(_ => RequestUpdateStampImage());
@@ -69,7 +71,19 @@ namespace StampImages.App.WPF.ViewModels
 
         }
 
+        protected override void LoadStamp(BaseStamp stamp)
+        {
+            base.LoadStamp(stamp);
+            ThreeAreaCircularStamp myStamp = (ThreeAreaCircularStamp)stamp;
 
+            TopText.Value = myStamp.TopText.Value;
+            MiddleText.Value = myStamp.MiddleText.Value;
+            BottomText.Value = myStamp.BottomText.Value;
+            TopFontSize.Value = myStamp.TopText.Size;
+            MiddleFontSize.Value = myStamp.MiddleText.Size;
+            BottomFontSize.Value = myStamp.BottomText.Size;
+
+        }
 
 
         protected override void ExecuteClearCommand()
@@ -112,5 +126,5 @@ namespace StampImages.App.WPF.ViewModels
             return stamp;
         }
     }
-    
+
 }
