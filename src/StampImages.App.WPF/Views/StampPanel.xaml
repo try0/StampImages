@@ -40,7 +40,8 @@
 
 
 
-        <Image HorizontalAlignment="Left" Height="128" Margin="392,30,0,0" VerticalAlignment="Top" Width="128" Source="{Binding StampImageSource.Value}" AllowDrop="True">
+        <Image HorizontalAlignment="Left" Height="128" Margin="392,30,0,0" VerticalAlignment="Top" Width="128" Source="{Binding StampImageSource.Value}" AllowDrop="True"
+               ToolTip="ドラッグでファイル保存/ドロップで復元">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseMove">
                     <i:InvokeCommandAction Command="{Binding DragImageCommand}" PassEventArgsToCommand="True"  />
@@ -63,9 +64,12 @@
                      AddToRecentColorsTrigger="SelectedColorChanged" Margin="364,238,24,84" />
 
 
-        <Button Content="コピー" Width="100" HorizontalAlignment="Left" Margin="444,311,0,0" VerticalAlignment="Top" Command="{Binding CopyImageCommand}"/>
-        <Button Content="クリア" HorizontalAlignment="Left" Margin="285,311,0,0" VerticalAlignment="Top" Width="75" Command="{Binding ClearCommand}"/>
-        <Button Content="保存" Width="75" HorizontalAlignment="Left" Margin="364,311,0,0" VerticalAlignment="Top" Command="{Binding SaveImageCommand}"/>
+        <Button Content="コピー" Width="100" HorizontalAlignment="Left" Margin="444,311,0,0" VerticalAlignment="Top" Command="{Binding CopyImageCommand}"
+                ToolTip="画像データをクリップボードにコピーします"/>
+        <Button Content="クリア" HorizontalAlignment="Left" Margin="285,311,0,0" VerticalAlignment="Top" Width="75" Command="{Binding ClearCommand}"
+                 ToolTip="設定を初期化します"/>
+        <Button Content="保存" Width="75" HorizontalAlignment="Left" Margin="364,311,0,0" VerticalAlignment="Top" Command="{Binding SaveImageCommand}"
+                 ToolTip="画像ファイルを保存します"/>
 
 
     </Grid>
