@@ -19,6 +19,8 @@ using System.Windows.Media;
 using StampImages.App.WPF.Services;
 using System.Drawing.Imaging;
 using System.Windows.Input;
+using System.Diagnostics;
+using System.Linq;
 
 namespace StampImages.App.WPF.ViewModels
 {
@@ -28,7 +30,7 @@ namespace StampImages.App.WPF.ViewModels
     public abstract class StampPanelBaseViewModel : BindableBase
     {
 
-
+        private const int MAKER_NOTE_ID = 0x927C;
         private readonly StampImageFactory stampImageFactory = new StampImageFactory(new Core.StampImageFactoryConfig());
 
         protected bool isInitialized = false;
@@ -70,6 +72,8 @@ namespace StampImages.App.WPF.ViewModels
         /// </summary>
         public ReactiveProperty<Media.FontFamily> FontFamily { get; set; }
             = new ReactiveProperty<Media.FontFamily>(new Media.FontFamily("MS UI Gothic"));
+
+        public ReactiveProperty<BaseStamp> Stamp { get; } = new ReactiveProperty<BaseStamp>();
         /// <summary>
         /// プレビュー画像
         /// </summary>
@@ -103,6 +107,8 @@ namespace StampImages.App.WPF.ViewModels
         /// </summary>
         public DelegateCommand<MouseEventArgs> DragImageCommand { get; }
 
+        public DelegateCommand<DragEventArgs> DropItemCommand { get; }
+
         /// <summary>
         /// コンストラクター
         /// </summary>
@@ -121,8 +127,9 @@ namespace StampImages.App.WPF.ViewModels
             ClearRotationCommand = new DelegateCommand(ExecuteClearRotationCommand);
             SaveImageCommand = new DelegateCommand(ExecuteSaveImageCommand);
             DragImageCommand = new DelegateCommand<MouseEventArgs>(ExecuteDragImageCommand);
+            DropItemCommand = new DelegateCommand<DragEventArgs>(ExecuteDropItemCommand);
 
-            BaseStamp stamp = ConfigurationService.Deserialize(StampType);
+            BaseStamp stamp = ConfigurationService.Load(StampType);
             if (stamp != null)
             {
                 LoadStamp(stamp);
@@ -174,9 +181,14 @@ namespace StampImages.App.WPF.ViewModels
 
             var resized = this.stampImageFactory.Resize(StampImage.Value, 128, 128);
 
+            FlashStampProperties(resized, Stamp.Value);
+
             var source = ConvertToBitmapSource(resized);
             PngBitmapEncoder pngEnc = new PngBitmapEncoder();
-            pngEnc.Frames.Add(BitmapFrame.Create(source));
+            var frame = BitmapFrame.Create(source);
+            BitmapMetadata metaData = (BitmapMetadata)frame.Metadata.Clone();
+            metaData.Comment = "TEST";
+            pngEnc.Frames.Add(frame);
             using var ms = new MemoryStream();
             pngEnc.Save(ms);
             Clipboard.SetData("PNG", ms);
@@ -250,20 +262,86 @@ namespace StampImages.App.WPF.ViewModels
         {
             if (e.LeftButton == MouseButtonState.Pressed)
             {
+
                 var resized = stampImageFactory.Resize(StampImage.Value, 128, 128);
+
+
+                FlashStampProperties(resized, Stamp.Value);
 
                 var tempPath = Path.GetTempPath();
                 Directory.CreateDirectory(tempPath);
 
-                var imagePath = Path.Combine(tempPath, $"stamp-{DateTime.Now.ToString("yyyyMMddHHmm")}.png");
-                resized.Save(imagePath, ImageFormat.Png);
+                var imagePath = Path.Combine(tempPath, $"stamp-{DateTime.Now.ToString("yyyyMMddHHmmss")}.png");
+
+
+                var source = ConvertToBitmapSource(resized);
+                PngBitmapEncoder pngEnc = new PngBitmapEncoder();
+
+                var metadata = new BitmapMetadata("png");
+                metadata.SetQuery("/tEXt/{str=Comment}", ConfigurationService.Serialize(Stamp.Value));
+
+                var frame = BitmapFrame.Create(source, null, metadata, null);
+
+
+                pngEnc.Frames.Add(frame);
+                FileStream fout = new FileStream(imagePath, FileMode.Create);
+
+                pngEnc.Save(fout);
 
                 string[] files = new string[1];
                 files[0] = imagePath;
                 DataObject data = new DataObject(DataFormats.FileDrop, files);
 
                 DragDrop.DoDragDrop(new UIElement(), data, DragDropEffects.Copy);
+
+                if (resized.PropertyIdList.Contains(MAKER_NOTE_ID))
+                {
+                    Debug.WriteLine("has maker note");
+                }
             }
+        }
+
+        private void ExecuteDropItemCommand(DragEventArgs e)
+        {
+            try
+            {
+                string[] files = e.Data.GetData(DataFormats.FileDrop) as string[];
+                if (files != null && files.Length > 0)
+                {
+                    string file = files[0];
+
+                    var image = new Bitmap(file);
+
+                    string stampPropJson;
+                    if (image.PropertyIdList.Contains(MAKER_NOTE_ID))
+                    {
+                        var propItem = image.GetPropertyItem(MAKER_NOTE_ID);
+                        stampPropJson = System.Text.Encoding.UTF8.GetString(propItem.Value); 
+                    }
+                    else
+                    {
+                        Uri uri = new Uri(file, UriKind.Absolute);
+                        BitmapFrame frame = BitmapFrame.Create(uri);
+                        BitmapMetadata metaData = (BitmapMetadata)frame.Metadata.Clone();
+
+                        stampPropJson = metaData.GetQuery("/tEXt/{str=Comment}").ToString();
+                    }
+
+                    Debug.WriteLine(stampPropJson);
+
+                    BaseStamp stamp = ConfigurationService.Deserialize<BaseStamp>(stampPropJson, StampType);
+                    if (stamp != null)
+                    {
+                        LoadStamp(stamp);
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+
         }
 
         public void RequestUpdateStampImage()
@@ -306,20 +384,47 @@ namespace StampImages.App.WPF.ViewModels
             if (stamp is ThreeAreaCircularStamp)
             {
                 stampImage = this.stampImageFactory.Create((ThreeAreaCircularStamp)stamp);
-                ConfigurationService.Serialize((ThreeAreaCircularStamp)stamp);
+                ConfigurationService.Save((ThreeAreaCircularStamp)stamp);
             }
             else if (stamp is SquareStamp)
             {
                 stampImage = this.stampImageFactory.Create((SquareStamp)stamp);
-                ConfigurationService.Serialize((SquareStamp)stamp);
+                ConfigurationService.Save((SquareStamp)stamp);
             }
+
+
+            FlashStampProperties(stampImage, stamp);
 
             Application.Current.Dispatcher.Invoke(() =>
             {
+                Stamp.Value = stamp;
                 StampImage.Value = stampImage;
             });
         }
 
+        private void FlashStampProperties(Bitmap image, BaseStamp stamp)
+        {
+            try
+            {
+                if (!File.Exists("./tmp.png"))
+                {
+                    image.Save("./tmp.png", ImageFormat.Png);
+                }
+
+
+                var stampPropJson = ConfigurationService.Serialize(stamp);
+                PropertyItem propItem = new Bitmap("./tmp.png").PropertyItems[0];
+                propItem.Id = MAKER_NOTE_ID;
+                propItem.Value = System.Text.Encoding.UTF8.GetBytes(stampPropJson);
+                image.SetPropertyItem(propItem);
+
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+
+        }
 
         private BitmapSource ConvertToBitmapSource(Bitmap bitmap)
         {

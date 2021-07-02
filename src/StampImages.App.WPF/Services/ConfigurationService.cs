@@ -13,8 +13,11 @@ namespace StampImages.App.WPF.Services
     /// </summary>
     public interface IConfigurationService
     {
-        public void Serialize(BaseStamp stamp);
-        public BaseStamp Deserialize(Type type);
+        public void Save(BaseStamp stamp);
+        public BaseStamp Load(Type type);
+
+        public string Serialize(BaseStamp stamp);
+        public T Deserialize<T>(string json, Type type = null) where T : BaseStamp;
     }
 
     /// <summary>
@@ -83,15 +86,15 @@ namespace StampImages.App.WPF.Services
             return options;
         }
 
-        public void Serialize(BaseStamp stamp)
+        public void Save(BaseStamp stamp)
         {
             if (!File.Exists("./Config"))
             {
                 Directory.CreateDirectory("./Config");
             }
 
+            var json = Serialize(stamp);
 
-            var json = JsonSerializer.Serialize(stamp, stamp.GetType(), GetDefaultOptions());
             using (var streamWriter = new StreamWriter($"./Config/{stamp.GetType().Name}.json", false, Encoding.UTF8))
             {
                 streamWriter.WriteLine(json);
@@ -100,7 +103,7 @@ namespace StampImages.App.WPF.Services
 
         }
 
-        public BaseStamp Deserialize(Type type)
+        public BaseStamp Load(Type type)
         {
             if (!File.Exists($"./Config/{type.Name}.json"))
             {
@@ -112,9 +115,24 @@ namespace StampImages.App.WPF.Services
             {
                 string json = streamReader.ReadToEnd();
 
-                return (BaseStamp)JsonSerializer.Deserialize(json, type, GetDefaultOptions());
+                return (BaseStamp)Deserialize<BaseStamp>(json, type);
             }
         }
 
+        public string Serialize(BaseStamp stamp)
+        {
+            var json = JsonSerializer.Serialize(stamp, stamp.GetType(), GetDefaultOptions());
+
+            return json;
+        }
+
+        public T Deserialize<T>(string json, Type type) where T : BaseStamp
+        {
+            if (type == null)
+            {
+                type = typeof(T);
+            }
+            return (T)JsonSerializer.Deserialize(json, type, GetDefaultOptions());
+        }
     }
 }

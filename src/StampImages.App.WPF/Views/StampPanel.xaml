@@ -17,6 +17,7 @@
             <i:InvokeCommandAction Command="{Binding LoadedCommand}"/>
         </i:EventTrigger>
     </i:Interaction.Triggers>
+    
 
 
     <Grid>
@@ -39,10 +40,13 @@
 
 
 
-        <Image HorizontalAlignment="Left" Height="128" Margin="392,30,0,0" VerticalAlignment="Top" Width="128" Source="{Binding StampImageSource.Value}">
+        <Image HorizontalAlignment="Left" Height="128" Margin="392,30,0,0" VerticalAlignment="Top" Width="128" Source="{Binding StampImageSource.Value}" AllowDrop="True">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseMove">
                     <i:InvokeCommandAction Command="{Binding DragImageCommand}" PassEventArgsToCommand="True"  />
+                </i:EventTrigger>
+                <i:EventTrigger EventName="Drop">
+                    <i:InvokeCommandAction Command="{Binding DropItemCommand}" PassEventArgsToCommand="True"/>
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </Image>
