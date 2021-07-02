@@ -39,7 +39,13 @@
 
 
 
-        <Image HorizontalAlignment="Left" Height="128" Margin="392,30,0,0" VerticalAlignment="Top" Width="128" Source="{Binding StampImageSource.Value}"/>
+        <Image HorizontalAlignment="Left" Height="128" Margin="392,30,0,0" VerticalAlignment="Top" Width="128" Source="{Binding StampImageSource.Value}">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseMove">
+                    <i:InvokeCommandAction Command="{Binding DragImageCommand}" PassEventArgsToCommand="True"  />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </Image>
 
         <Slider HorizontalAlignment="Left" Margin="364,175,0,0" VerticalAlignment="Top" Width="128" Minimum="-180" Maximum="180" Value="{Binding RotationAngle.Value, Mode=TwoWay}"/>
         <Button Content="-" HorizontalAlignment="Left" Margin="505,173,0,0" VerticalAlignment="Top" Width="38" Command="{Binding ClearRotationCommand}"/>

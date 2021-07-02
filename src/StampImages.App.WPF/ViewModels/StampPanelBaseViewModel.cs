@@ -17,6 +17,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using System.Windows.Media;
 using StampImages.App.WPF.Services;
+using System.Drawing.Imaging;
+using System.Windows.Input;
 
 namespace StampImages.App.WPF.ViewModels
 {
@@ -97,6 +99,11 @@ namespace StampImages.App.WPF.ViewModels
         public DelegateCommand SaveImageCommand { get; }
 
         /// <summary>
+        /// 画像ドラッグ
+        /// </summary>
+        public DelegateCommand<MouseEventArgs> DragImageCommand { get; }
+
+        /// <summary>
         /// コンストラクター
         /// </summary>
         public StampPanelBaseViewModel(IConfigurationService cs)
@@ -113,6 +120,7 @@ namespace StampImages.App.WPF.ViewModels
             ClearCommand = new DelegateCommand(ExecuteClearCommand);
             ClearRotationCommand = new DelegateCommand(ExecuteClearRotationCommand);
             SaveImageCommand = new DelegateCommand(ExecuteSaveImageCommand);
+            DragImageCommand = new DelegateCommand<MouseEventArgs>(ExecuteDragImageCommand);
 
             BaseStamp stamp = ConfigurationService.Deserialize(StampType);
             if (stamp != null)
@@ -154,8 +162,6 @@ namespace StampImages.App.WPF.ViewModels
             StampColor.Value = Media.Color.FromRgb(stamp.Color.R, stamp.Color.G, stamp.Color.B);
         }
 
-
-
         /// <summary>
         /// プレビュー画像コピーコマンド
         /// </summary>
@@ -167,10 +173,10 @@ namespace StampImages.App.WPF.ViewModels
             }
 
             var resized = this.stampImageFactory.Resize(StampImage.Value, 128, 128);
+
             var source = ConvertToBitmapSource(resized);
             PngBitmapEncoder pngEnc = new PngBitmapEncoder();
             pngEnc.Frames.Add(BitmapFrame.Create(source));
-
             using var ms = new MemoryStream();
             pngEnc.Save(ms);
             Clipboard.SetData("PNG", ms);
@@ -179,7 +185,6 @@ namespace StampImages.App.WPF.ViewModels
                 .AddAudio(new ToastAudio() { Silent = true })
                 .AddText("クリップボードにコピーしました")
                 .Show();
-
         }
 
 
@@ -239,6 +244,26 @@ namespace StampImages.App.WPF.ViewModels
                 .AddInlineImage(new Uri(dialog.FileName))
                 .AddText("保存しました")
                 .Show();
+        }
+
+        private void ExecuteDragImageCommand(System.Windows.Input.MouseEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                var resized = stampImageFactory.Resize(StampImage.Value, 128, 128);
+
+                var tempPath = Path.GetTempPath();
+                Directory.CreateDirectory(tempPath);
+
+                var imagePath = Path.Combine(tempPath, $"stamp-{DateTime.Now.ToString("yyyyMMddHHmm")}.png");
+                resized.Save(imagePath, ImageFormat.Png);
+
+                string[] files = new string[1];
+                files[0] = imagePath;
+                DataObject data = new DataObject(DataFormats.FileDrop, files);
+
+                DragDrop.DoDragDrop(new UIElement(), data, DragDropEffects.Copy);
+            }
         }
 
         public void RequestUpdateStampImage()
