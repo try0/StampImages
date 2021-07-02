@@ -24,7 +24,9 @@ namespace StampImages.App.WPF.ViewModels
     /// </summary>
     public class MainWindowViewModel : BindableBase
     {
-
+        /// <summary>
+        /// 選択中タブのViewModel
+        /// </summary>
         public static ReactiveProperty<StampPanelBaseViewModel> CurrentTabViewModel { get; }
             = new ReactiveProperty<StampPanelBaseViewModel>();
 
@@ -38,7 +40,11 @@ namespace StampImages.App.WPF.ViewModels
         public ReactiveProperty<bool> IsSelectedSquareStamp { get; } = new ReactiveProperty<bool>(false);
 
 
-
+        /// <summary>
+        /// コンストラクター
+        /// </summary>
+        /// <param name="vm1"></param>
+        /// <param name="vm2"></param>
         public MainWindowViewModel(ThreeAreaCircularStampViewModel vm1, SquareStampPanelViewModel vm2)
         {
             VM1 = vm1;

@@ -13,11 +13,35 @@ namespace StampImages.App.WPF.Services
     /// </summary>
     public interface IConfigurationService
     {
+        /// <summary>
+        /// スタンプデータを保存します
+        /// </summary>
+        /// <param name="stamp"></param>
         public void Save(BaseStamp stamp);
+
+        /// <summary>
+        /// 保存してあるスタンプデータをロードします
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
         public BaseStamp Load(Type type);
 
+        /// <summary>
+        /// スタンプデータをシリアライズします
+        /// </summary>
+        /// <param name="stamp"></param>
+        /// <returns></returns>
         public string Serialize(BaseStamp stamp);
+
+        /// <summary>
+        /// スタンプデータをデシリアライズします
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="json"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
         public T Deserialize<T>(string json, Type type = null) where T : BaseStamp;
+
     }
 
     /// <summary>
@@ -83,6 +107,7 @@ namespace StampImages.App.WPF.Services
             options.Converters.Add(new ColorJsonConverter());
             options.Converters.Add(new FontFamilyJsonConverter());
             options.Converters.Add(new JsonStringEnumConverter());
+
             return options;
         }
 
@@ -100,7 +125,6 @@ namespace StampImages.App.WPF.Services
                 streamWriter.WriteLine(json);
                 streamWriter.Flush();
             }
-
         }
 
         public BaseStamp Load(Type type)
@@ -111,18 +135,15 @@ namespace StampImages.App.WPF.Services
             }
 
             using (var streamReader = new StreamReader($"./Config/{type.Name}.json", Encoding.UTF8))
-
             {
                 string json = streamReader.ReadToEnd();
-
-                return (BaseStamp)Deserialize<BaseStamp>(json, type);
+                return Deserialize<BaseStamp>(json, type);
             }
         }
 
         public string Serialize(BaseStamp stamp)
         {
             var json = JsonSerializer.Serialize(stamp, stamp.GetType(), GetDefaultOptions());
-
             return json;
         }
 
@@ -134,5 +155,6 @@ namespace StampImages.App.WPF.Services
             }
             return (T)JsonSerializer.Deserialize(json, type, GetDefaultOptions());
         }
+
     }
 }

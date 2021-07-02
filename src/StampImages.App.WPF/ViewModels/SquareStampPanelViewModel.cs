@@ -13,10 +13,22 @@ namespace StampImages.App.WPF.ViewModels
 
         protected override Type StampType => typeof(SquareStamp);
 
+        /// <summary>
+        /// スタンプテキスト
+        /// </summary>
         public ReactiveProperty<string> Text { get; } = new ReactiveProperty<string>();
 
+        /// <summary>
+        /// フォントサイズ
+        /// </summary>
         public ReactiveProperty<float> FontSize { get; } = new ReactiveProperty<float>(70);
 
+
+
+        /// <summary>
+        /// コンストラクター
+        /// </summary>
+        /// <param name="cs"></param>
         public SquareStampPanelViewModel(IConfigurationService cs) : base(cs)
         {
 

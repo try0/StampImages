@@ -25,12 +25,13 @@ using System.Linq;
 namespace StampImages.App.WPF.ViewModels
 {
     /// <summary>
-    /// MainWindowViewModel
+    /// StampPanelBaseViewModel
     /// </summary>
     public abstract class StampPanelBaseViewModel : BindableBase
     {
 
         private const int MAKER_NOTE_ID = 0x927C;
+
         private readonly StampImageFactory stampImageFactory = new StampImageFactory(new Core.StampImageFactoryConfig());
 
         protected bool isInitialized = false;
@@ -72,7 +73,9 @@ namespace StampImages.App.WPF.ViewModels
         /// </summary>
         public ReactiveProperty<Media.FontFamily> FontFamily { get; set; }
             = new ReactiveProperty<Media.FontFamily>(new Media.FontFamily("MS UI Gothic"));
-
+        /// <summary>
+        /// 表示中スタンプデータ
+        /// </summary>
         public ReactiveProperty<BaseStamp> Stamp { get; } = new ReactiveProperty<BaseStamp>();
         /// <summary>
         /// プレビュー画像
@@ -101,13 +104,16 @@ namespace StampImages.App.WPF.ViewModels
         /// 画像保存
         /// </summary>
         public DelegateCommand SaveImageCommand { get; }
-
         /// <summary>
         /// 画像ドラッグ
         /// </summary>
         public DelegateCommand<MouseEventArgs> DragImageCommand { get; }
-
+        /// <summary>
+        /// 画像ドロップ
+        /// </summary>
         public DelegateCommand<DragEventArgs> DropItemCommand { get; }
+
+
 
         /// <summary>
         /// コンストラクター
@@ -181,14 +187,7 @@ namespace StampImages.App.WPF.ViewModels
 
             var resized = this.stampImageFactory.Resize(StampImage.Value, 128, 128);
 
-            FlashStampProperties(resized, Stamp.Value);
-
-            var source = ConvertToBitmapSource(resized);
-            PngBitmapEncoder pngEnc = new PngBitmapEncoder();
-            var frame = BitmapFrame.Create(source);
-            BitmapMetadata metaData = (BitmapMetadata)frame.Metadata.Clone();
-            metaData.Comment = "TEST";
-            pngEnc.Frames.Add(frame);
+            PngBitmapEncoder pngEnc = GetEncoder(resized);
             using var ms = new MemoryStream();
             pngEnc.Save(ms);
             Clipboard.SetData("PNG", ms);
@@ -199,12 +198,12 @@ namespace StampImages.App.WPF.ViewModels
                 .Show();
         }
 
-
+        /// <summary>
+        /// 設定値初期化コマンド
+        /// </summary>
         protected virtual void ExecuteClearCommand()
         {
             this.isInitialized = false;
-
-
 
             RotationAngle.Value = 0;
             IsAppendNoise.Value = false;
@@ -219,24 +218,28 @@ namespace StampImages.App.WPF.ViewModels
 
         }
 
+        /// <summary>
+        /// 回転クリアコマンド
+        /// </summary>
         private void ExecuteClearRotationCommand()
         {
             RotationAngle.Value = 0;
         }
 
+        /// <summary>
+        /// ファイル保存コマンド
+        /// </summary>
         private void ExecuteSaveImageCommand()
         {
             var dialog = new SaveFileDialog();
             dialog.FileName = "stamp.png";
             dialog.Filter = "PNGファイル(*.png)|*.png";
 
-            // ファイル保存ダイアログを表示します。
             var result = dialog.ShowDialog() ?? false;
 
-            // 保存ボタン以外が押下された場合
+
             if (!result)
             {
-                // 終了します。
                 return;
             }
 
@@ -258,89 +261,84 @@ namespace StampImages.App.WPF.ViewModels
                 .Show();
         }
 
-        private void ExecuteDragImageCommand(System.Windows.Input.MouseEventArgs e)
+        /// <summary>
+        /// 画像ドラッグコマンド
+        /// </summary>
+        /// <param name="e"></param>
+        private void ExecuteDragImageCommand(MouseEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed)
             {
 
                 var resized = stampImageFactory.Resize(StampImage.Value, 128, 128);
 
-
-                FlashStampProperties(resized, Stamp.Value);
-
                 var tempPath = Path.GetTempPath();
                 Directory.CreateDirectory(tempPath);
 
                 var imagePath = Path.Combine(tempPath, $"stamp-{DateTime.Now.ToString("yyyyMMddHHmmss")}.png");
 
-
-                var source = ConvertToBitmapSource(resized);
-                PngBitmapEncoder pngEnc = new PngBitmapEncoder();
-
-                var metadata = new BitmapMetadata("png");
-                metadata.SetQuery("/tEXt/{str=Comment}", ConfigurationService.Serialize(Stamp.Value));
-
-                var frame = BitmapFrame.Create(source, null, metadata, null);
-
-
-                pngEnc.Frames.Add(frame);
-                FileStream fout = new FileStream(imagePath, FileMode.Create);
-
-                pngEnc.Save(fout);
+                SaveStampImage(resized, imagePath);
 
                 string[] files = new string[1];
                 files[0] = imagePath;
                 DataObject data = new DataObject(DataFormats.FileDrop, files);
 
-                DragDrop.DoDragDrop(new UIElement(), data, DragDropEffects.Copy);
-
-                if (resized.PropertyIdList.Contains(MAKER_NOTE_ID))
-                {
-                    Debug.WriteLine("has maker note");
-                }
+                DragDrop.DoDragDrop(new UIElement(), data, DragDropEffects.Move);
             }
         }
 
+        /// <summary>
+        /// ファイルドロップコマンド
+        /// </summary>
+        /// <param name="e"></param>
         private void ExecuteDropItemCommand(DragEventArgs e)
         {
-            try
+
+            string[] files = e.Data.GetData(DataFormats.FileDrop) as string[];
+            if (files != null && files.Length > 0)
             {
-                string[] files = e.Data.GetData(DataFormats.FileDrop) as string[];
-                if (files != null && files.Length > 0)
+                string file = files[0];
+
+                if (!file.ToLower().EndsWith("png"))
                 {
-                    string file = files[0];
-
-                    var image = new Bitmap(file);
-
-                    string stampPropJson;
-                    if (image.PropertyIdList.Contains(MAKER_NOTE_ID))
-                    {
-                        var propItem = image.GetPropertyItem(MAKER_NOTE_ID);
-                        stampPropJson = System.Text.Encoding.UTF8.GetString(propItem.Value); 
-                    }
-                    else
-                    {
-                        Uri uri = new Uri(file, UriKind.Absolute);
-                        BitmapFrame frame = BitmapFrame.Create(uri);
-                        BitmapMetadata metaData = (BitmapMetadata)frame.Metadata.Clone();
-
-                        stampPropJson = metaData.GetQuery("/tEXt/{str=Comment}").ToString();
-                    }
-
-                    Debug.WriteLine(stampPropJson);
-
-                    BaseStamp stamp = ConfigurationService.Deserialize<BaseStamp>(stampPropJson, StampType);
-                    if (stamp != null)
-                    {
-                        LoadStamp(stamp);
-                    }
-
+                    return;
                 }
+
+
+                var image = new Bitmap(file);
+
+                string stampPropJson;
+                if (image.PropertyIdList.Contains(MAKER_NOTE_ID))
+                {
+                    // pngにexifないけど、拡張したとき用
+                    var propItem = image.GetPropertyItem(MAKER_NOTE_ID);
+                    stampPropJson = System.Text.Encoding.UTF8.GetString(propItem.Value);
+                }
+                else
+                {
+                    // チャンク読み込み
+
+                    Uri uri = new Uri(file, UriKind.Absolute);
+                    BitmapFrame frame = BitmapFrame.Create(uri);
+                    BitmapMetadata metaData = (BitmapMetadata)frame.Metadata.Clone();
+
+                    stampPropJson = metaData.GetQuery("/tEXt/{str=Comment}").ToString();
+                }
+
+                if (String.IsNullOrEmpty(stampPropJson))
+                {
+                    return;
+                }
+
+
+                BaseStamp stamp = ConfigurationService.Deserialize<BaseStamp>(stampPropJson, StampType);
+                if (stamp != null)
+                {
+                    LoadStamp(stamp);
+                }
+
             }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex);
-            }
+
 
         }
 
@@ -393,8 +391,6 @@ namespace StampImages.App.WPF.ViewModels
             }
 
 
-            FlashStampProperties(stampImage, stamp);
-
             Application.Current.Dispatcher.Invoke(() =>
             {
                 Stamp.Value = stamp;
@@ -404,10 +400,12 @@ namespace StampImages.App.WPF.ViewModels
 
         private void FlashStampProperties(Bitmap image, BaseStamp stamp)
         {
+            //　TODO PNGはexif持てない　保存形式拡張したときに使う
             try
             {
                 if (!File.Exists("./tmp.png"))
                 {
+                    // PropertyItem取得用にキープ
                     image.Save("./tmp.png", ImageFormat.Png);
                 }
 
@@ -424,6 +422,25 @@ namespace StampImages.App.WPF.ViewModels
                 Debug.WriteLine(ex);
             }
 
+        }
+
+        private PngBitmapEncoder GetEncoder(Bitmap bitmap)
+        {
+            var source = ConvertToBitmapSource(bitmap);
+            PngBitmapEncoder pngEnc = new PngBitmapEncoder();
+            var metadata = new BitmapMetadata("png");
+            metadata.SetQuery("/tEXt/{str=Comment}", ConfigurationService.Serialize(Stamp.Value));
+            var frame = BitmapFrame.Create(source, null, metadata, null);
+            pngEnc.Frames.Add(frame);
+
+            return pngEnc;
+        }
+
+        private void SaveStampImage(Bitmap bitmap, string imagePath)
+        {
+            PngBitmapEncoder pngEnc = GetEncoder(bitmap);
+            using FileStream fs = new FileStream(imagePath, FileMode.Create);
+            pngEnc.Save(fs);
         }
 
         private BitmapSource ConvertToBitmapSource(Bitmap bitmap)
