@@ -5,6 +5,7 @@ using System.IO;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Windows.Forms;
 
 namespace StampImages.App.WPF.Services
 {
@@ -49,6 +50,9 @@ namespace StampImages.App.WPF.Services
     /// </summary>
     public class ConfigurationService : IConfigurationService
     {
+
+        private static readonly string CONFIG_FILE_DIR = Path.Combine(Application.UserAppDataPath, "Config");
+
         public class ColorJsonConverter : JsonConverter<Color>
         {
             public override Color Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
@@ -113,14 +117,14 @@ namespace StampImages.App.WPF.Services
 
         public void Save(BaseStamp stamp)
         {
-            if (!File.Exists("./Config"))
+            if (!File.Exists(CONFIG_FILE_DIR))
             {
-                Directory.CreateDirectory("./Config");
+                Directory.CreateDirectory(CONFIG_FILE_DIR);
             }
 
             var json = Serialize(stamp);
 
-            using (var streamWriter = new StreamWriter($"./Config/{stamp.GetType().Name}.json", false, Encoding.UTF8))
+            using (var streamWriter = new StreamWriter(Path.Combine(CONFIG_FILE_DIR, $"{stamp.GetType().Name}.json"), false, Encoding.UTF8))
             {
                 streamWriter.WriteLine(json);
                 streamWriter.Flush();
@@ -129,12 +133,12 @@ namespace StampImages.App.WPF.Services
 
         public BaseStamp Load(Type type)
         {
-            if (!File.Exists($"./Config/{type.Name}.json"))
+            if (!File.Exists(Path.Combine(CONFIG_FILE_DIR, $"{type.Name}.json")))
             {
                 return null;
             }
 
-            using (var streamReader = new StreamReader($"./Config/{type.Name}.json", Encoding.UTF8))
+            using (var streamReader = new StreamReader(Path.Combine(CONFIG_FILE_DIR, $"{type.Name}.json"), Encoding.UTF8))
             {
                 string json = streamReader.ReadToEnd();
                 return Deserialize<BaseStamp>(json, type);
