@@ -5,6 +5,7 @@
     <UseWPF>true</UseWPF>
     <AssemblyName>StampImages.App.WPF</AssemblyName>
     <ApplicationIcon>icon.ico</ApplicationIcon>
+    <StartupObject></StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="icon.png" />

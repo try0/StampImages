@@ -1,0 +1,37 @@
+﻿<Controls:MetroWindow x:Class="StampImages.App.WPF.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:prism="http://prismlibrary.com/"
+        prism:ViewModelLocator.AutoWireViewModel="True"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro" 
+        xmlns:views="clr-namespace:StampImages.App.WPF.Views"
+        TitleCharacterCasing="Normal"
+        ResizeMode="CanMinimize"
+        Icon="/icon.png"
+        Title="{Binding Title.Value}" Height="480" Width="575"
+        >
+
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="バージョン"/>
+        </Menu>
+        <StackPanel Height="430">
+            <Grid x:Name="ContainerGrid" Focusable="True" Height="385" >
+                <TabControl >
+                    <TabItem Header="日付"  Height="30" Controls:HeaderedControlHelper.HeaderFontSize="20" IsSelected="{Binding IsSelectedThreeAreaStamp.Value, Mode=TwoWay}">
+                        <views:StampPanel></views:StampPanel>
+                    </TabItem>
+                    <TabItem  Header="四角形"  Height="30" Controls:HeaderedControlHelper.HeaderFontSize="20"  IsSelected="{Binding IsSelectedSquareStamp.Value, Mode=TwoWay}">
+                        <views:StampPanel></views:StampPanel>
+                    </TabItem>
+                    <TabItem  Header="円形"  Height="30" Controls:HeaderedControlHelper.HeaderFontSize="20"  IsSelected="{Binding IsSelectedCircularStamp.Value, Mode=TwoWay}">
+                        <views:StampPanel></views:StampPanel>
+                    </TabItem>
+                </TabControl>
+            </Grid>
+        </StackPanel>
+    </DockPanel>
+
+
+
+</Controls:MetroWindow>

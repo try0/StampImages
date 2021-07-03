@@ -1,0 +1,20 @@
+﻿<UserControl x:Class="StampImages.App.WPF.Views.SquareStampPropControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:prism="http://prismlibrary.com/"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro" 
+             mc:Ignorable="d" 
+             d:DesignHeight="160" d:DesignWidth="260">
+    <Grid>
+        <TextBox HorizontalAlignment="Left" Margin="0,0,0,0" Text="{Binding Text.Value, Mode=TwoWay}" TextWrapping="Wrap" VerticalAlignment="Top" Width="167"/>
+
+
+        <Controls:NumericUpDown HorizontalAlignment="Left" Margin="170,0,0,0" VerticalAlignment="Top" Value="{Binding FontSize.Value}"/>
+
+
+
+    </Grid>
+</UserControl>
