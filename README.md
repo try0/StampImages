@@ -23,6 +23,7 @@ stampImageFactory.Save(stamp, "./stamp.png");
 StampImageFactory stampImageFactory = new StampImageFactory(new StampImageFactoryConfig());
 var stamp = new SquareStamp
 {
+    Color = Color.DarkCyan,
     EdgeType = StampEdgeType.DOUBLE,
     Text = new StampText { Value = "承認", Size = 60 },
 };
@@ -32,6 +33,6 @@ var bitmap = stampImageFactory.Create(stamp);
 bitmap.Save("./stamp_sq.png", ImageFormat.Png);
 ```
 
-![inkan_sq_256](https://user-images.githubusercontent.com/17096601/123621690-72302400-d846-11eb-96b2-f63a3a75174d.png)
+![inkan_sq_256](https://user-images.githubusercontent.com/17096601/124340915-b5e2af00-dbf3-11eb-9983-e359d25247f6.png)
 
 <!-- ![image](https://user-images.githubusercontent.com/17096601/123366674-91fbe980-d5b3-11eb-9b77-f5f4064f9e82.png) -->
