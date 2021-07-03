@@ -30,6 +30,9 @@
                 <DataTemplate DataType="{x:Type vm:SquareStampPanelViewModel}" >
                     <views:SquareStampPropControl></views:SquareStampPropControl>
                 </DataTemplate>
+                <DataTemplate DataType="{x:Type vm:CircularStampPanelViewModel}" >
+                    <views:CircularStampPropControl></views:CircularStampPropControl>
+                </DataTemplate>
             </ContentControl.Resources>
 
         </ContentControl>

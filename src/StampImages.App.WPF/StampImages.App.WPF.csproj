@@ -25,6 +25,9 @@
     <ProjectReference Include="..\StampImages.Core\StampImages.Core.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="Views\CircularStampPropControl.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\StampPanel.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -36,6 +39,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Update="Views\CircularStampPropControl.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Views\StampPanel.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>

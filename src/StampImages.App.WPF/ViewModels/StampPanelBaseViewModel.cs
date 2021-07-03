@@ -87,7 +87,7 @@ namespace StampImages.App.WPF.ViewModels
         public ReactiveProperty<BitmapSource> StampImageSource { get; } = new ReactiveProperty<BitmapSource>();
 
 
-
+        public DelegateCommand LoadedCommand { get; }
         /// <summary>
         /// 画像コピーコマンド
         /// </summary>
@@ -128,6 +128,7 @@ namespace StampImages.App.WPF.ViewModels
                 UpdateStampImage();
             };
 
+            LoadedCommand = new DelegateCommand(ExecuteLoadedCommand);
             CopyImageCommand = new DelegateCommand(ExecuteCopyImageCommand);
             ClearCommand = new DelegateCommand(ExecuteClearCommand);
             ClearRotationCommand = new DelegateCommand(ExecuteClearRotationCommand);
@@ -173,6 +174,11 @@ namespace StampImages.App.WPF.ViewModels
             RotationAngle.Value = stamp.RotationAngle;
             IsAppendNoise.Value = stamp.EffectTypes.Contains(StampEffectType.NOISE);
             StampColor.Value = Media.Color.FromRgb(stamp.Color.R, stamp.Color.G, stamp.Color.B);
+        }
+
+
+        private void ExecuteLoadedCommand()
+        {
         }
 
         /// <summary>
@@ -378,18 +384,8 @@ namespace StampImages.App.WPF.ViewModels
             stamp.Color = drawingColor;
 
 
-            Bitmap stampImage = null;
-            if (stamp is ThreeAreaCircularStamp)
-            {
-                stampImage = this.stampImageFactory.Create((ThreeAreaCircularStamp)stamp);
-                ConfigurationService.Save((ThreeAreaCircularStamp)stamp);
-            }
-            else if (stamp is SquareStamp)
-            {
-                stampImage = this.stampImageFactory.Create((SquareStamp)stamp);
-                ConfigurationService.Save((SquareStamp)stamp);
-            }
-
+            Bitmap stampImage = this.stampImageFactory.Create(stamp);
+            ConfigurationService.Save(stamp);
 
             Application.Current.Dispatcher.Invoke(() =>
             {

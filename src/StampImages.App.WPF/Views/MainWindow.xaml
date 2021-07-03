@@ -18,10 +18,13 @@
         <StackPanel Height="430">
             <Grid x:Name="ContainerGrid" Focusable="True" Height="385" >
                 <TabControl >
-                    <TabItem Header="丸形"  Height="30" Controls:HeaderedControlHelper.HeaderFontSize="20" IsSelected="{Binding IsSelectedThreeAreaStamp.Value, Mode=TwoWay}">
+                    <TabItem Header="日付"  Height="30" Controls:HeaderedControlHelper.HeaderFontSize="20" IsSelected="{Binding IsSelectedThreeAreaStamp.Value, Mode=TwoWay}">
                         <views:StampPanel></views:StampPanel>
                     </TabItem>
                     <TabItem  Header="四角形"  Height="30" Controls:HeaderedControlHelper.HeaderFontSize="20"  IsSelected="{Binding IsSelectedSquareStamp.Value, Mode=TwoWay}">
+                        <views:StampPanel></views:StampPanel>
+                    </TabItem>
+                    <TabItem  Header="円形"  Height="30" Controls:HeaderedControlHelper.HeaderFontSize="20"  IsSelected="{Binding IsSelectedCircularStamp.Value, Mode=TwoWay}">
                         <views:StampPanel></views:StampPanel>
                     </TabItem>
                 </TabControl>

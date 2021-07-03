@@ -17,15 +17,15 @@ namespace StampImages.App.WPF
             return Container.Resolve<MainWindow>();
         }
 
-        
+
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.Register<IConfigurationService, ConfigurationService>();
 
             containerRegistry.Register<ThreeAreaCircularStampViewModel>();
-            containerRegistry.Register<SquareStampPanelViewModel>();
-
+            containerRegistry.Register<SquareStampPanelViewModel>(); 
+            containerRegistry.Register<CircularStampPanelViewModel>();
         }
     }
 }
