@@ -94,6 +94,32 @@ namespace StampImages.Core
         }
 
         /// <summary>
+        /// イメージを作成します
+        /// </summary>
+        /// <param name="stamp"></param>
+        /// <returns></returns>
+        public Bitmap Create(BaseStamp stamp)
+        {
+
+            if (stamp is ThreeAreaCircularStamp)
+            {
+                return Create((ThreeAreaCircularStamp)stamp);
+            }
+            
+            if (stamp is SquareStamp)
+            {
+                return Create((SquareStamp)stamp);
+            }
+
+            if (stamp is CircularStamp)
+            {
+                return Create((CircularStamp)stamp);
+            }
+
+            throw new ArgumentException();
+        }
+
+        /// <summary>
         /// 
         /// </summary>
         /// <param name="middleString"></param>
