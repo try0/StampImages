@@ -1,9 +1,12 @@
 # StampImages
-印鑑画像 日付印 職印 スタンプ ただの画像
+印鑑画像 日付印 職印 スタンプ ただの画像  
+WPF/画像ファイル 勉強用
 
+## StampImages.Core
 
 netstandard2.0  
 [System.Drawing.Common](https://www.nuget.org/packages/System.Drawing.Common/)
+
 
 
 ```C#
@@ -35,4 +38,18 @@ bitmap.Save("./stamp_sq.png", ImageFormat.Png);
 
 ![inkan_sq_256](https://user-images.githubusercontent.com/17096601/124340915-b5e2af00-dbf3-11eb-9983-e359d25247f6.png)
 
-<!-- ![image](https://user-images.githubusercontent.com/17096601/123366674-91fbe980-d5b3-11eb-9b77-f5f4064f9e82.png) -->
+
+## StampImages.App.WPF
+
+netcoreapp3.1  
+WPF  
+[Prism](https://github.com/PrismLibrary/Prism)  
+[ReactiveProperty](https://github.com/runceel/ReactiveProperty)  
+[MahApps.Metro](https://github.com/MahApps/MahApps.Metro)  
+
+
+
+![StampImages App WPF](https://user-images.githubusercontent.com/17096601/124350613-830adc00-dc30-11eb-9619-f3c16feaa3ab.gif)
+
+<!-- [キャプチャー:ScreenToGif](https://github.com/NickeManarin/ScreenToGif) -->
+
