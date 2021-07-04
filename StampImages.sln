@@ -19,6 +19,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StampImages.App.WPF", "src\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StampImages.App.WPF.NetFramework", "src\StampImages.App.WPF.NetFramework\StampImages.App.WPF.NetFramework.csproj", "{8980FE32-08AB-4026-9E6F-79DBAE59C119}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StampImages.Test.PublishedPackage", "tests\StampImages.Test.PublishedPackage\StampImages.Test.PublishedPackage.csproj", "{120C6E49-97D0-42D6-9D07-0A7109E5B551}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,6 +51,10 @@ Global
 		{8980FE32-08AB-4026-9E6F-79DBAE59C119}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8980FE32-08AB-4026-9E6F-79DBAE59C119}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8980FE32-08AB-4026-9E6F-79DBAE59C119}.Release|Any CPU.Build.0 = Release|Any CPU
+		{120C6E49-97D0-42D6-9D07-0A7109E5B551}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{120C6E49-97D0-42D6-9D07-0A7109E5B551}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{120C6E49-97D0-42D6-9D07-0A7109E5B551}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{120C6E49-97D0-42D6-9D07-0A7109E5B551}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -59,6 +65,7 @@ Global
 		{B714F667-C9DC-4A85-86AA-712C55B7A6B6} = {53E79169-D876-41E6-A466-BA0DF1C564B1}
 		{EEEE4591-7EEE-4BBD-B5AB-B61066F90D7D} = {7082C113-2807-494B-BDCB-BA7AF59D988B}
 		{8980FE32-08AB-4026-9E6F-79DBAE59C119} = {7082C113-2807-494B-BDCB-BA7AF59D988B}
+		{120C6E49-97D0-42D6-9D07-0A7109E5B551} = {53E79169-D876-41E6-A466-BA0DF1C564B1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0ADB583E-F09B-4BFF-8D7B-49AAB7FD8466}
