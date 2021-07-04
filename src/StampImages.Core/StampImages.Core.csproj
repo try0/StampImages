@@ -2,10 +2,30 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Version>0.1.0</Version>
+    <Authors>Ryo Tsunoda</Authors>
+    <Company>Ryo Tsunoda</Company>
+    <Description>スタンプ画像生成 印鑑 職印 日付印</Description>
+    <Copyright>Copyright 2021 Ryo Tsunoda</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/try0/StampImages</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/try0/StampImages</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>image bitmap netstandard seal stamp inkan shokuin</PackageTags>
+    <PackageReleaseNotes>テストリリース</PackageReleaseNotes>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageIcon>icon.png</PackageIcon>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="System.Drawing.Common" Version="5.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\StampImages.App.WPF\icon.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
