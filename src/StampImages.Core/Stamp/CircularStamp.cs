@@ -36,5 +36,13 @@ namespace StampImages.Core
             }
         }
 
+        public override void Dispose()
+        {
+            base.Dispose();
+            if (Text != null)
+            {
+                Text.Dispose();
+            }
+        }
     }
 }

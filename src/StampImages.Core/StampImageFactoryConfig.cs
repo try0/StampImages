@@ -4,7 +4,10 @@ using System.Text;
 
 namespace StampImages.Core
 {
-    public class StampImageFactoryConfig : IDisposable
+    /// <summary>
+    /// ファクトリーコンフィグ
+    /// </summary>
+    public sealed class StampImageFactoryConfig : IDisposable
     {
         public void Dispose()
         {

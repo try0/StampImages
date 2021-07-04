@@ -42,9 +42,12 @@ namespace StampImages.Core
             Value = value;
         }
 
-        public void Dispose()
+        public virtual void Dispose()
         {
-
+            if (FontFamily != null)
+            {
+                FontFamily.Dispose();
+            }
         }
 
 

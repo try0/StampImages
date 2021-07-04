@@ -50,9 +50,10 @@ namespace StampImages.Core
         /// </summary>
         public ICollection<StampEffectType> EffectTypes { get; set; } = new List<StampEffectType>();
 
-
-
-
+        /// <summary>
+        /// 保持する<see cref="StampText"/>のフォントを一括で指定します。
+        /// </summary>
+        /// <param name="fontFamily"></param>
         public abstract void SetFontFamily(FontFamily fontFamily);
 
         public virtual void Dispose()

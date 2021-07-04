@@ -10,7 +10,7 @@ namespace StampImages.Core
     /// <summary>
     /// 職印画像生成処理
     /// </summary>
-    public class StampImageFactory : IDisposable
+    public sealed class StampImageFactory : IDisposable
     {
         /// <summary>
         /// 設定
@@ -75,7 +75,12 @@ namespace StampImages.Core
             Save(texts, fileName);
         }
 
-        public void Save(ThreeAreaCircularStamp stamp, string fileName)
+        /// <summary>
+        /// イメージを保存します
+        /// </summary>
+        /// <param name="stamp"></param>
+        /// <param name="fileName"></param>
+        public void Save(BaseStamp stamp, string fileName)
         {
             StampUtils.RequiredArgument(stamp, "stamp");
             StampUtils.RequiredArgument(fileName, "fileName");
@@ -105,7 +110,7 @@ namespace StampImages.Core
             {
                 return Create((ThreeAreaCircularStamp)stamp);
             }
-            
+
             if (stamp is SquareStamp)
             {
                 return Create((SquareStamp)stamp);
@@ -117,16 +122,6 @@ namespace StampImages.Core
             }
 
             throw new ArgumentException();
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="middleString"></param>
-        /// <returns></returns>
-        public Bitmap Create(string middleString)
-        {
-            return Create(new ThreeAreaCircularStamp { MiddleText = new StampText(middleString) });
         }
 
         /// <summary>
@@ -285,14 +280,18 @@ namespace StampImages.Core
                 AppendNoise(stamp, stampImage);
             }
 
-
-
+            fontBrush.Dispose();
+            edgePen.Dispose();
             graphics.Dispose();
 
             return stampImage;
-
         }
 
+        /// <summary>
+        /// 4角形の印鑑イメージを作成します。
+        /// </summary>
+        /// <param name="stamp"></param>
+        /// <returns></returns>
         public Bitmap Create(SquareStamp stamp)
         {
             StampUtils.RequiredArgument(stamp, "stamp");
@@ -383,14 +382,18 @@ namespace StampImages.Core
             }
 
 
-
+            fontBrush.Dispose();
+            edgePen.Dispose();
             graphics.Dispose();
 
             return stampImage;
-
         }
 
-
+        /// <summary>
+        /// 円形の印鑑イメージを作成します。
+        /// </summary>
+        /// <param name="stamp"></param>
+        /// <returns></returns>
         public Bitmap Create(CircularStamp stamp)
         {
             StampUtils.RequiredArgument(stamp, "stamp");
@@ -488,13 +491,18 @@ namespace StampImages.Core
             }
 
 
-
+            fontBrush.Dispose();
+            edgePen.Dispose();
             graphics.Dispose();
 
             return stampImage;
-
         }
 
+        /// <summary>
+        /// ランダムにノイズを付与します。
+        /// </summary>
+        /// <param name="stamp"></param>
+        /// <param name="stampImage"></param>
         static void AppendNoise(BaseStamp stamp, Bitmap stampImage)
         {
             // TODO 適当だからもっとスタンプ風になる加工あるか調べよ
@@ -519,6 +527,16 @@ namespace StampImages.Core
             }
         }
 
+        /// <summary>
+        /// 丸角の四角形を描画します。
+        /// </summary>
+        /// <param name="graphics"></param>
+        /// <param name="pen"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        /// <param name="radius"></param>
         static void DrawRoundedRectangle(Graphics graphics, Pen pen, int x, int y, int width, int height, int radius)
         {
 
