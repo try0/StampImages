@@ -31,7 +31,7 @@ using (stamp)
 
 ```C#
 StampImageFactory stampImageFactory = new StampImageFactory(new StampImageFactoryConfig());
-var stamp = new SquareStamp
+var stamp = new RectangleStamp
 {
     Color = Color.DarkCyan,
     EdgeType = StampEdgeType.DOUBLE,
