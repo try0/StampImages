@@ -32,7 +32,7 @@ namespace StampImages.App.WPF.ViewModels
 
         private const int MAKER_NOTE_ID = 0x927C;
 
-        private readonly StampImageFactory stampImageFactory = new StampImageFactory(new Core.StampImageFactoryConfig());
+        private readonly StampImageFactory stampImageFactory = new StampImageFactory(new StampImageFactoryConfig());
 
         protected bool isInitialized = false;
 
@@ -88,6 +88,9 @@ namespace StampImages.App.WPF.ViewModels
 
 
         public DelegateCommand LoadedCommand { get; }
+
+        public DelegateCommand UnloadedCommand { get; }
+
         /// <summary>
         /// 画像コピーコマンド
         /// </summary>
@@ -129,6 +132,7 @@ namespace StampImages.App.WPF.ViewModels
             };
 
             LoadedCommand = new DelegateCommand(ExecuteLoadedCommand);
+            UnloadedCommand = new DelegateCommand(ExecuteUnloadedCommnad);
             CopyImageCommand = new DelegateCommand(ExecuteCopyImageCommand);
             ClearCommand = new DelegateCommand(ExecuteClearCommand);
             ClearRotationCommand = new DelegateCommand(ExecuteClearRotationCommand);
@@ -140,6 +144,7 @@ namespace StampImages.App.WPF.ViewModels
             if (stamp != null)
             {
                 LoadStamp(stamp);
+                stamp.Dispose();
             }
 
             IsDoubleStampEdge.Subscribe(_ => RequestUpdateStampImage());
@@ -164,6 +169,13 @@ namespace StampImages.App.WPF.ViewModels
             UpdateStampImage();
         }
 
+
+        /// <summary>
+        /// スタンプデータを生成します。
+        /// </summary>
+        /// <returns></returns>
+        protected abstract BaseStamp NewStamp();
+
         /// <summary>
         /// 保存されているスタンププロパティーを復元します。
         /// </summary>
@@ -176,8 +188,17 @@ namespace StampImages.App.WPF.ViewModels
             StampColor.Value = Media.Color.FromRgb(stamp.Color.R, stamp.Color.G, stamp.Color.B);
         }
 
-
+        /// <summary>
+        /// 画面ロードコマンド
+        /// </summary>
         private void ExecuteLoadedCommand()
+        {
+        }
+
+        /// <summary>
+        /// 画面アンロードコマンド
+        /// </summary>
+        private void ExecuteUnloadedCommnad()
         {
         }
 
@@ -191,13 +212,14 @@ namespace StampImages.App.WPF.ViewModels
                 return;
             }
 
-            var resized = this.stampImageFactory.Resize(StampImage.Value, 128, 128);
-
-            PngBitmapEncoder pngEnc = GetEncoder(resized);
-            using (var ms = new MemoryStream())
+            using (var resized = this.stampImageFactory.Resize(StampImage.Value, 128, 128))
             {
-                pngEnc.Save(ms);
-                Clipboard.SetData("PNG", ms);
+                PngBitmapEncoder pngEnc = GetEncoder(resized);
+                using (var ms = new MemoryStream())
+                {
+                    pngEnc.Save(ms);
+                    Clipboard.SetData("PNG", ms);
+                }
             }
 
             new ToastContentBuilder()
@@ -277,21 +299,22 @@ namespace StampImages.App.WPF.ViewModels
         {
             if (e.LeftButton == MouseButtonState.Pressed)
             {
+                using (var resized = stampImageFactory.Resize(StampImage.Value, 128, 128))
+                {
 
-                var resized = stampImageFactory.Resize(StampImage.Value, 128, 128);
+                    var tempPath = Path.GetTempPath();
+                    Directory.CreateDirectory(tempPath);
 
-                var tempPath = Path.GetTempPath();
-                Directory.CreateDirectory(tempPath);
+                    var imagePath = Path.Combine(tempPath, $"stamp-{DateTime.Now.ToString("yyyyMMddHHmmss")}.png");
 
-                var imagePath = Path.Combine(tempPath, $"stamp-{DateTime.Now.ToString("yyyyMMddHHmmss")}.png");
+                    SaveStampImage(resized, imagePath);
 
-                SaveStampImage(resized, imagePath);
+                    string[] files = new string[1];
+                    files[0] = imagePath;
+                    DataObject data = new DataObject(DataFormats.FileDrop, files);
 
-                string[] files = new string[1];
-                files[0] = imagePath;
-                DataObject data = new DataObject(DataFormats.FileDrop, files);
-
-                DragDrop.DoDragDrop(new UIElement(), data, DragDropEffects.Move);
+                    DragDrop.DoDragDrop(new UIElement(), data, DragDropEffects.Move);
+                }
             }
         }
 
@@ -343,6 +366,7 @@ namespace StampImages.App.WPF.ViewModels
                 if (stamp != null)
                 {
                     LoadStamp(stamp);
+                    stamp.Dispose();
                 }
 
             }
@@ -358,7 +382,6 @@ namespace StampImages.App.WPF.ViewModels
             }
         }
 
-        protected abstract BaseStamp NewStamp();
 
         /// <summary>
         /// プレビュー画像を更新します。
@@ -391,6 +414,16 @@ namespace StampImages.App.WPF.ViewModels
 
             Application.Current.Dispatcher.Invoke(() =>
             {
+                if (Stamp.Value != null)
+                {
+                    Stamp.Value.Dispose();
+                }
+
+                if (StampImage.Value != null)
+                {
+                    StampImage.Value.Dispose();
+                }
+
                 Stamp.Value = stamp;
                 StampImage.Value = stampImage;
             });

@@ -1,10 +1,7 @@
-﻿using Prism.Mvvm;
-using Reactive.Bindings;
+﻿using Reactive.Bindings;
 using StampImages.App.WPF.Services;
 using StampImages.Core;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace StampImages.App.WPF.ViewModels
 {

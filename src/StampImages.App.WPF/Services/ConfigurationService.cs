@@ -18,21 +18,21 @@ namespace StampImages.App.WPF.Services
         /// スタンプデータを保存します
         /// </summary>
         /// <param name="stamp"></param>
-        public void Save(BaseStamp stamp);
+        void Save(BaseStamp stamp);
 
         /// <summary>
         /// 保存してあるスタンプデータをロードします
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
-        public BaseStamp Load(Type type);
+        BaseStamp Load(Type type);
 
         /// <summary>
         /// スタンプデータをシリアライズします
         /// </summary>
         /// <param name="stamp"></param>
         /// <returns></returns>
-        public string Serialize(BaseStamp stamp);
+        string Serialize(BaseStamp stamp);
 
         /// <summary>
         /// スタンプデータをデシリアライズします
@@ -41,7 +41,7 @@ namespace StampImages.App.WPF.Services
         /// <param name="json"></param>
         /// <param name="type"></param>
         /// <returns></returns>
-        public T Deserialize<T>(string json, Type type = null) where T : BaseStamp;
+        T Deserialize<T>(string json, Type type = null) where T : BaseStamp;
 
     }
 
@@ -57,7 +57,7 @@ namespace StampImages.App.WPF.Services
         {
             public override Color Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
             {
-                string[] rgb = reader.GetString().Split(",");
+                string[] rgb = reader.GetString().Split(',');
                 if (rgb.Length != 3)
                 {
                     return BaseStamp.DEFAULT_STAMP_COLOR;
