@@ -59,7 +59,7 @@ WPF
 
 
 
-![StampImages App WPF](https://user-images.githubusercontent.com/17096601/124350613-830adc00-dc30-11eb-9619-f3c16feaa3ab.gif)
+![StampImages App WPF](https://user-images.githubusercontent.com/17096601/124384844-1960ff80-dd0e-11eb-90a6-54da2271038a.gif)
 
 <!-- [キャプチャー:ScreenToGif](https://github.com/NickeManarin/ScreenToGif) -->
 
