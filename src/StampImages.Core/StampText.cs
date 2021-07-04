@@ -8,7 +8,7 @@ namespace StampImages.Core
 {
     public class StampText : IDisposable
     {
-        public static readonly FontFamily DEFAULT_FONT_FAMILY = new FontFamily("MS UI Gothic");
+        public static FontFamily GetDefaultFontFamily() => new FontFamily("MS UI Gothic");
 
 
         /// <summary>
@@ -22,7 +22,7 @@ namespace StampImages.Core
         /// <summary>
         /// フォント
         /// </summary>
-        public FontFamily FontFamily { get; set; } = DEFAULT_FONT_FAMILY;
+        public FontFamily FontFamily { get; set; } = GetDefaultFontFamily();
 
 
 

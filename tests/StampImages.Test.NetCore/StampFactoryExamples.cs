@@ -12,8 +12,16 @@ namespace StampImages.Test.NetCore
 
         StampImageFactory stampImageFactory = new StampImageFactory(new Core.StampImageFactoryConfig());
 
+        ~StampFactoryExamples()
+        {
+            stampImageFactory.Dispose();
+        }
+
+        /// <summary>
+        /// 日付スタンプ出力
+        /// </summary>
         [TestMethod]
-        public void ExampleCreateStamp()
+        public void ExampleCreateThreeAreaCircularStamp()
         {
             var stamp = new ThreeAreaCircularStamp
             {
@@ -21,9 +29,57 @@ namespace StampImages.Test.NetCore
                 MiddleText = new StampText { Value = DateTime.Now.ToString("yyyy.MM.dd"), Size = 30 },
                 BottomText = new StampText { Value = "ユーザー名", Size = 25 }
             };
-            stampImageFactory.Save(stamp, "./inkan_256.png");
+
+            using (stamp)
+            {
+                stampImageFactory.Save(stamp, "./inkan_256.png");
+            }
         }
 
+        /// <summary>
+        /// 四角形スタンプ出力
+        /// </summary>
+        [TestMethod]
+        public void ExampleCreateSquareStamp()
+        {
+            var stamp = new SquareStamp
+            {
+                EdgeType = StampEdgeType.DOUBLE,
+                TextOrientationType = TextOrientationType.VERTICAL,
+                Text = new StampText { Value = "承認", Size = 60 },
+            };
+            stamp.EffectTypes.Add(StampEffectType.NOISE);
+
+            using (stamp)
+            using (var bitmap = stampImageFactory.Create(stamp))
+            {
+                bitmap.Save("./inkan_sq_256.png");
+            }
+        }
+
+        /// <summary>
+        /// 円形スタンプ出力
+        /// </summary>
+        [TestMethod]
+        public void ExampleCreateCircularStamp()
+        {
+            var stamp = new CircularStamp
+            {
+                Text = new StampText { Value = "承認", Size = 60 },
+            };
+
+            using (stamp)
+            using (var bitmap = stampImageFactory.Create(stamp))
+            {
+                bitmap.Save("./inkan_circular_256.png");
+            }
+        }
+
+
+
+        /// <summary>
+        /// リサイズ
+        /// </summary>
         [TestMethod]
         public void ExampleResizeStamp()
         {
@@ -34,14 +90,12 @@ namespace StampImages.Test.NetCore
                 BottomText = new StampText { Value = "ユーザー名", Size = 25 }
             };
 
-
-            Bitmap stampImage = stampImageFactory.Create(stamp);
-            Bitmap resized = stampImageFactory.Resize(stampImage, 128, 128);
-
-            resized.Save("./inkan_128.png", ImageFormat.Png);
-
-            stampImage.Dispose();
-            resized.Dispose();
+            using (stamp)
+            using (Bitmap stampImage = stampImageFactory.Create(stamp))
+            using (Bitmap resized = stampImageFactory.Resize(stampImage, 128, 128))
+            {
+                resized.Save("./inkan_128.png", ImageFormat.Png);
+            }
 
         }
     }
