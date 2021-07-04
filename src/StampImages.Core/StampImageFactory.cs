@@ -97,7 +97,7 @@ namespace StampImages.Core
                 return Create(threeAreaCircularStamp);
             }
 
-            if (stamp is SquareStamp squareStamp)
+            if (stamp is RectangleStamp squareStamp)
             {
                 return Create(squareStamp);
             }
@@ -279,7 +279,7 @@ namespace StampImages.Core
         /// </summary>
         /// <param name="stamp"></param>
         /// <returns></returns>
-        public Bitmap Create(SquareStamp stamp)
+        public Bitmap Create(RectangleStamp stamp)
         {
             StampUtils.RequiredArgument(stamp, "stamp");
 

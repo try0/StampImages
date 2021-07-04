@@ -9,7 +9,7 @@ namespace StampImages.App.WPF.ViewModels
     public class SquareStampPanelViewModel : StampPanelBaseViewModel
     {
 
-        protected override Type StampType => typeof(SquareStamp);
+        protected override Type StampType => typeof(RectangleStamp);
 
         /// <summary>
         /// スタンプテキスト
@@ -37,7 +37,7 @@ namespace StampImages.App.WPF.ViewModels
         protected override void LoadStamp(BaseStamp stamp)
         {
             base.LoadStamp(stamp);
-            SquareStamp myStamp = (SquareStamp)stamp;
+            RectangleStamp myStamp = (RectangleStamp)stamp;
 
             Text.Value = myStamp.Text.Value;
             FontSize.Value = myStamp.Text.Size;
@@ -46,7 +46,7 @@ namespace StampImages.App.WPF.ViewModels
 
         protected override BaseStamp NewStamp()
         {
-            var stamp = new SquareStamp()
+            var stamp = new RectangleStamp()
             {
                 Text = new StampText()
                 {

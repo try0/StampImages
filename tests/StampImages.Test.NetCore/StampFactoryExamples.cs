@@ -42,7 +42,7 @@ namespace StampImages.Test.NetCore
         [TestMethod]
         public void ExampleCreateSquareStamp()
         {
-            var stamp = new SquareStamp
+            var stamp = new RectangleStamp
             {
                 EdgeType = StampEdgeType.DOUBLE,
                 TextOrientationType = TextOrientationType.VERTICAL,

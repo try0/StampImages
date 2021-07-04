@@ -42,7 +42,7 @@ namespace StampImages.Test.NetFramework
         [TestMethod]
         public void ExampleCreateSquareStamp()
         {
-            var stamp = new SquareStamp
+            var stamp = new RectangleStamp
             {
                 EdgeType = StampEdgeType.DOUBLE,
                 TextOrientationType = TextOrientationType.VERTICAL,
@@ -60,7 +60,7 @@ namespace StampImages.Test.NetFramework
         [TestMethod]
         public void ExampleCreateRectangleStamp()
         {
-            var stamp = new SquareStamp
+            var stamp = new RectangleStamp
             {
                 Size = new Size(512, 180),
                 EdgeType = StampEdgeType.SINGLE,

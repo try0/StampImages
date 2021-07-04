@@ -8,7 +8,7 @@ namespace StampImages.Core
     /// <summary>
     /// 四角形のスタンプ
     /// </summary>
-    public class SquareStamp : BaseStamp
+    public class RectangleStamp : BaseStamp
     {
         /// <summary>
         /// テキスト
@@ -29,7 +29,7 @@ namespace StampImages.Core
         /// <summary>
         /// コンストラクター
         /// </summary>
-        public SquareStamp() : base()
+        public RectangleStamp() : base()
         {
         }
 
