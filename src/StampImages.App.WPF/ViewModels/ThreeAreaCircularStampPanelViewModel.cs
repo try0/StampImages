@@ -1,21 +1,7 @@
-﻿using Microsoft.Toolkit.Uwp.Notifications;
-using Microsoft.Win32;
-using Prism.Commands;
-using Prism.Mvvm;
-using Reactive.Bindings;
+﻿using Reactive.Bindings;
 using StampImages.Core;
 using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
 using System.Reactive.Linq;
-using System.Runtime.CompilerServices;
-using System.Windows;
-using System.Windows.Interop;
-using Media = System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Threading;
-using System.Windows.Media;
 using StampImages.App.WPF.Services;
 
 namespace StampImages.App.WPF.ViewModels

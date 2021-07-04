@@ -6,16 +6,8 @@ using Reactive.Bindings;
 using StampImages.Core;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
 using System.Reactive.Linq;
-using System.Runtime.CompilerServices;
-using System.Windows;
-using System.Windows.Interop;
-using Media = System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Threading;
-using System.Windows.Media;
+
 
 namespace StampImages.App.WPF.ViewModels
 {
