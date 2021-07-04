@@ -61,20 +61,6 @@ namespace StampImages.Core
             return canvas;
         }
 
-        public void Save(string topString, string middleString, string bottomString, string fileName)
-        {
-            StampUtils.RequiredArgument(fileName, "fileName");
-
-            var texts = new ThreeAreaCircularStamp
-            {
-                TopText = new StampText(topString),
-                MiddleText = new StampText(middleString),
-                BottomText = new StampText(bottomString)
-            };
-
-            Save(texts, fileName);
-        }
-
         /// <summary>
         /// イメージを保存します
         /// </summary>
@@ -106,19 +92,19 @@ namespace StampImages.Core
         public Bitmap Create(BaseStamp stamp)
         {
 
-            if (stamp is ThreeAreaCircularStamp)
+            if (stamp is ThreeAreaCircularStamp threeAreaCircularStamp)
             {
-                return Create((ThreeAreaCircularStamp)stamp);
+                return Create(threeAreaCircularStamp);
             }
 
-            if (stamp is SquareStamp)
+            if (stamp is SquareStamp squareStamp)
             {
-                return Create((SquareStamp)stamp);
+                return Create(squareStamp);
             }
 
-            if (stamp is CircularStamp)
+            if (stamp is CircularStamp circularStamp)
             {
-                return Create((CircularStamp)stamp);
+                return Create(circularStamp);
             }
 
             throw new ArgumentException();
