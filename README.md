@@ -2,7 +2,8 @@
 印鑑画像 日付印 職印 スタンプ ただの画像  
 WPF/画像ファイル 勉強用
 
-## StampImages.Core
+
+## StampImages.Core  [NuGet 0.1.0](https://www.nuget.org/packages/StampImages.Core/0.1.0)
 
 netstandard2.0  
 [System.Drawing.Common](https://www.nuget.org/packages/System.Drawing.Common/)
