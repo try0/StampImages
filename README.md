@@ -5,7 +5,7 @@ WPF/画像ファイル 勉強用
 
 ## StampImages.Core  
 
-![Nuget](https://img.shields.io/nuget/v/StampImages.Core)
+[![Nuget](https://img.shields.io/nuget/v/StampImages.Core)](https://www.nuget.org/packages/StampImages.Core/)
 
 netstandard2.0  
 [System.Drawing.Common](https://www.nuget.org/packages/System.Drawing.Common/)
