@@ -140,6 +140,7 @@ namespace StampImages.App.WPF.ViewModels
             if (stamp != null)
             {
                 LoadStamp(stamp);
+                stamp.Dispose();
             }
 
             IsDoubleStampEdge.Subscribe(_ => RequestUpdateStampImage());
@@ -191,12 +192,15 @@ namespace StampImages.App.WPF.ViewModels
                 return;
             }
 
-            var resized = this.stampImageFactory.Resize(StampImage.Value, 128, 128);
-
-            PngBitmapEncoder pngEnc = GetEncoder(resized);
-            using var ms = new MemoryStream();
-            pngEnc.Save(ms);
-            Clipboard.SetData("PNG", ms);
+            using (var resized = this.stampImageFactory.Resize(StampImage.Value, 128, 128))
+            {
+                PngBitmapEncoder pngEnc = GetEncoder(resized);
+                using (var ms = new MemoryStream())
+                {
+                    pngEnc.Save(ms);
+                    Clipboard.SetData("PNG", ms);
+                }
+            }
 
             new ToastContentBuilder()
                 .AddAudio(new ToastAudio() { Silent = true })
@@ -275,21 +279,22 @@ namespace StampImages.App.WPF.ViewModels
         {
             if (e.LeftButton == MouseButtonState.Pressed)
             {
+                using (var resized = stampImageFactory.Resize(StampImage.Value, 128, 128))
+                {
 
-                var resized = stampImageFactory.Resize(StampImage.Value, 128, 128);
+                    var tempPath = Path.GetTempPath();
+                    Directory.CreateDirectory(tempPath);
 
-                var tempPath = Path.GetTempPath();
-                Directory.CreateDirectory(tempPath);
+                    var imagePath = Path.Combine(tempPath, $"stamp-{DateTime.Now.ToString("yyyyMMddHHmmss")}.png");
 
-                var imagePath = Path.Combine(tempPath, $"stamp-{DateTime.Now.ToString("yyyyMMddHHmmss")}.png");
+                    SaveStampImage(resized, imagePath);
 
-                SaveStampImage(resized, imagePath);
+                    string[] files = new string[1];
+                    files[0] = imagePath;
+                    DataObject data = new DataObject(DataFormats.FileDrop, files);
 
-                string[] files = new string[1];
-                files[0] = imagePath;
-                DataObject data = new DataObject(DataFormats.FileDrop, files);
-
-                DragDrop.DoDragDrop(new UIElement(), data, DragDropEffects.Move);
+                    DragDrop.DoDragDrop(new UIElement(), data, DragDropEffects.Move);
+                }
             }
         }
 
@@ -341,6 +346,7 @@ namespace StampImages.App.WPF.ViewModels
                 if (stamp != null)
                 {
                     LoadStamp(stamp);
+                    stamp.Dispose();
                 }
 
             }
@@ -389,6 +395,16 @@ namespace StampImages.App.WPF.ViewModels
 
             Application.Current.Dispatcher.Invoke(() =>
             {
+                if (Stamp.Value != null)
+                {
+                    Stamp.Value.Dispose();
+                }
+
+                if (StampImage.Value != null)
+                {
+                    StampImage.Value.Dispose();
+                }
+
                 Stamp.Value = stamp;
                 StampImage.Value = stampImage;
             });
@@ -435,8 +451,10 @@ namespace StampImages.App.WPF.ViewModels
         private void SaveStampImage(Bitmap bitmap, string imagePath)
         {
             PngBitmapEncoder pngEnc = GetEncoder(bitmap);
-            using FileStream fs = new FileStream(imagePath, FileMode.Create);
-            pngEnc.Save(fs);
+            using (FileStream fs = new FileStream(imagePath, FileMode.Create))
+            {
+                pngEnc.Save(fs);
+            }
         }
 
         private BitmapSource ConvertToBitmapSource(Bitmap bitmap)
