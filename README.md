@@ -17,7 +17,11 @@ var stamp = new ThreeAreaCircularStamp
     MiddleText = new StampText { Value = DateTime.Now.ToString("yyyy.MM.dd"), Size = 30 },
     BottomText = new StampText { Value = "ユーザー名", Size = 25 }
 };
-stampImageFactory.Save(stamp, "./stamp.png");
+
+using (stamp)
+{
+    stampImageFactory.Save(stamp, "./stamp.png");
+}
 ```
 ![inkan_128](https://user-images.githubusercontent.com/17096601/123622146-df43b980-d846-11eb-9613-b4641b14fd77.png)
 
@@ -32,8 +36,11 @@ var stamp = new SquareStamp
 };
 stamp.EffectTypes.Add(StampEffectType.NOISE);
 
-var bitmap = stampImageFactory.Create(stamp);
-bitmap.Save("./stamp_sq.png", ImageFormat.Png);
+using (stamp)
+using (var bitmap = stampImageFactory.Create(stamp))
+{
+    bitmap.Save("./stamp_sq.png", ImageFormat.Png);
+}
 ```
 
 ![inkan_sq_256](https://user-images.githubusercontent.com/17096601/124340915-b5e2af00-dbf3-11eb-9983-e359d25247f6.png)
