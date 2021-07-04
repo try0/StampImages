@@ -119,8 +119,9 @@ namespace StampImages.Core
         {
             StampUtils.RequiredArgument(stamp, "stamp");
 
-            int imageHeight = stamp.Size.Height;
+
             int imageWidth = stamp.Size.Width;
+            int imageHeight = stamp.Size.Height;
             Pen edgePen = new Pen(stamp.Color)
             {
                 Width = stamp.EdgeWidth
@@ -134,8 +135,8 @@ namespace StampImages.Core
             graphics.SmoothingMode = SmoothingMode.HighQuality;
 
             // 回転
-            int halfImageHeight = imageHeight / 2;
             int halfImageWidth = imageWidth / 2;
+            int halfImageHeight = imageHeight / 2;
 
             graphics.TranslateTransform(-halfImageWidth, -halfImageHeight);
             graphics.RotateTransform(-stamp.RotationAngle, MatrixOrder.Append);
@@ -227,7 +228,7 @@ namespace StampImages.Core
             {
                 Font font = new Font(middleText.FontFamily, middleText.Size);
                 SizeF middleStringSize = graphics.MeasureString(middleText.Value, font);
-                int middleStringY = imageWidth / 2;
+                int middleStringY = imageHeight / 2;
                 graphics.DrawString(middleText.Value, font, fontBrush, stringX, middleStringY, sf);
 
 #if DEBUG
@@ -282,8 +283,9 @@ namespace StampImages.Core
         {
             StampUtils.RequiredArgument(stamp, "stamp");
 
-            int imageHeight = stamp.Size.Height;
             int imageWidth = stamp.Size.Width;
+            int imageHeight = stamp.Size.Height;
+ 
             Pen edgePen = new Pen(stamp.Color)
             {
                 Width = stamp.EdgeWidth
@@ -297,16 +299,17 @@ namespace StampImages.Core
             graphics.SmoothingMode = SmoothingMode.HighQuality;
 
             // 回転
-            int halfImageHeight = imageHeight / 2;
             int halfImageWidth = imageWidth / 2;
+            int halfImageHeight = imageHeight / 2;
+
 
             graphics.TranslateTransform(-halfImageWidth, -halfImageHeight);
             graphics.RotateTransform(-stamp.RotationAngle, MatrixOrder.Append);
             graphics.TranslateTransform(halfImageWidth, halfImageHeight, MatrixOrder.Append);
 
             // 半径
-            int stampHeight = (imageWidth - (imageWidth / 20));
-            int stampWidth = (imageHeight - (imageHeight / 20));
+            int stampWidth = (imageWidth - (imageWidth / 20));
+            int stampHeight = (imageHeight - (imageHeight / 20));
 
             int outerSpaceX = (imageWidth - stampWidth) / 2;
             int outerSpaceY = (imageHeight - stampHeight) / 2;
@@ -354,7 +357,7 @@ namespace StampImages.Core
             if (stampText != null)
             {
                 Font font = new Font(stampText.FontFamily, stampText.Size);
-                int stringY = imageWidth / 2;
+                int stringY = imageHeight / 2;
                 graphics.DrawString(stampText.Value, font, fontBrush, stringX, stringY, sf);
             }
 
@@ -384,8 +387,8 @@ namespace StampImages.Core
         {
             StampUtils.RequiredArgument(stamp, "stamp");
 
-            int imageHeight = stamp.Size.Height;
             int imageWidth = stamp.Size.Width;
+            int imageHeight = stamp.Size.Height;
             Pen edgePen = new Pen(stamp.Color)
             {
                 Width = stamp.EdgeWidth
@@ -399,8 +402,8 @@ namespace StampImages.Core
             graphics.SmoothingMode = SmoothingMode.HighQuality;
 
             // 回転
-            int halfImageHeight = imageHeight / 2;
             int halfImageWidth = imageWidth / 2;
+            int halfImageHeight = imageHeight / 2;
 
             graphics.TranslateTransform(-halfImageWidth, -halfImageHeight);
             graphics.RotateTransform(-stamp.RotationAngle, MatrixOrder.Append);
@@ -449,7 +452,7 @@ namespace StampImages.Core
             {
                 Font font = new Font(stampText.FontFamily, stampText.Size);
                 SizeF size = graphics.MeasureString(stampText.Value, font);
-                int stringY = imageWidth / 2;
+                int stringY = imageHeight / 2;
                 graphics.DrawString(stampText.Value, font, fontBrush, stringX, stringY, sf);
 
 #if DEBUG

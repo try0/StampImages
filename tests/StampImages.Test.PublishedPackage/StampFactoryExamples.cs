@@ -57,6 +57,25 @@ namespace StampImages.Test.NetFramework
             }
         }
 
+        [TestMethod]
+        public void ExampleCreateRectangleStamp()
+        {
+            var stamp = new SquareStamp
+            {
+                Size = new Size(512, 256),
+                EdgeType = StampEdgeType.DOUBLE,
+                TextOrientationType = TextOrientationType.VERTICAL,
+                Text = new StampText { Value = "SOLD OUT", Size = 60 },
+            };
+            stamp.EffectTypes.Add(StampEffectType.NOISE);
+
+            using (stamp)
+            using (var bitmap = stampImageFactory.Create(stamp))
+            {
+                bitmap.Save("./stamp_sold_out.png");
+            }
+        }
+
         /// <summary>
         /// 円形スタンプ出力
         /// </summary>
