@@ -203,14 +203,14 @@ namespace StampImages.Core
             sf.Alignment = StringAlignment.Center;
 
             Brush fontBrush = new SolidBrush(stamp.Color);
-            int stringX = imageWidth / 2;
+            float stringX = imageWidth / 2;
             // 上段テキスト
             StampText topText = stamp.TopText;
             if (topText != null)
             {
                 Font font = new Font(topText.FontFamily, topText.Size);
                 SizeF topStringSize = graphics.MeasureString(topText.Value, font);
-                int topStringY = (int)Math.Round(topLineY - topStringSize.Height / 2 - stamp.TopBottomTextOffset);
+                float topStringY = topLineY - topStringSize.Height / 2 - stamp.TopBottomTextOffset;
                 graphics.DrawString(topText.Value, font, fontBrush, stringX, topStringY, sf);
 
 
@@ -228,7 +228,7 @@ namespace StampImages.Core
             {
                 Font font = new Font(middleText.FontFamily, middleText.Size);
                 SizeF middleStringSize = graphics.MeasureString(middleText.Value, font);
-                int middleStringY = imageHeight / 2;
+                float middleStringY = imageHeight / 2;
                 graphics.DrawString(middleText.Value, font, fontBrush, stringX, middleStringY, sf);
 
 #if DEBUG
@@ -245,7 +245,7 @@ namespace StampImages.Core
             {
                 Font font = new Font(bottomText.FontFamily, bottomText.Size);
                 SizeF bottomStringSize = graphics.MeasureString(bottomText.Value, font);
-                int bottomStringY = (int)Math.Round(bottomLineY + bottomStringSize.Height / 2 + stamp.TopBottomTextOffset);
+                float bottomStringY = (int)Math.Round(bottomLineY + bottomStringSize.Height / 2 + stamp.TopBottomTextOffset);
                 graphics.DrawString(bottomText.Value, font, fontBrush, stringX, bottomStringY, sf);
 
 #if DEBUG
@@ -351,13 +351,13 @@ namespace StampImages.Core
             sf.Alignment = StringAlignment.Center;
 
             Brush fontBrush = new SolidBrush(stamp.Color);
-            int stringX = imageWidth / 2;
+            float stringX = imageWidth / 2;
 
             StampText stampText = stamp.Text;
             if (stampText != null)
             {
                 Font font = new Font(stampText.FontFamily, stampText.Size);
-                int stringY = imageHeight / 2;
+                float stringY = imageHeight / 2;
                 graphics.DrawString(stampText.Value, font, fontBrush, stringX, stringY, sf);
             }
 
@@ -445,14 +445,14 @@ namespace StampImages.Core
             sf.Alignment = StringAlignment.Center;
 
             Brush fontBrush = new SolidBrush(stamp.Color);
-            int stringX = imageWidth / 2;
+            float stringX = imageWidth / 2;
 
             StampText stampText = stamp.Text;
             if (stampText != null)
             {
                 Font font = new Font(stampText.FontFamily, stampText.Size);
                 SizeF size = graphics.MeasureString(stampText.Value, font);
-                int stringY = imageHeight / 2;
+                float stringY = imageHeight / 2;
                 graphics.DrawString(stampText.Value, font, fontBrush, stringX, stringY, sf);
 
 #if DEBUG
