@@ -63,3 +63,11 @@ WPF
 
 <!-- [キャプチャー:ScreenToGif](https://github.com/NickeManarin/ScreenToGif) -->
 
+
+## StampImages.WebApp.Blazor
+
+netcoreapp3.1  
+Blazor(Server-Side)  
+
+![image](https://user-images.githubusercontent.com/17096601/124499935-cc5a5780-ddf9-11eb-8eaf-8a212c09da1a.png)
+
