@@ -1,0 +1,107 @@
+﻿@page "/"
+
+@using StampImages.Core
+@using System.IO
+@using System.Drawing
+@using StampImages.WebApp.Blazor.Models
+
+<h1 style="color:@Model.ColorHexValue">StampImages</h1>
+
+<div>
+
+    <div class="ui grid">
+
+        <div class="row">
+            <!-- base64でスタンプデータを描画します -->
+            <img src="data:image/png;base64, @(Convert.ToBase64String(@GetStampImageData()))" class="ui bordered image segment" style="padding: .5em;" />
+        </div>
+
+        <div class="row">
+            <div class="ui fulid segment sixteen column">
+                <EditForm Model="@Model" class="ui form">
+
+                    <div class="two fields">
+
+                        <div class="field">
+                            <label>スタンプカラー</label>
+                            <input type="color" @bind-value="@Model.ColorHexValue" class="ui input" style="height: 38px;" />
+                        </div>
+
+                        <div class="field">
+                            <label>エッジ</label>
+                            <InputSelect @bind-Value="@Model.EdgeType" class="ui dropdown">
+                                @foreach (var value in Enum.GetValues(typeof(StampEdgeType)))
+                                {
+                                    <option>@value</option>
+                                }
+                            </InputSelect>
+                        </div>
+
+                    </div>
+                    <button @onclick="OnClickRefreshButton" class="ui button">Refresh</button>
+
+                </EditForm>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+@inject IJSRuntime JS
+@code
+{
+
+
+    /// <summary>
+    /// ページモデル
+    /// </summary>
+    private StampModel Model { get; set; } = new StampModel();
+
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        base.OnAfterRender(firstRender);
+
+        JS.InvokeVoidAsync("buildSemanticComponents");
+    }
+
+    /// <summary>
+    /// スタンプのイメージデータを生成・取得します。
+    /// </summary>
+    /// <returns></returns>
+    public byte[] GetStampImageData()
+    {
+        StampImageFactory imageFactory = new StampImageFactory();
+        var stamp = new ThreeAreaCircularStamp
+        {
+            Color = Model.Color,
+            EdgeType = Model.EdgeType,
+            TopText = new StampText { Value = "StampImages", Size = 23 },
+            MiddleText = new StampText { Value = DateTime.Now.ToString("yyyy.MM.dd"), Size = 30 },
+            BottomText = new StampText { Value = DateTime.Now.ToString("HH:mm:ss"), Size = 27 },
+        };
+
+        using (stamp)
+        using (var bitmap = imageFactory.Resize(imageFactory.Create(stamp), 128, 128))
+        using (var ms = new MemoryStream())
+        {
+            bitmap.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+            return ms.ToArray();
+        }
+    }
+
+
+
+    /// <summary>
+    /// ページを再描画します。
+    /// </summary>
+    public void OnClickRefreshButton()
+    {
+        this.StateHasChanged();
+    }
+
+}
