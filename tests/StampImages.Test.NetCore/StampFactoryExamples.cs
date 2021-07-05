@@ -66,7 +66,7 @@ namespace StampImages.Test.NetCore
                 EdgeType = StampEdgeType.SINGLE,
                 EdgeWidth = 10,
                 EdgeRadius = 0,
-                Text = new StampText { Value = "SOLD OUT", Size = 70 },
+                Text = new StampText { Value = "SOLD OUT", Size = 70, IsIgnoreFontDescent = false },
             };
             stamp.EffectTypes.Add(StampEffectType.NOISE);
 
