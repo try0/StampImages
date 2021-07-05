@@ -3,7 +3,7 @@
 WPF/画像ファイル 勉強用
 
 
-## StampImages.Core  
+## [StampImages.Core](https://github.com/try0/StampImages/tree/main/src/StampImages.Core)  
 
 [![Nuget](https://img.shields.io/nuget/v/StampImages.Core)](https://www.nuget.org/packages/StampImages.Core/)
 
@@ -49,7 +49,7 @@ using (var bitmap = stampImageFactory.Create(stamp))
 ![stamp-20210705222034](https://user-images.githubusercontent.com/17096601/124477687-429d9080-dddf-11eb-9e29-b7225389f8ce.png)
 
 
-## StampImages.App.WPF
+## [StampImages.App.WPF](https://github.com/try0/StampImages/tree/main/src/StampImages.App.WPF)
 
 netcoreapp3.1  
 WPF  
@@ -64,10 +64,12 @@ WPF
 <!-- [キャプチャー:ScreenToGif](https://github.com/NickeManarin/ScreenToGif) -->
 
 
-## StampImages.WebApp.Blazor
+## [StampImages.WebApp.Blazor](https://github.com/try0/StampImages/tree/main/src/StampImages.WebApp.Blazor)
 
 netcoreapp3.1  
 Blazor(Server-Side)  
 
+
+[Index.razor](https://github.com/try0/StampImages/blob/main/src/StampImages.WebApp.Blazor/Pages/Index.razor)
 ![image](https://user-images.githubusercontent.com/17096601/124499935-cc5a5780-ddf9-11eb-8eaf-8a212c09da1a.png)
 
