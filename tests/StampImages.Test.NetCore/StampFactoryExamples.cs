@@ -57,6 +57,26 @@ namespace StampImages.Test.NetCore
             }
         }
 
+        [TestMethod]
+        public void ExampleCreateRectangleStamp()
+        {
+            var stamp = new RectangleStamp
+            {
+                Size = new Size(512, 180),
+                EdgeType = StampEdgeType.SINGLE,
+                EdgeWidth = 10,
+                EdgeRadius = 0,
+                Text = new StampText { Value = "SOLD OUT", Size = 70 },
+            };
+            stamp.EffectTypes.Add(StampEffectType.NOISE);
+
+            using (stamp)
+            using (var bitmap = stampImageFactory.Create(stamp))
+            {
+                bitmap.Save("./stamp_sold_out.png");
+            }
+        }
+
         /// <summary>
         /// 円形スタンプ出力
         /// </summary>

@@ -42,7 +42,7 @@ namespace StampImages.Test.NetFramework
         [TestMethod]
         public void ExampleCreateSquareStamp()
         {
-            var stamp = new SquareStamp
+            var stamp = new RectangleStamp
             {
                 EdgeType = StampEdgeType.DOUBLE,
                 TextOrientationType = TextOrientationType.VERTICAL,
@@ -60,12 +60,13 @@ namespace StampImages.Test.NetFramework
         [TestMethod]
         public void ExampleCreateRectangleStamp()
         {
-            var stamp = new SquareStamp
+            var stamp = new RectangleStamp
             {
-                Size = new Size(512, 256),
-                EdgeType = StampEdgeType.DOUBLE,
-                TextOrientationType = TextOrientationType.VERTICAL,
-                Text = new StampText { Value = "SOLD OUT", Size = 60 },
+                Size = new Size(512, 180),
+                EdgeType = StampEdgeType.SINGLE,
+                EdgeWidth = 10,
+                EdgeRadius = 0,
+                Text = new StampText { Value = "SOLD OUT", Size = 70 },
             };
             stamp.EffectTypes.Add(StampEffectType.NOISE);
 
