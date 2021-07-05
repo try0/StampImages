@@ -5,6 +5,9 @@
     /// </summary>
     public enum StampEffectType
     {
+        /// <summary>
+        /// ノイズ
+        /// </summary>
         NOISE
     }
 }

@@ -7,8 +7,16 @@ using System.Text;
 
 namespace StampImages.Core
 {
+    /// <summary>
+    /// スタンプテキスト
+    /// </summary>
     public class StampText : IDisposable
     {
+        /// <summary>
+        /// デフォルトフォントを取得します。
+        /// <para>MS UI Gothic</para>
+        /// </summary>
+        /// <returns></returns>
         public static FontFamily GetDefaultFontFamily() => new FontFamily("MS UI Gothic");
 
 
@@ -46,6 +54,7 @@ namespace StampImages.Core
             Value = value;
         }
 
+        /// <inheritdoc />
         public virtual void Dispose()
         {
             if (FontFamily != null)

@@ -9,6 +9,7 @@ namespace StampImages.Core
     /// </summary>
     public sealed class StampImageFactoryConfig : IDisposable
     {
+        /// <inheritdoc />
         public void Dispose()
         {
         }

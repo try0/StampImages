@@ -35,7 +35,7 @@ namespace StampImages.Core
         /// </summary>
         public int TopBottomTextOffset { get; set; } = 10;
 
-
+        /// <inheritdoc />
         public override void SetFontFamily(FontFamily fontfamily)
         {
             if (TopText != null)
@@ -52,7 +52,7 @@ namespace StampImages.Core
             }
         }
 
-
+        /// <inheritdoc />
         public override void Dispose()
         {
             base.Dispose();

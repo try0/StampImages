@@ -57,6 +57,7 @@ namespace StampImages.Core
         /// <param name="fontFamily"></param>
         public abstract void SetFontFamily(FontFamily fontFamily);
 
+        /// <inheritdoc />
         public virtual void Dispose()
         {
         }

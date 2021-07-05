@@ -113,7 +113,7 @@ namespace StampImages.Core
         /// <summary>
         /// 垂直に3分割した印鑑イメージを作成します。
         /// </summary>
-        /// <param name="texts"></param>
+        /// <param name="stamp"></param>
         /// <returns></returns>
         public Bitmap Create(ThreeAreaCircularStamp stamp)
         {
@@ -576,7 +576,7 @@ namespace StampImages.Core
         }
 
         /// <summary>
-        /// <see cref="https://docs.microsoft.com/ja-jp/dotnet/desktop/winforms/advanced/how-to-obtain-font-metrics?view=netframeworkdesktop-4.8"/>
+        /// <see href="https://docs.microsoft.com/ja-jp/dotnet/desktop/winforms/advanced/how-to-obtain-font-metrics?view=netframeworkdesktop-4.8"/>
         /// </summary>
         /// <param name="graphics"></param>
         /// <param name="stampText"></param>
@@ -595,7 +595,7 @@ namespace StampImages.Core
         }
 
         /// <summary>
-        /// <see cref="https://docs.microsoft.com/ja-jp/dotnet/desktop/winforms/advanced/how-to-obtain-font-metrics?view=netframeworkdesktop-4.8"/>
+        /// <see href="https://docs.microsoft.com/ja-jp/dotnet/desktop/winforms/advanced/how-to-obtain-font-metrics?view=netframeworkdesktop-4.8"/>
         /// </summary>
         /// <param name="graphics"></param>
         /// <param name="stampText"></param>
@@ -613,6 +613,7 @@ namespace StampImages.Core
             return ascentSize;
         }
 
+        /// <inheritdoc />
         public void Dispose()
         {
             Config.Dispose();

@@ -28,6 +28,7 @@ namespace StampImages.Core
         {
         }
 
+        /// <inheritdoc />
         public override void SetFontFamily(FontFamily fontfamily)
         {
             if (Text != null)
@@ -36,6 +37,7 @@ namespace StampImages.Core
             }
         }
 
+        /// <inheritdoc />
         public override void Dispose()
         {
             base.Dispose();

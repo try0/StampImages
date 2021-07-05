@@ -1,0 +1,354 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>StampImages.Core</name>
+    </assembly>
+    <members>
+        <member name="T:StampImages.Core.StampImageFactory">
+            <summary>
+            職印画像生成処理
+            </summary>
+        </member>
+        <member name="P:StampImages.Core.StampImageFactory.Config">
+            <summary>
+            設定
+            </summary>
+        </member>
+        <member name="M:StampImages.Core.StampImageFactory.#ctor">
+            <summary>
+            コンストラクター
+            </summary>
+        </member>
+        <member name="M:StampImages.Core.StampImageFactory.#ctor(StampImages.Core.StampImageFactoryConfig)">
+            <summary>
+            コンストラクター
+            </summary>
+            <param name="config"></param>
+        </member>
+        <member name="M:StampImages.Core.StampImageFactory.Resize(System.Drawing.Bitmap,System.Int32,System.Int32)">
+            <summary>
+            リサイズ
+            </summary>
+            <param name="src"></param>
+            <param name="width"></param>
+            <param name="height"></param>
+            <returns></returns>
+        </member>
+        <member name="M:StampImages.Core.StampImageFactory.Save(StampImages.Core.BaseStamp,System.String)">
+            <summary>
+            イメージを保存します
+            </summary>
+            <param name="stamp"></param>
+            <param name="fileName"></param>
+        </member>
+        <member name="M:StampImages.Core.StampImageFactory.Create(StampImages.Core.BaseStamp)">
+            <summary>
+            イメージを作成します
+            </summary>
+            <param name="stamp"></param>
+            <returns></returns>
+        </member>
+        <member name="M:StampImages.Core.StampImageFactory.Create(StampImages.Core.ThreeAreaCircularStamp)">
+            <summary>
+            垂直に3分割した印鑑イメージを作成します。
+            </summary>
+            <param name="stamp"></param>
+            <returns></returns>
+        </member>
+        <member name="M:StampImages.Core.StampImageFactory.Create(StampImages.Core.RectangleStamp)">
+            <summary>
+            4角形の印鑑イメージを作成します。
+            </summary>
+            <param name="stamp"></param>
+            <returns></returns>
+        </member>
+        <member name="M:StampImages.Core.StampImageFactory.Create(StampImages.Core.CircularStamp)">
+            <summary>
+            円形の印鑑イメージを作成します。
+            </summary>
+            <param name="stamp"></param>
+            <returns></returns>
+        </member>
+        <member name="M:StampImages.Core.StampImageFactory.AppendNoise(StampImages.Core.BaseStamp,System.Drawing.Bitmap)">
+            <summary>
+            ランダムにノイズを付与します。
+            </summary>
+            <param name="stamp"></param>
+            <param name="stampImage"></param>
+        </member>
+        <member name="M:StampImages.Core.StampImageFactory.DrawRoundedRectangle(System.Drawing.Graphics,System.Drawing.Pen,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            丸角の四角形を描画します。
+            </summary>
+            <param name="graphics"></param>
+            <param name="pen"></param>
+            <param name="x"></param>
+            <param name="y"></param>
+            <param name="width"></param>
+            <param name="height"></param>
+            <param name="radius"></param>
+        </member>
+        <member name="M:StampImages.Core.StampImageFactory.GetFontDescentSize(System.Drawing.Graphics,StampImages.Core.StampText,System.Drawing.Font)">
+            <summary>
+            <see href="https://docs.microsoft.com/ja-jp/dotnet/desktop/winforms/advanced/how-to-obtain-font-metrics?view=netframeworkdesktop-4.8"/>
+            </summary>
+            <param name="graphics"></param>
+            <param name="stampText"></param>
+            <param name="font"></param>
+            <returns></returns>
+        </member>
+        <member name="M:StampImages.Core.StampImageFactory.GetFontAscentSize(System.Drawing.Graphics,StampImages.Core.StampText,System.Drawing.Font)">
+            <summary>
+            <see href="https://docs.microsoft.com/ja-jp/dotnet/desktop/winforms/advanced/how-to-obtain-font-metrics?view=netframeworkdesktop-4.8"/>
+            </summary>
+            <param name="graphics"></param>
+            <param name="stampText"></param>
+            <param name="font"></param>
+            <returns></returns>
+        </member>
+        <member name="M:StampImages.Core.StampImageFactory.Dispose">
+            <inheritdoc />
+        </member>
+        <member name="T:StampImages.Core.StampImageFactoryConfig">
+            <summary>
+            ファクトリーコンフィグ
+            </summary>
+        </member>
+        <member name="M:StampImages.Core.StampImageFactoryConfig.Dispose">
+            <inheritdoc />
+        </member>
+        <member name="T:StampImages.Core.StampText">
+            <summary>
+            スタンプテキスト
+            </summary>
+        </member>
+        <member name="M:StampImages.Core.StampText.GetDefaultFontFamily">
+            <summary>
+            デフォルトフォントを取得します。
+            <para>MS UI Gothic</para>
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:StampImages.Core.StampText.Value">
+            <summary>
+            出力対象文字列
+            </summary>
+        </member>
+        <member name="P:StampImages.Core.StampText.Size">
+            <summary>
+            emSize
+            </summary>
+        </member>
+        <member name="P:StampImages.Core.StampText.FontFamily">
+            <summary>
+            フォント
+            </summary>
+        </member>
+        <member name="P:StampImages.Core.StampText.IsIgnoreFontDescent">
+            <summary>
+            Descent領域を無視するか否か
+            </summary>
+        </member>
+        <member name="M:StampImages.Core.StampText.#ctor">
+            <summary>
+            コンストラクター
+            </summary>
+        </member>
+        <member name="M:StampImages.Core.StampText.#ctor(System.String)">
+            <summary>
+            コンストラクター
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:StampImages.Core.StampText.Dispose">
+            <inheritdoc />
+        </member>
+        <member name="T:StampImages.Core.BaseStamp">
+            <summary>
+            スタンプ
+            </summary>
+        </member>
+        <member name="F:StampImages.Core.BaseStamp.DEFAULT_STAMP_COLOR">
+            <summary>
+            朱色
+            </summary>
+        </member>
+        <member name="P:StampImages.Core.BaseStamp.Size">
+            <summary>
+            出力画像サイズ
+            </summary>
+        </member>
+        <member name="P:StampImages.Core.BaseStamp.Color">
+            <summary>
+            スタンプカラー
+            </summary>
+        </member>
+        <member name="P:StampImages.Core.BaseStamp.EdgeType">
+            <summary>
+            縁
+            </summary>
+        </member>
+        <member name="P:StampImages.Core.BaseStamp.EdgeWidth">
+            <summary>
+            縁ライン幅
+            </summary>
+        </member>
+        <member name="P:StampImages.Core.BaseStamp.DoubleEdgeOffset">
+            <summary>
+            2重円間隔調整池
+            </summary>
+        </member>
+        <member name="P:StampImages.Core.BaseStamp.RotationAngle">
+            <summary>
+            回転角度
+            </summary>
+        </member>
+        <member name="P:StampImages.Core.BaseStamp.EffectTypes">
+            <summary>
+            エフェクトリスト
+            </summary>
+        </member>
+        <member name="M:StampImages.Core.BaseStamp.SetFontFamily(System.Drawing.FontFamily)">
+            <summary>
+            保持する<see cref="T:StampImages.Core.StampText"/>のフォントを一括で指定します。
+            </summary>
+            <param name="fontFamily"></param>
+        </member>
+        <member name="M:StampImages.Core.BaseStamp.Dispose">
+            <inheritdoc />
+        </member>
+        <member name="T:StampImages.Core.CircularStamp">
+            <summary>
+            丸いのスタンプ
+            </summary>
+        </member>
+        <member name="P:StampImages.Core.CircularStamp.Text">
+            <summary>
+            テキスト
+            </summary>
+        </member>
+        <member name="P:StampImages.Core.CircularStamp.TextOrientationType">
+            <summary>
+            テキスト向き
+            </summary>
+        </member>
+        <member name="M:StampImages.Core.CircularStamp.#ctor">
+            <summary>
+            コンストラクター
+            </summary>
+        </member>
+        <member name="M:StampImages.Core.CircularStamp.SetFontFamily(System.Drawing.FontFamily)">
+            <inheritdoc />
+        </member>
+        <member name="M:StampImages.Core.CircularStamp.Dispose">
+            <inheritdoc />
+        </member>
+        <member name="T:StampImages.Core.RectangleStamp">
+            <summary>
+            四角形のスタンプ
+            </summary>
+        </member>
+        <member name="P:StampImages.Core.RectangleStamp.Text">
+            <summary>
+            テキスト
+            </summary>
+        </member>
+        <member name="P:StampImages.Core.RectangleStamp.TextOrientationType">
+            <summary>
+            テキスト向き
+            </summary>
+        </member>
+        <member name="P:StampImages.Core.RectangleStamp.EdgeRadius">
+            <summary>
+            コーナーRadius
+            </summary>
+        </member>
+        <member name="M:StampImages.Core.RectangleStamp.#ctor">
+            <summary>
+            コンストラクター
+            </summary>
+        </member>
+        <member name="M:StampImages.Core.RectangleStamp.SetFontFamily(System.Drawing.FontFamily)">
+            <inheritdoc />
+        </member>
+        <member name="M:StampImages.Core.RectangleStamp.Dispose">
+            <inheritdoc />
+        </member>
+        <member name="T:StampImages.Core.ThreeAreaCircularStamp">
+            <summary>
+            スタンプ
+            </summary>
+        </member>
+        <member name="P:StampImages.Core.ThreeAreaCircularStamp.TopText">
+            <summary>
+            上段テキスト
+            </summary>
+        </member>
+        <member name="P:StampImages.Core.ThreeAreaCircularStamp.MiddleText">
+            <summary>
+            中段テキスト
+            </summary>
+        </member>
+        <member name="P:StampImages.Core.ThreeAreaCircularStamp.BottomText">
+            <summary>
+            下段テキスト
+            </summary>
+        </member>
+        <member name="P:StampImages.Core.ThreeAreaCircularStamp.DividerWidth">
+            <summary>
+            エリア分割ライン
+            </summary>
+        </member>
+        <member name="P:StampImages.Core.ThreeAreaCircularStamp.TopBottomTextOffset">
+            <summary>
+            分割ラインから上段、下段の文字列までの間隔
+            </summary>
+        </member>
+        <member name="M:StampImages.Core.ThreeAreaCircularStamp.SetFontFamily(System.Drawing.FontFamily)">
+            <inheritdoc />
+        </member>
+        <member name="M:StampImages.Core.ThreeAreaCircularStamp.Dispose">
+            <inheritdoc />
+        </member>
+        <member name="T:StampImages.Core.StampEdgeType">
+            <summary>
+            スタンプ縁タイプ
+            </summary>
+        </member>
+        <member name="F:StampImages.Core.StampEdgeType.SINGLE">
+            <summary>
+            1本線
+            </summary>
+        </member>
+        <member name="F:StampImages.Core.StampEdgeType.DOUBLE">
+            <summary>
+            2重線
+            </summary>
+        </member>
+        <member name="T:StampImages.Core.StampEffectType">
+            <summary>
+            加工フラグ
+            </summary>
+        </member>
+        <member name="F:StampImages.Core.StampEffectType.NOISE">
+            <summary>
+            ノイズ
+            </summary>
+        </member>
+        <member name="T:StampImages.Core.TextOrientationType">
+            <summary>
+            スタンプテキスト向き
+            </summary>
+        </member>
+        <member name="F:StampImages.Core.TextOrientationType.HORIZONTAL">
+            <summary>
+            横
+            </summary>
+        </member>
+        <member name="F:StampImages.Core.TextOrientationType.VERTICAL">
+            <summary>
+            縦
+            </summary>
+        </member>
+    </members>
+</doc>
