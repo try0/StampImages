@@ -360,8 +360,11 @@ namespace StampImages.Core
             {
                 Font font = new Font(stampText.FontFamily, stampText.Size);
                 float descentSize = GetFontDescentSize(graphics, stampText, font);
-
-                float stringY = imageHeight / 2 + (stampText.IsIgnoreFontDescent ? descentSize / 2 : 0);
+                float stringY = imageHeight / 2;
+                if (stampText.IsIgnoreFontDescent && stamp.TextOrientationType == TextOrientationType.HORIZONTAL)
+                {
+                    stringY += descentSize / 2;
+                }
                 graphics.DrawString(stampText.Value, font, fontBrush, stringX, stringY, sf);
             }
 
@@ -457,7 +460,12 @@ namespace StampImages.Core
                 Font font = new Font(stampText.FontFamily, stampText.Size);
                 float descentSize = GetFontDescentSize(graphics, stampText, font);
 
-                float stringY = imageHeight / 2 + (stampText.IsIgnoreFontDescent ? descentSize / 2 : 0);
+                float stringY = imageHeight / 2;
+
+                if (stampText.IsIgnoreFontDescent && stamp.TextOrientationType == TextOrientationType.HORIZONTAL)
+                {
+                    stringY += descentSize / 2;
+                }
                 graphics.DrawString(stampText.Value, font, fontBrush, stringX, stringY, sf);
 
 #if DEBUG
