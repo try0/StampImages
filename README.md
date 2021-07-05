@@ -26,8 +26,8 @@ using (stamp)
     stampImageFactory.Save(stamp, "./stamp.png");
 }
 ```
-![inkan_128](https://user-images.githubusercontent.com/17096601/123622146-df43b980-d846-11eb-9613-b4641b14fd77.png)
 
+![stamp-20210705221944](https://user-images.githubusercontent.com/17096601/124477676-3f0a0980-dddf-11eb-92ca-6b2e06e659a7.png)
 
 ```C#
 StampImageFactory stampImageFactory = new StampImageFactory(new StampImageFactoryConfig());
@@ -46,7 +46,7 @@ using (var bitmap = stampImageFactory.Create(stamp))
 }
 ```
 
-![inkan_sq_256](https://user-images.githubusercontent.com/17096601/124340915-b5e2af00-dbf3-11eb-9983-e359d25247f6.png)
+![stamp-20210705222034](https://user-images.githubusercontent.com/17096601/124477687-429d9080-dddf-11eb-9e29-b7225389f8ce.png)
 
 
 ## StampImages.App.WPF
