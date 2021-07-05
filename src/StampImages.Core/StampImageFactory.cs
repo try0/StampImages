@@ -209,8 +209,9 @@ namespace StampImages.Core
             if (topText != null)
             {
                 Font font = new Font(topText.FontFamily, topText.Size);
+                float descentSize = GetFontDescentSize(graphics, topText, font);
                 SizeF topStringSize = graphics.MeasureString(topText.Value, font);
-                float topStringY = topLineY - topStringSize.Height / 2 - stamp.TopBottomTextOffset;
+                float topStringY = topLineY - topStringSize.Height / 2 - stamp.TopBottomTextOffset + (topText.IsIgnoreFontDescent ? descentSize / 2 : 0);
                 graphics.DrawString(topText.Value, font, fontBrush, stringX, topStringY, sf);
 
 
@@ -227,8 +228,9 @@ namespace StampImages.Core
             if (middleText != null)
             {
                 Font font = new Font(middleText.FontFamily, middleText.Size);
+                float descentSize = GetFontDescentSize(graphics, middleText, font);
                 SizeF middleStringSize = graphics.MeasureString(middleText.Value, font);
-                float middleStringY = imageHeight / 2;
+                float middleStringY = imageHeight / 2 + (middleText.IsIgnoreFontDescent ? descentSize / 2 : 0);
                 graphics.DrawString(middleText.Value, font, fontBrush, stringX, middleStringY, sf);
 
 #if DEBUG
@@ -245,7 +247,7 @@ namespace StampImages.Core
             {
                 Font font = new Font(bottomText.FontFamily, bottomText.Size);
                 SizeF bottomStringSize = graphics.MeasureString(bottomText.Value, font);
-                float bottomStringY = (int)Math.Round(bottomLineY + bottomStringSize.Height / 2 + stamp.TopBottomTextOffset);
+                float bottomStringY = bottomLineY + bottomStringSize.Height / 2 + stamp.TopBottomTextOffset;
                 graphics.DrawString(bottomText.Value, font, fontBrush, stringX, bottomStringY, sf);
 
 #if DEBUG
@@ -285,7 +287,7 @@ namespace StampImages.Core
 
             int imageWidth = stamp.Size.Width;
             int imageHeight = stamp.Size.Height;
- 
+
             Pen edgePen = new Pen(stamp.Color)
             {
                 Width = stamp.EdgeWidth
@@ -357,7 +359,9 @@ namespace StampImages.Core
             if (stampText != null)
             {
                 Font font = new Font(stampText.FontFamily, stampText.Size);
-                float stringY = imageHeight / 2;
+                float descentSize = GetFontDescentSize(graphics, stampText, font);
+
+                float stringY = imageHeight / 2 + (stampText.IsIgnoreFontDescent ? descentSize / 2 : 0);
                 graphics.DrawString(stampText.Value, font, fontBrush, stringX, stringY, sf);
             }
 
@@ -451,8 +455,9 @@ namespace StampImages.Core
             if (stampText != null)
             {
                 Font font = new Font(stampText.FontFamily, stampText.Size);
-                SizeF size = graphics.MeasureString(stampText.Value, font);
-                float stringY = imageHeight / 2;
+                float descentSize = GetFontDescentSize(graphics, stampText, font);
+
+                float stringY = imageHeight / 2 + (stampText.IsIgnoreFontDescent ? descentSize / 2 : 0);
                 graphics.DrawString(stampText.Value, font, fontBrush, stringX, stringY, sf);
 
 #if DEBUG
@@ -562,11 +567,50 @@ namespace StampImages.Core
             graphics.DrawPath(pen, path);
         }
 
+        /// <summary>
+        /// <see cref="https://docs.microsoft.com/ja-jp/dotnet/desktop/winforms/advanced/how-to-obtain-font-metrics?view=netframeworkdesktop-4.8"/>
+        /// </summary>
+        /// <param name="graphics"></param>
+        /// <param name="stampText"></param>
+        /// <param name="font"></param>
+        /// <returns></returns>
+        static float GetFontDescentSize(Graphics graphics, StampText stampText, Font font)
+        {
+            SizeF size = graphics.MeasureString(stampText.Value, font);
+
+            int descent = stampText.FontFamily.GetCellDescent(font.Style);
+            int emHeight = stampText.FontFamily.GetEmHeight(font.Style);
+
+            float descentSize = size.Height * descent / emHeight;
+
+            return descentSize;
+        }
+
+        /// <summary>
+        /// <see cref="https://docs.microsoft.com/ja-jp/dotnet/desktop/winforms/advanced/how-to-obtain-font-metrics?view=netframeworkdesktop-4.8"/>
+        /// </summary>
+        /// <param name="graphics"></param>
+        /// <param name="stampText"></param>
+        /// <param name="font"></param>
+        /// <returns></returns>
+        static float GetFontAscentSize(Graphics graphics, StampText stampText, Font font)
+        {
+            SizeF size = graphics.MeasureString(stampText.Value, font);
+
+            int ascent = stampText.FontFamily.GetCellAscent(font.Style);
+            int emHeight = stampText.FontFamily.GetEmHeight(font.Style);
+
+            float ascentSize = size.Height * ascent / emHeight;
+
+            return ascentSize;
+        }
+
         public void Dispose()
         {
             Config.Dispose();
         }
     }
+
 
 
 
