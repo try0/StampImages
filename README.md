@@ -71,5 +71,6 @@ Blazor(Server-Side)
 
 
 [Index.razor](https://github.com/try0/StampImages/blob/main/src/StampImages.WebApp.Blazor/Pages/Index.razor)
-![image](https://user-images.githubusercontent.com/17096601/124499935-cc5a5780-ddf9-11eb-8eaf-8a212c09da1a.png)
+![StampImages WebApp Blazor](https://user-images.githubusercontent.com/17096601/124589108-91f1c880-de94-11eb-8398-20e89e30ad91.gif)
+
 
