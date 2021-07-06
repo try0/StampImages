@@ -5,44 +5,112 @@
 @using System.Drawing
 @using StampImages.WebApp.Blazor.Models
 
-<h1 style="color:@Model.ColorHexValue">StampImages</h1>
+
 
 <div>
 
-    <div class="ui grid">
+    <div class="ui stackable grid">
 
         <div class="row">
-            <!-- base64でスタンプデータを描画します -->
-            <img src="data:image/png;base64, @(Convert.ToBase64String(@GetStampImageData()))" class="ui bordered image segment" style="padding: .5em;" />
-        </div>
+            <div class="four wide column">
 
-        <div class="row">
-            <div class="ui fulid segment sixteen column">
+                <a id="downloadImageLink" href="#" class="ui link card" title="ダウンロード">
+                    <div class="content">
+                        <div class="header"><h3 style="color:@Model.ColorHexValue">StampImages</h3></div>
+                    </div>
+
+                    <div class="image">
+                        <!-- base64でスタンプデータを描画します -->
+                        <img id="stampImage" src="data:image/png;base64, @(Convert.ToBase64String(@GetStampImageData()))" style="padding: 20%; background: white;" />
+                    </div>
+                    <div class="extra content">
+                        <i class="right floated download icon"></i>
+                    </div>
+                </a>
+            </div>
+            <div class="ui fulid segment twelve wide column">
                 <EditForm Model="@Model" class="ui form">
 
-                    <div class="two fields">
+                    <div class="ui stackable grid">
+                        <div class="row">
+                            <div class="eight wide column">
+                                <div class="ui form">
+                                    <div class="field">
+                                        <label>Top</label>
 
-                        <div class="field">
-                            <label>スタンプカラー</label>
-                            <input type="color" @bind-value="@Model.ColorHexValue" class="ui input" style="height: 38px;" />
-                        </div>
+                                        <div class="fields">
+                                            <div class="twelve wide field">
+                                                <input type="text" @bind-value="@Model.TopText" placeholder="TopText" />
+                                            </div>
 
-                        <div class="field">
-                            <label>エッジ</label>
-                            <InputSelect @bind-Value="@Model.EdgeType" class="ui dropdown">
-                                @foreach (var value in Enum.GetValues(typeof(StampEdgeType)))
-                                {
-                                    <option>@value</option>
-                                }
-                            </InputSelect>
+                                            <div class="four wide field">
+                                                <input type="number" @bind-value="@Model.TopFontSize" placeholder="TopFontSize" />
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="field">
+                                        <label>Middle</label>
+
+                                        <div class="fields">
+                                            <div class="twelve wide field">
+                                                <input type="text" @bind-value="@Model.MiddleText" placeholder="MiddleText" />
+                                            </div>
+
+                                            <div class="four wide field">
+                                                <input type="number" @bind-value="@Model.MiddleFontSize" placeholder="MiddleFontSize" />
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="field">
+                                        <label>Bottom</label>
+
+                                        <div class="fields">
+                                            <div class="twelve wide field">
+                                                <input type="text" @bind-value="@Model.BottomText" placeholder="BottomText" />
+                                            </div>
+
+                                            <div class="four wide field">
+                                                <input type="number" @bind-value="@Model.BottomFontSize" placeholder="BottomFontSize" />
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                            <div class="eight wide column">
+                                <div class="ui form">
+                                    <div class="field">
+                                        <label>スタンプカラー</label>
+                                        <input type="color" @bind-value="@Model.ColorHexValue" class="ui input" style="height: 38px;" />
+                                    </div>
+
+
+                                    <div class="field">
+                                        <label>エッジ</label>
+                                        <InputSelect @bind-Value="@Model.EdgeType" class="ui dropdown">
+                                            @foreach (var value in Enum.GetValues(typeof(StampEdgeType)))
+                                            {
+                                                <option>@value</option>
+                                            }
+                                        </InputSelect>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                     </div>
-                    <button @onclick="OnClickRefreshButton" class="ui button">Refresh</button>
+
 
                 </EditForm>
             </div>
         </div>
+
 
     </div>
 </div>
@@ -80,9 +148,9 @@
         {
             Color = Model.Color,
             EdgeType = Model.EdgeType,
-            TopText = new StampText { Value = "StampImages", Size = 23 },
-            MiddleText = new StampText { Value = DateTime.Now.ToString("yyyy.MM.dd"), Size = 30 },
-            BottomText = new StampText { Value = DateTime.Now.ToString("HH:mm:ss"), Size = 27 },
+            TopText = new StampText { Value = Model.TopText, Size = Model.TopFontSize },
+            MiddleText = new StampText { Value = Model.MiddleText, Size = Model.MiddleFontSize },
+            BottomText = new StampText { Value = Model.BottomText, Size = Model.BottomFontSize },
         };
 
         using (stamp)
@@ -94,14 +162,5 @@
         }
     }
 
-
-
-    /// <summary>
-    /// ページを再描画します。
-    /// </summary>
-    public void OnClickRefreshButton()
-    {
-        this.StateHasChanged();
-    }
 
 }
