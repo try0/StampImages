@@ -315,12 +315,12 @@
             スタンプ縁タイプ
             </summary>
         </member>
-        <member name="F:StampImages.Core.StampEdgeType.SINGLE">
+        <member name="F:StampImages.Core.StampEdgeType.Single">
             <summary>
             1本線
             </summary>
         </member>
-        <member name="F:StampImages.Core.StampEdgeType.DOUBLE">
+        <member name="F:StampImages.Core.StampEdgeType.Double">
             <summary>
             2重線
             </summary>
@@ -330,7 +330,7 @@
             加工フラグ
             </summary>
         </member>
-        <member name="F:StampImages.Core.StampEffectType.NOISE">
+        <member name="F:StampImages.Core.StampEffectType.Noise">
             <summary>
             ノイズ
             </summary>
@@ -340,12 +340,12 @@
             スタンプテキスト向き
             </summary>
         </member>
-        <member name="F:StampImages.Core.TextOrientationType.HORIZONTAL">
+        <member name="F:StampImages.Core.TextOrientationType.Horizontal">
             <summary>
             横
             </summary>
         </member>
-        <member name="F:StampImages.Core.TextOrientationType.VERTICAL">
+        <member name="F:StampImages.Core.TextOrientationType.Vertical">
             <summary>
             縦
             </summary>

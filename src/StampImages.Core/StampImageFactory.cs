@@ -262,6 +262,12 @@ namespace StampImages.Core
             // 背景透過
             stampImage.MakeTransparent();
 
+#if DEBUG
+            if (StampUtils.IsDebug())
+            {
+                DrawCenterLines(stampImage, graphics);
+            }
+#endif
 
 
             if (stamp.EffectTypes.Contains(StampEffectType.Noise))
@@ -372,6 +378,14 @@ namespace StampImages.Core
             // 背景透過
             stampImage.MakeTransparent();
 
+#if DEBUG
+            if (StampUtils.IsDebug())
+            {
+                DrawCenterLines(stampImage, graphics);
+            }
+#endif
+
+
             if (stamp.EffectTypes.Contains(StampEffectType.Noise))
             {
                 AppendNoise(stamp, stampImage);
@@ -468,18 +482,14 @@ namespace StampImages.Core
                 }
                 graphics.DrawString(stampText.Value, font, fontBrush, stringX, stringY, sf);
 
-#if DEBUG
-                if (StampUtils.IsDebug())
-                {
-                    var dPen = new Pen(Color.Green)
-                    {
-                        Width = 2
-                    };
-                    graphics.DrawLine(dPen, stringX, 0, stringX, stamp.Size.Height);
-                    graphics.DrawLine(dPen, 0, stringY, stamp.Size.Width, stringY);
-                }
-#endif
             }
+
+#if DEBUG
+            if (StampUtils.IsDebug())
+            {
+                DrawCenterLines(stampImage, graphics);
+            }
+#endif
 
 
             // 背景透過
@@ -611,6 +621,15 @@ namespace StampImages.Core
             float ascentSize = size.Height * ascent / emHeight;
 
             return ascentSize;
+        }
+
+        private static void DrawCenterLines(Bitmap bitmap, Graphics graphics) {
+            var dPen = new Pen(Color.Green)
+            {
+                Width = 2
+            };
+            graphics.DrawLine(dPen, bitmap.Size.Width / 2, 0, bitmap.Size.Width / 2, bitmap.Size.Height);
+            graphics.DrawLine(dPen, 0, bitmap.Size.Height / 2, bitmap.Size.Width, bitmap.Size.Height / 2);
         }
 
         /// <inheritdoc />
