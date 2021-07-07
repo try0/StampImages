@@ -34,7 +34,7 @@ StampImageFactory stampImageFactory = new StampImageFactory(new StampImageFactor
 var stamp = new RectangleStamp
 {
     Color = Color.DarkCyan,
-    EdgeType = StampEdgeType.DOUBLE,
+    EdgeType = StampEdgeType.Double,
     Text = new StampText { Value = "承認", Size = 60 },
 };
 stamp.EffectTypes.Add(StampEffectType.NOISE);
