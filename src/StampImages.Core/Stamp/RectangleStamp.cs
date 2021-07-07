@@ -18,7 +18,7 @@ namespace StampImages.Core
         /// <summary>
         /// テキスト向き
         /// </summary>
-        public TextOrientationType TextOrientationType { get; set; } = TextOrientationType.HORIZONTAL;
+        public TextOrientationType TextOrientationType { get; set; } = TextOrientationType.Horizontal;
 
         /// <summary>
         /// コーナーRadius

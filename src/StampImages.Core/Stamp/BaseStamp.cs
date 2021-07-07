@@ -28,7 +28,7 @@ namespace StampImages.Core
         /// <summary>
         /// 縁
         /// </summary>
-        public StampEdgeType EdgeType { get; set; } = StampEdgeType.SINGLE;
+        public StampEdgeType EdgeType { get; set; } = StampEdgeType.Single;
 
         /// <summary>
         /// 縁ライン幅

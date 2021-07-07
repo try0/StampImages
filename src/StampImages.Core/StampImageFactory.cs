@@ -151,7 +151,7 @@ namespace StampImages.Core
 
 
             // 2重円
-            if (stamp.EdgeType == StampEdgeType.DOUBLE)
+            if (stamp.EdgeType == StampEdgeType.Double)
             {
                 // 外円描画
                 graphics.DrawEllipse(edgePen, outerSpace, outerSpace, 2 * r, 2 * r);
@@ -264,7 +264,7 @@ namespace StampImages.Core
 
 
 
-            if (stamp.EffectTypes.Contains(StampEffectType.NOISE))
+            if (stamp.EffectTypes.Contains(StampEffectType.Noise))
             {
                 AppendNoise(stamp, stampImage);
             }
@@ -319,7 +319,7 @@ namespace StampImages.Core
             int edgeRadius = stamp.EdgeRadius;
 
             // 2重
-            if (stamp.EdgeType == StampEdgeType.DOUBLE)
+            if (stamp.EdgeType == StampEdgeType.Double)
             {
                 // 外描画
                 DrawRoundedRectangle(graphics, edgePen, outerSpaceX, outerSpaceY, stampWidth, stampHeight, edgeRadius);
@@ -345,7 +345,7 @@ namespace StampImages.Core
 
             StringFormat sf = new StringFormat();
 
-            if (stamp.TextOrientationType == TextOrientationType.VERTICAL)
+            if (stamp.TextOrientationType == TextOrientationType.Vertical)
             {
                 sf.FormatFlags = StringFormatFlags.DirectionVertical;
             }
@@ -361,7 +361,7 @@ namespace StampImages.Core
                 Font font = new Font(stampText.FontFamily, stampText.Size);
                 float descentSize = GetFontDescentSize(graphics, stampText, font);
                 float stringY = imageHeight / 2;
-                if (stampText.IsIgnoreFontDescent && stamp.TextOrientationType == TextOrientationType.HORIZONTAL)
+                if (stampText.IsIgnoreFontDescent && stamp.TextOrientationType == TextOrientationType.Horizontal)
                 {
                     stringY += descentSize / 2;
                 }
@@ -372,7 +372,7 @@ namespace StampImages.Core
             // 背景透過
             stampImage.MakeTransparent();
 
-            if (stamp.EffectTypes.Contains(StampEffectType.NOISE))
+            if (stamp.EffectTypes.Contains(StampEffectType.Noise))
             {
                 AppendNoise(stamp, stampImage);
             }
@@ -425,7 +425,7 @@ namespace StampImages.Core
 
 
             // 2重円
-            if (stamp.EdgeType == StampEdgeType.DOUBLE)
+            if (stamp.EdgeType == StampEdgeType.Double)
             {
                 // 外円描画
                 graphics.DrawEllipse(edgePen, outerSpace, outerSpace, 2 * r, 2 * r);
@@ -444,7 +444,7 @@ namespace StampImages.Core
             // TODO 微妙にずれる
             StringFormat sf = new StringFormat();
 
-            if (stamp.TextOrientationType == TextOrientationType.VERTICAL)
+            if (stamp.TextOrientationType == TextOrientationType.Vertical)
             {
                 sf.FormatFlags = StringFormatFlags.DirectionVertical;
             }
@@ -462,7 +462,7 @@ namespace StampImages.Core
 
                 float stringY = imageHeight / 2;
 
-                if (stampText.IsIgnoreFontDescent && stamp.TextOrientationType == TextOrientationType.HORIZONTAL)
+                if (stampText.IsIgnoreFontDescent && stamp.TextOrientationType == TextOrientationType.Horizontal)
                 {
                     stringY += descentSize / 2;
                 }
@@ -487,7 +487,7 @@ namespace StampImages.Core
 
 
 
-            if (stamp.EffectTypes.Contains(StampEffectType.NOISE))
+            if (stamp.EffectTypes.Contains(StampEffectType.Noise))
             {
                 AppendNoise(stamp, stampImage);
             }

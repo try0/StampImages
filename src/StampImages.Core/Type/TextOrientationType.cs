@@ -8,10 +8,10 @@
         /// <summary>
         /// 横
         /// </summary>
-        HORIZONTAL,
+        Horizontal,
         /// <summary>
         /// 縦
         /// </summary>
-        VERTICAL
+        Vertical
     }
 }

@@ -182,9 +182,9 @@ namespace StampImages.App.WPF.ViewModels
         /// <param name="stamp"></param>
         protected virtual void LoadStamp(BaseStamp stamp)
         {
-            IsDoubleStampEdge.Value = stamp.EdgeType == StampEdgeType.DOUBLE;
+            IsDoubleStampEdge.Value = stamp.EdgeType == StampEdgeType.Double;
             RotationAngle.Value = stamp.RotationAngle;
-            IsAppendNoise.Value = stamp.EffectTypes.Contains(StampEffectType.NOISE);
+            IsAppendNoise.Value = stamp.EffectTypes.Contains(StampEffectType.Noise);
             StampColor.Value = Media.Color.FromRgb(stamp.Color.R, stamp.Color.G, stamp.Color.B);
         }
 
@@ -398,11 +398,11 @@ namespace StampImages.App.WPF.ViewModels
             stamp.SetFontFamily(new System.Drawing.FontFamily(FontFamily.Value.Source));
 
 
-            stamp.EdgeType = IsDoubleStampEdge.Value ? StampEdgeType.DOUBLE : StampEdgeType.SINGLE;
+            stamp.EdgeType = IsDoubleStampEdge.Value ? StampEdgeType.Double : StampEdgeType.Single;
             stamp.RotationAngle = RotationAngle.Value;
             if (IsAppendNoise.Value)
             {
-                stamp.EffectTypes.Add(StampEffectType.NOISE);
+                stamp.EffectTypes.Add(StampEffectType.Noise);
             }
 
             System.Drawing.Color drawingColor = System.Drawing.Color.FromArgb(StampColor.Value.A, StampColor.Value.R, StampColor.Value.G, StampColor.Value.B);

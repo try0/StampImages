@@ -55,7 +55,7 @@ namespace StampImages.WebApp.Blazor.Models
         /// <summary>
         /// エッジタイプ
         /// </summary>
-        public StampEdgeType EdgeType { get; set; } = StampEdgeType.SINGLE;
+        public StampEdgeType EdgeType { get; set; } = StampEdgeType.Single;
 
         public StampModel()
         {

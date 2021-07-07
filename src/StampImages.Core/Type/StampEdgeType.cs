@@ -8,10 +8,10 @@
         /// <summary>
         /// 1本線
         /// </summary>
-        SINGLE,
+        Single,
         /// <summary>
         /// 2重線
         /// </summary>
-        DOUBLE
+        Double
     }
 }

@@ -8,6 +8,6 @@
         /// <summary>
         /// ノイズ
         /// </summary>
-        NOISE
+        Noise
     }
 }
