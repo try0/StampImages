@@ -1,6 +1,6 @@
 # StampImages
-印鑑画像 日付印 データネーム印 職印 スタンプ ただの画像  
-WPF/画像ファイル 勉強用
+印鑑画像 日付印 データネーム印 職印 スタンプ はんこ ただの画像  
+WPF/Blazor画像ファイル 勉強用
 
 
 ## [StampImages.Core](https://github.com/try0/StampImages/tree/main/src/StampImages.Core)  
