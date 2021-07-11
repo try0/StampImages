@@ -8,6 +8,11 @@
         /// <summary>
         /// ノイズ
         /// </summary>
-        Noise
+        Noise,
+
+        /// <summary>
+        /// グランジ
+        /// </summary>
+        Grunge
     }
 }

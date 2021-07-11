@@ -68,7 +68,7 @@ namespace StampImages.Test.NetCore
                 EdgeRadius = 0,
                 Text = new StampText { Value = "SOLD OUT", Size = 70, IsIgnoreFontDescent = false },
             };
-            stamp.EffectTypes.Add(StampEffectType.Noise);
+            stamp.EffectTypes.Add(StampEffectType.Grunge);
 
             using (stamp)
             using (var bitmap = stampImageFactory.Create(stamp))

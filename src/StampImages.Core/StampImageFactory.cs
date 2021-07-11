@@ -3,6 +3,8 @@ using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
+using System.Reflection;
+using System.Runtime.InteropServices;
 
 namespace StampImages.Core
 {
@@ -311,10 +313,7 @@ namespace StampImages.Core
 #endif
 
 
-            if (stamp.EffectTypes.Contains(StampEffectType.Noise))
-            {
-                AppendNoise(stamp, stampImage);
-            }
+            AppendEffects(stamp, stampImage);
 
             sf.Dispose();
             fontBrush.Dispose();
@@ -446,10 +445,7 @@ namespace StampImages.Core
 #endif
 
 
-            if (stamp.EffectTypes.Contains(StampEffectType.Noise))
-            {
-                AppendNoise(stamp, stampImage);
-            }
+            AppendEffects(stamp, stampImage);
 
             sf.Dispose();
             fontBrush.Dispose();
@@ -572,11 +568,7 @@ namespace StampImages.Core
             stampImage.MakeTransparent();
 
 
-
-            if (stamp.EffectTypes.Contains(StampEffectType.Noise))
-            {
-                AppendNoise(stamp, stampImage);
-            }
+            AppendEffects(stamp, stampImage);
 
             sf.Dispose();
             fontBrush.Dispose();
@@ -587,31 +579,158 @@ namespace StampImages.Core
         }
 
         /// <summary>
+        /// 加工処理を実行します
+        /// </summary>
+        /// <param name="stamp"></param>
+        /// <param name="stampImage"></param>
+        static void AppendEffects(BaseStamp stamp, Bitmap stampImage)
+        {
+            if (stamp.EffectTypes.Contains(StampEffectType.Noise))
+            {
+                AppendNoise(stamp, stampImage);
+            }
+
+            if (stamp.EffectTypes.Contains(StampEffectType.Grunge))
+            {
+                AppendGrunge(stamp, stampImage);
+            }
+        }
+
+        /// <summary>
         /// ランダムにノイズを付与します。
         /// </summary>
         /// <param name="stamp"></param>
         /// <param name="stampImage"></param>
         static void AppendNoise(BaseStamp stamp, Bitmap stampImage)
         {
-            // TODO 適当だからもっとスタンプ風になる加工あるか調べよ
             Random rand = new Random();
 
-            for (int i = 0; i < stamp.Size.Width; i++)
-            {
-                for (int j = 0; j < stamp.Size.Height; j++)
-                {
-                    Color pixelColor = stampImage.GetPixel(i, j);
 
-                    if (pixelColor.A == 0)
+            // 配列へ展開
+            PixelFormat stampPixelFormat = PixelFormat.Format32bppArgb;
+            int stampPixelSize = 4;
+
+            BitmapData stampData =
+                stampImage.LockBits(new Rectangle(0, 0, stampImage.Width, stampImage.Height), ImageLockMode.ReadWrite, stampPixelFormat);
+
+            IntPtr stampPtr = stampData.Scan0;
+            int stampBytes = Math.Abs(stampData.Stride) * stampImage.Height;
+            byte[] stampRgbValues = new byte[stampBytes];
+            Marshal.Copy(stampPtr, stampRgbValues, 0, stampBytes);
+
+
+            for (int x = 0; x < stampData.Width; x++)
+            {
+                for (int y = 0; y < stampData.Height; y++)
+                {
+                    int pos = y * stampData.Stride + x * stampPixelSize;
+
+
+                    byte a = stampRgbValues[pos + 3];
+
+                    if (a == 0)
                     {
                         continue;
                     }
 
                     if (1 > rand.Next(5))
                     {
-                        stampImage.SetPixel(i, j, Color.FromArgb(rand.Next(64), pixelColor));
+                        stampRgbValues[pos + 3] = (byte)rand.Next(64);
+                    }
+
+                }
+            }
+
+            Marshal.Copy(stampRgbValues, 0, stampPtr, stampRgbValues.Length);
+            stampImage.UnlockBits(stampData);
+
+
+        }
+
+        /// <summary>
+        /// 汚し加工を付与します。
+        /// <para><see href="https://jp.freepik.com/photos/grunge"/>Freepik.comのリソースを使用しています</para>
+        /// </summary>
+        /// <param name="stamp"></param>
+        /// <param name="stampImage"></param>
+        static void AppendGrunge(BaseStamp stamp, Bitmap stampImage)
+        {
+            Random rand = new Random();
+
+            Assembly assembly = Assembly.GetExecutingAssembly();
+            using (var grungeBitmap = new Bitmap(assembly.GetManifestResourceStream(@"StampImages.Core.Resource.effect_grunge.jpg")))
+            {
+
+                // 配列へ展開
+                PixelFormat stampPixelFormat = stampImage.PixelFormat;
+                int stampPixelSize = Image.GetPixelFormatSize(stampPixelFormat) / 8;
+                if (stampPixelSize < 3 || 4 < stampPixelSize)
+                {
+                    throw new ArgumentException();
+                }
+
+
+                BitmapData stampData =
+                    stampImage.LockBits(new Rectangle(0, 0, stampImage.Width, stampImage.Height), ImageLockMode.ReadWrite, stampPixelFormat);
+
+                IntPtr stampPtr = stampData.Scan0;
+                int stampBytes = Math.Abs(stampData.Stride) * stampImage.Height;
+                byte[] stampRgbValues = new byte[stampBytes];
+                Marshal.Copy(stampPtr, stampRgbValues, 0, stampBytes);
+
+
+
+                PixelFormat pixelFormat = grungeBitmap.PixelFormat;
+                int pixelSize = Image.GetPixelFormatSize(pixelFormat) / 8;
+                if (pixelSize < 3 || 4 < pixelSize)
+                {
+                    throw new ArgumentException();
+                }
+
+
+                BitmapData bmpData =
+                    grungeBitmap.LockBits(new Rectangle(0, 0, grungeBitmap.Width, grungeBitmap.Height), ImageLockMode.ReadOnly, pixelFormat);
+
+                IntPtr ptr = bmpData.Scan0;
+                int bytes = Math.Abs(bmpData.Stride) * grungeBitmap.Height;
+                byte[] rgbValues = new byte[bytes];
+                Marshal.Copy(ptr, rgbValues, 0, bytes);
+
+
+                int xRange = grungeBitmap.Size.Width - stampImage.Size.Width;
+                int yRange = grungeBitmap.Size.Height - stampImage.Size.Height;
+
+                int xInit = rand.Next(xRange);
+                int yInit = rand.Next(yRange);
+
+                int grungeLength = grungeBitmap.Width * grungeBitmap.Height * pixelSize;
+
+                for (int x = xInit; x < xInit + stampData.Width; x++)
+                {
+                    for (int y = yInit; y < yInit + stampData.Height; y++)
+                    {
+                        int pos = (y * bmpData.Stride + x * pixelSize) % grungeLength;
+
+                        // RGB
+                        byte b = rgbValues[pos];
+                        byte g = rgbValues[pos + 1];
+                        byte r = rgbValues[pos + 2];
+
+
+                        int stampPos = (y - yInit) * stampData.Stride + (x - xInit) * stampPixelSize;
+
+                        var stampAlpha = stampRgbValues[stampPos + 3];
+                        if (stampAlpha != 0)
+                        {
+                            stampRgbValues[stampPos + 3] = (byte)((r + g + b) / 3);
+                        }
+
                     }
                 }
+
+                Marshal.Copy(stampRgbValues, 0, stampPtr, stampRgbValues.Length);
+                grungeBitmap.UnlockBits(bmpData);
+                stampImage.UnlockBits(stampData);
             }
         }
 

@@ -85,9 +85,24 @@
             <param name="stamp"></param>
             <returns></returns>
         </member>
+        <member name="M:StampImages.Core.StampImageFactory.AppendEffects(StampImages.Core.BaseStamp,System.Drawing.Bitmap)">
+            <summary>
+            加工処理を実行します
+            </summary>
+            <param name="stamp"></param>
+            <param name="stampImage"></param>
+        </member>
         <member name="M:StampImages.Core.StampImageFactory.AppendNoise(StampImages.Core.BaseStamp,System.Drawing.Bitmap)">
             <summary>
             ランダムにノイズを付与します。
+            </summary>
+            <param name="stamp"></param>
+            <param name="stampImage"></param>
+        </member>
+        <member name="M:StampImages.Core.StampImageFactory.AppendGrunge(StampImages.Core.BaseStamp,System.Drawing.Bitmap)">
+            <summary>
+            汚し加工を付与します。
+            <para><see href="https://jp.freepik.com/photos/grunge"/>Freepik.comのリソースを使用しています</para>
             </summary>
             <param name="stamp"></param>
             <param name="stampImage"></param>
@@ -331,6 +346,11 @@
         <member name="F:StampImages.Core.StampEffectType.Noise">
             <summary>
             ノイズ
+            </summary>
+        </member>
+        <member name="F:StampImages.Core.StampEffectType.Grunge">
+            <summary>
+            グランジ
             </summary>
         </member>
         <member name="T:StampImages.Core.TextOrientationType">
