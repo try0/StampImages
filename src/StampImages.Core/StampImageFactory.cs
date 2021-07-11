@@ -211,7 +211,7 @@ namespace StampImages.Core
                 SizeF size = graphics.MeasureString(topText.Value, font, imageWidth, sf);
                 RectangleF rect = graphics.MeasureDrawedString(topText.Value, font, stamp.Size, sf);
 
-                var basePosY = topLineY - stamp.TopBottomTextOffset - size.Height;
+                var basePosY = topLineY - stamp.TopBottomTextOffset - rect.Height;
 
                 var tmpPosX = ((stamp.Size.Width - size.Width) / 2);
 
