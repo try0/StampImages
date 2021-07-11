@@ -4,6 +4,22 @@
         <name>StampImages.Core</name>
     </assembly>
     <members>
+        <member name="T:StampImages.Core.GraphicsExtensions">
+            <summary>
+            <see cref="T:System.Drawing.Graphics"/> 拡張
+            </summary>
+        </member>
+        <member name="M:StampImages.Core.GraphicsExtensions.MeasureDrawedString(System.Drawing.Graphics,System.String,System.Drawing.Font,System.Drawing.Size,System.Drawing.StringFormat)">
+            <summary>
+            <see cref="M:System.Drawing.Graphics.DrawString(System.String,System.Drawing.Font,System.Drawing.Brush,System.Single,System.Single,System.Drawing.StringFormat)"/>で描画した文字列を測定します。
+            </summary>
+            <param name="graphics"></param>
+            <param name="text"></param>
+            <param name="font"></param>
+            <param name="size"></param>
+            <param name="format"></param>
+            <returns></returns>
+        </member>
         <member name="T:StampImages.Core.StampImageFactory">
             <summary>
             職印画像生成処理
@@ -87,24 +103,6 @@
             <param name="width"></param>
             <param name="height"></param>
             <param name="radius"></param>
-        </member>
-        <member name="M:StampImages.Core.StampImageFactory.GetFontDescentSize(System.Drawing.Graphics,StampImages.Core.StampText,System.Drawing.Font)">
-            <summary>
-            <see href="https://docs.microsoft.com/ja-jp/dotnet/desktop/winforms/advanced/how-to-obtain-font-metrics?view=netframeworkdesktop-4.8"/>
-            </summary>
-            <param name="graphics"></param>
-            <param name="stampText"></param>
-            <param name="font"></param>
-            <returns></returns>
-        </member>
-        <member name="M:StampImages.Core.StampImageFactory.GetFontAscentSize(System.Drawing.Graphics,StampImages.Core.StampText,System.Drawing.Font)">
-            <summary>
-            <see href="https://docs.microsoft.com/ja-jp/dotnet/desktop/winforms/advanced/how-to-obtain-font-metrics?view=netframeworkdesktop-4.8"/>
-            </summary>
-            <param name="graphics"></param>
-            <param name="stampText"></param>
-            <param name="font"></param>
-            <returns></returns>
         </member>
         <member name="M:StampImages.Core.StampImageFactory.Dispose">
             <inheritdoc />

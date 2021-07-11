@@ -43,7 +43,6 @@ namespace StampImages.Core
         /// <returns></returns>
         public Bitmap Resize(Bitmap src, int width, int height)
         {
-
             StampUtils.RequiredArgument(src, "src");
 
             Bitmap canvas = new Bitmap(width, height);
@@ -51,9 +50,8 @@ namespace StampImages.Core
             Graphics g = Graphics.FromImage(canvas);
 
             g.SmoothingMode = SmoothingMode.HighQuality;
+            g.InterpolationMode = InterpolationMode.High;
 
-            g.InterpolationMode =
-                System.Drawing.Drawing2D.InterpolationMode.High;
             g.DrawImage(src, 0, 0, width, height);
 
             g.Dispose();
@@ -172,7 +170,10 @@ namespace StampImages.Core
 #if DEBUG
             if (StampUtils.IsDebug())
             {
-                graphics.DrawRectangle(new Pen(Color.Green), outerSpace, outerSpace, 2 * r, 2 * r);
+                using (var pen = GetDebugPen())
+                {
+                    graphics.DrawRectangle(pen, outerSpace, outerSpace, 2 * r, 2 * r);
+                }
             }
 #endif
 
@@ -197,10 +198,7 @@ namespace StampImages.Core
             graphics.DrawLine(dividerPen, space + outerSpace, bottomLineY, imageWidth - (space + outerSpace), bottomLineY);
 
 
-            StringFormat sf = new StringFormat();
-            //sf.FormatFlags = StringFormatFlags.DirectionVertical;
-            sf.LineAlignment = StringAlignment.Center;
-            sf.Alignment = StringAlignment.Center;
+            StringFormat sf = new StringFormat(StringFormat.GenericTypographic);
 
             Brush fontBrush = new SolidBrush(stamp.Color);
             float stringX = imageWidth / 2;
@@ -209,18 +207,31 @@ namespace StampImages.Core
             if (topText != null)
             {
                 Font font = new Font(topText.FontFamily, topText.Size);
-                float descentSize = GetFontDescentSize(graphics, topText, font);
-                SizeF topStringSize = graphics.MeasureString(topText.Value, font);
-                float topStringY = topLineY - topStringSize.Height / 2 - stamp.TopBottomTextOffset + (topText.IsIgnoreFontDescent ? descentSize / 2 : 0);
-                graphics.DrawString(topText.Value, font, fontBrush, stringX, topStringY, sf);
+
+                SizeF size = graphics.MeasureString(topText.Value, font, imageWidth, sf);
+                RectangleF rect = graphics.MeasureDrawedString(topText.Value, font, stamp.Size, sf);
+
+                var basePosY = topLineY - stamp.TopBottomTextOffset - size.Height;
+
+                var tmpPosX = ((stamp.Size.Width - size.Width) / 2);
+
+                var centerPosX = (stamp.Size.Width - rect.Width) / 2;
+                var centerPosY = basePosY - (size.Height - rect.Height) / 2;
 
 
 #if DEBUG
                 if (StampUtils.IsDebug())
                 {
-                    graphics.DrawRectangle(new Pen(Color.Green), stringX, topStringY, topStringSize.Width, topStringSize.Height);
+                    using (var pen = GetDebugPen())
+                    {
+                        graphics.DrawRectangle(pen, centerPosX, centerPosY, rect.Width, rect.Height);
+                    }
                 }
 #endif
+                centerPosX -= (centerPosX - tmpPosX);
+
+                graphics.DrawString(topText.Value, font, fontBrush, centerPosX, centerPosY, sf);
+
             }
 
             // 中段テキスト
@@ -228,34 +239,64 @@ namespace StampImages.Core
             if (middleText != null)
             {
                 Font font = new Font(middleText.FontFamily, middleText.Size);
-                float descentSize = GetFontDescentSize(graphics, middleText, font);
-                SizeF middleStringSize = graphics.MeasureString(middleText.Value, font);
-                float middleStringY = imageHeight / 2 + (middleText.IsIgnoreFontDescent ? descentSize / 2 : 0);
-                graphics.DrawString(middleText.Value, font, fontBrush, stringX, middleStringY, sf);
+
+                SizeF size = graphics.MeasureString(middleText.Value, font, imageWidth, sf);
+                RectangleF rect = graphics.MeasureDrawedString(middleText.Value, font, stamp.Size, sf);
+
+                var tmpPosX = ((stamp.Size.Width - size.Width) / 2);
+                var tmpPosY = ((stamp.Size.Height - size.Height) / 2);
+
+                var centerPosX = (stamp.Size.Width - rect.Width) / 2;
+                var centerPosY = (stamp.Size.Height - rect.Height) / 2;
 
 #if DEBUG
                 if (StampUtils.IsDebug())
                 {
-                    graphics.DrawRectangle(new Pen(Color.Green), stringX, middleStringY, middleStringSize.Width, middleStringSize.Height);
+                    using (var pen = GetDebugPen())
+                    {
+                        graphics.DrawRectangle(pen, centerPosX, centerPosY, rect.Width, rect.Height);
+                    }
                 }
 #endif
+
+
+                centerPosX -= (centerPosX - tmpPosX);
+                centerPosY -= (centerPosY - tmpPosY);
+
+
+                graphics.DrawString(middleText.Value, font, fontBrush, centerPosX, centerPosY, sf);
             }
 
             // 下段テキスト
             StampText bottomText = stamp.BottomText;
             if (bottomText != null)
             {
+
                 Font font = new Font(bottomText.FontFamily, bottomText.Size);
-                SizeF bottomStringSize = graphics.MeasureString(bottomText.Value, font);
-                float bottomStringY = bottomLineY + bottomStringSize.Height / 2 + stamp.TopBottomTextOffset;
-                graphics.DrawString(bottomText.Value, font, fontBrush, stringX, bottomStringY, sf);
+
+                SizeF size = graphics.MeasureString(bottomText.Value, font, imageWidth, sf);
+                RectangleF rect = graphics.MeasureDrawedString(bottomText.Value, font, stamp.Size, sf);
+
+                var basePosY = bottomLineY + stamp.TopBottomTextOffset;
+
+                var tmpPosX = ((stamp.Size.Width - size.Width) / 2);
+
+                var centerPosX = (stamp.Size.Width - rect.Width) / 2;
+                var centerPosY = basePosY - (size.Height - rect.Height) / 2;
+
 
 #if DEBUG
                 if (StampUtils.IsDebug())
                 {
-                    graphics.DrawRectangle(new Pen(Color.Green), stringX, bottomStringY, bottomStringSize.Width, bottomStringSize.Height);
+                    using (var pen = GetDebugPen())
+                    {
+                        graphics.DrawRectangle(pen, centerPosX, centerPosY, rect.Width, rect.Height);
+                    }
                 }
 #endif
+                centerPosX -= (centerPosX - tmpPosX);
+
+                graphics.DrawString(bottomText.Value, font, fontBrush, centerPosX, centerPosY, sf);
             }
 
 
@@ -275,6 +316,7 @@ namespace StampImages.Core
                 AppendNoise(stamp, stampImage);
             }
 
+            sf.Dispose();
             fontBrush.Dispose();
             edgePen.Dispose();
             graphics.Dispose();
@@ -349,14 +391,13 @@ namespace StampImages.Core
 
 
 
-            StringFormat sf = new StringFormat();
+            StringFormat sf = new StringFormat(StringFormat.GenericTypographic);
 
             if (stamp.TextOrientationType == TextOrientationType.Vertical)
             {
                 sf.FormatFlags = StringFormatFlags.DirectionVertical;
             }
-            sf.LineAlignment = StringAlignment.Center;
-            sf.Alignment = StringAlignment.Center;
+
 
             Brush fontBrush = new SolidBrush(stamp.Color);
             float stringX = imageWidth / 2;
@@ -365,13 +406,32 @@ namespace StampImages.Core
             if (stampText != null)
             {
                 Font font = new Font(stampText.FontFamily, stampText.Size);
-                float descentSize = GetFontDescentSize(graphics, stampText, font);
-                float stringY = imageHeight / 2;
-                if (stampText.IsIgnoreFontDescent && stamp.TextOrientationType == TextOrientationType.Horizontal)
+
+                var size = graphics.MeasureString(stampText.Value, font, imageWidth, sf);
+                RectangleF rect = graphics.MeasureDrawedString(stampText.Value, font, stamp.Size, sf);
+
+                var tmpPosX = ((stamp.Size.Width - size.Width) / 2);
+                var tmpPosY = ((stamp.Size.Height - size.Height) / 2);
+
+                var centerPosX = (stamp.Size.Width - rect.Width) / 2;
+                var centerPosY = (stamp.Size.Height - rect.Height) / 2;
+
+#if DEBUG
+                if (StampUtils.IsDebug())
                 {
-                    stringY += descentSize / 2;
+                    using (var pen = GetDebugPen())
+                    {
+                        graphics.DrawRectangle(pen, centerPosX, centerPosY, rect.Width, rect.Height);
+                    }
                 }
-                graphics.DrawString(stampText.Value, font, fontBrush, stringX, stringY, sf);
+#endif
+
+
+                centerPosX -= (centerPosX - tmpPosX);
+                centerPosY -= (centerPosY - tmpPosY);
+
+
+                graphics.DrawString(stampText.Value, font, fontBrush, centerPosX, centerPosY, sf);
             }
 
 
@@ -391,7 +451,7 @@ namespace StampImages.Core
                 AppendNoise(stamp, stampImage);
             }
 
-
+            sf.Dispose();
             fontBrush.Dispose();
             edgePen.Dispose();
             graphics.Dispose();
@@ -455,15 +515,14 @@ namespace StampImages.Core
             graphics.DrawEllipse(edgePen, outerSpace, outerSpace, 2 * r, 2 * r);
 
 
-            // TODO 微妙にずれる
-            StringFormat sf = new StringFormat();
+
+            StringFormat sf = new StringFormat(StringFormat.GenericTypographic);
 
             if (stamp.TextOrientationType == TextOrientationType.Vertical)
             {
                 sf.FormatFlags = StringFormatFlags.DirectionVertical;
             }
-            sf.LineAlignment = StringAlignment.Center;
-            sf.Alignment = StringAlignment.Center;
+
 
             Brush fontBrush = new SolidBrush(stamp.Color);
             float stringX = imageWidth / 2;
@@ -472,15 +531,32 @@ namespace StampImages.Core
             if (stampText != null)
             {
                 Font font = new Font(stampText.FontFamily, stampText.Size);
-                float descentSize = GetFontDescentSize(graphics, stampText, font);
 
-                float stringY = imageHeight / 2;
+                var size = graphics.MeasureString(stampText.Value, font, imageWidth, sf);
+                RectangleF rect = graphics.MeasureDrawedString(stampText.Value, font, stamp.Size, sf);
 
-                if (stampText.IsIgnoreFontDescent && stamp.TextOrientationType == TextOrientationType.Horizontal)
+                var tmpPosX = ((stamp.Size.Width - size.Width) / 2);
+                var tmpPosY = ((stamp.Size.Height - size.Height) / 2);
+
+                var centerPosX = (stamp.Size.Width - rect.Width) / 2;
+                var centerPosY = (stamp.Size.Height - rect.Height) / 2;
+
+#if DEBUG
+                if (StampUtils.IsDebug())
                 {
-                    stringY += descentSize / 2;
+                    using (var pen = GetDebugPen())
+                    {
+                        graphics.DrawRectangle(pen, centerPosX, centerPosY, rect.Width, rect.Height);
+                    }
                 }
-                graphics.DrawString(stampText.Value, font, fontBrush, stringX, stringY, sf);
+#endif
+
+
+                centerPosX -= (centerPosX - tmpPosX);
+                centerPosY -= (centerPosY - tmpPosY);
+
+
+                graphics.DrawString(stampText.Value, font, fontBrush, centerPosX, centerPosY, sf);
 
             }
 
@@ -502,7 +578,7 @@ namespace StampImages.Core
                 AppendNoise(stamp, stampImage);
             }
 
-
+            sf.Dispose();
             fontBrush.Dispose();
             edgePen.Dispose();
             graphics.Dispose();
@@ -585,52 +661,23 @@ namespace StampImages.Core
             graphics.DrawPath(pen, path);
         }
 
-        /// <summary>
-        /// <see href="https://docs.microsoft.com/ja-jp/dotnet/desktop/winforms/advanced/how-to-obtain-font-metrics?view=netframeworkdesktop-4.8"/>
-        /// </summary>
-        /// <param name="graphics"></param>
-        /// <param name="stampText"></param>
-        /// <param name="font"></param>
-        /// <returns></returns>
-        static float GetFontDescentSize(Graphics graphics, StampText stampText, Font font)
+
+        #region DEBUG
+
+        private static void DrawCenterLines(Bitmap bitmap, Graphics graphics)
         {
-            SizeF size = graphics.MeasureString(stampText.Value, font);
-
-            int descent = stampText.FontFamily.GetCellDescent(font.Style);
-            int emHeight = stampText.FontFamily.GetEmHeight(font.Style);
-
-            float descentSize = size.Height * descent / emHeight;
-
-            return descentSize;
-        }
-
-        /// <summary>
-        /// <see href="https://docs.microsoft.com/ja-jp/dotnet/desktop/winforms/advanced/how-to-obtain-font-metrics?view=netframeworkdesktop-4.8"/>
-        /// </summary>
-        /// <param name="graphics"></param>
-        /// <param name="stampText"></param>
-        /// <param name="font"></param>
-        /// <returns></returns>
-        static float GetFontAscentSize(Graphics graphics, StampText stampText, Font font)
-        {
-            SizeF size = graphics.MeasureString(stampText.Value, font);
-
-            int ascent = stampText.FontFamily.GetCellAscent(font.Style);
-            int emHeight = stampText.FontFamily.GetEmHeight(font.Style);
-
-            float ascentSize = size.Height * ascent / emHeight;
-
-            return ascentSize;
-        }
-
-        private static void DrawCenterLines(Bitmap bitmap, Graphics graphics) {
-            var dPen = new Pen(Color.Green)
-            {
-                Width = 2
-            };
+            var dPen = GetDebugPen();
             graphics.DrawLine(dPen, bitmap.Size.Width / 2, 0, bitmap.Size.Width / 2, bitmap.Size.Height);
             graphics.DrawLine(dPen, 0, bitmap.Size.Height / 2, bitmap.Size.Width, bitmap.Size.Height / 2);
+            dPen.Dispose();
         }
+
+        private static Pen GetDebugPen() => new Pen(Color.Green)
+        {
+            Width = 3
+        };
+
+        #endregion
 
         /// <inheritdoc />
         public void Dispose()
