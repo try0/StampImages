@@ -107,7 +107,7 @@
             <param name="stamp"></param>
             <param name="stampImage"></param>
         </member>
-        <member name="M:StampImages.Core.StampImageFactory.DrawRoundedRectangle(System.Drawing.Graphics,System.Drawing.Pen,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">
+        <member name="M:StampImages.Core.StampImageFactory.DrawRoundedRectangle(System.Drawing.Graphics,System.Drawing.Pen,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Boolean)">
             <summary>
             丸角の四角形を描画します。
             </summary>
@@ -194,6 +194,11 @@
         <member name="P:StampImages.Core.BaseStamp.Color">
             <summary>
             スタンプカラー
+            </summary>
+        </member>
+        <member name="P:StampImages.Core.BaseStamp.IsFillColor">
+            <summary>
+            塗りつぶし
             </summary>
         </member>
         <member name="P:StampImages.Core.BaseStamp.EdgeType">

@@ -156,7 +156,6 @@ namespace StampImages.Core
                 // 外円描画
                 graphics.DrawEllipse(edgePen, outerSpace, outerSpace, 2 * r, 2 * r);
 
-
                 // 内円の設定へ更新
                 r -= stamp.DoubleEdgeOffset;
                 outerSpace += stamp.DoubleEdgeOffset;
@@ -168,6 +167,15 @@ namespace StampImages.Core
 
             // 印鑑の縁
             graphics.DrawEllipse(edgePen, outerSpace, outerSpace, 2 * r, 2 * r);
+
+            if (stamp.IsFillColor)
+            {
+                using (var fillBrush = new SolidBrush(stamp.Color))
+                {
+                    graphics.FillEllipse(fillBrush, outerSpace, outerSpace, 2 * r, 2 * r);
+                }
+
+            }
 
 #if DEBUG
             if (StampUtils.IsDebug())
@@ -189,20 +197,29 @@ namespace StampImages.Core
             int topLineY = imageWidth / 2 - y;
             int bottomLineY = imageWidth / 2 + y;
 
-            Pen dividerPen = new Pen(stamp.Color)
+            Pen dividerPen = stamp.IsFillColor ? new Pen(stamp.Color.GetInvertColor()) : new Pen(stamp.Color);
+
+            dividerPen.Width = stamp.DividerWidth;
+
+            if (stamp.IsFillColor)
             {
-                Width = stamp.DividerWidth
-            };
+                space -= Math.Max((int)( stamp.DoubleEdgeOffset * 0.6), 0);
+            }
+
+            graphics.SmoothingMode = SmoothingMode.HighSpeed;
 
             // 上部ライン
             graphics.DrawLine(dividerPen, space + outerSpace, topLineY, imageWidth - (space + outerSpace), topLineY);
             // 下部ライン
             graphics.DrawLine(dividerPen, space + outerSpace, bottomLineY, imageWidth - (space + outerSpace), bottomLineY);
 
+            graphics.SmoothingMode = SmoothingMode.HighQuality;
+
+ 
 
             StringFormat sf = new StringFormat(StringFormat.GenericTypographic);
 
-            Brush fontBrush = new SolidBrush(stamp.Color);
+            Brush fontBrush = stamp.IsFillColor ? new SolidBrush(stamp.Color.GetInvertColor()) : new SolidBrush(stamp.Color);
             float stringX = imageWidth / 2;
             // 上段テキスト
             StampText topText = stamp.TopText;
@@ -304,6 +321,10 @@ namespace StampImages.Core
 
             // 背景透過
             stampImage.MakeTransparent();
+            if (stamp.IsFillColor)
+            {
+                stampImage.MakeTransparent(stamp.Color.GetInvertColor());
+            }
 
 #if DEBUG
             if (StampUtils.IsDebug())
@@ -369,7 +390,7 @@ namespace StampImages.Core
             if (stamp.EdgeType == StampEdgeType.Double)
             {
                 // 外描画
-                DrawRoundedRectangle(graphics, edgePen, outerSpaceX, outerSpaceY, stampWidth, stampHeight, edgeRadius);
+                DrawRoundedRectangle(graphics, edgePen, outerSpaceX, outerSpaceY, stampWidth, stampHeight, edgeRadius, false);
 
                 // 内の設定へ更新
                 stampHeight -= stamp.DoubleEdgeOffset * 2;
@@ -386,7 +407,7 @@ namespace StampImages.Core
 
 
             // 印鑑の縁
-            DrawRoundedRectangle(graphics, edgePen, outerSpaceX, outerSpaceY, stampWidth, stampHeight, edgeRadius);
+            DrawRoundedRectangle(graphics, edgePen, outerSpaceX, outerSpaceY, stampWidth, stampHeight, edgeRadius, stamp.IsFillColor);
 
 
 
@@ -398,7 +419,7 @@ namespace StampImages.Core
             }
 
 
-            Brush fontBrush = new SolidBrush(stamp.Color);
+            Brush fontBrush = stamp.IsFillColor ? new SolidBrush(stamp.Color.GetInvertColor()) : new SolidBrush(stamp.Color);
             float stringX = imageWidth / 2;
 
             StampText stampText = stamp.Text;
@@ -436,6 +457,10 @@ namespace StampImages.Core
 
             // 背景透過
             stampImage.MakeTransparent();
+            if (stamp.IsFillColor)
+            {
+                stampImage.MakeTransparent(stamp.Color.GetInvertColor());
+            }
 
 #if DEBUG
             if (StampUtils.IsDebug())
@@ -466,6 +491,7 @@ namespace StampImages.Core
 
             int imageWidth = stamp.Size.Width;
             int imageHeight = stamp.Size.Height;
+
             Pen edgePen = new Pen(stamp.Color)
             {
                 Width = stamp.EdgeWidth
@@ -510,6 +536,14 @@ namespace StampImages.Core
             // 印鑑の縁
             graphics.DrawEllipse(edgePen, outerSpace, outerSpace, 2 * r, 2 * r);
 
+            if (stamp.IsFillColor)
+            {
+                using (var fillBrush = new SolidBrush(stamp.Color))
+                {
+                    graphics.FillEllipse(fillBrush, outerSpace, outerSpace, 2 * r, 2 * r);
+                }
+            }
+
 
 
             StringFormat sf = new StringFormat(StringFormat.GenericTypographic);
@@ -520,7 +554,7 @@ namespace StampImages.Core
             }
 
 
-            Brush fontBrush = new SolidBrush(stamp.Color);
+            Brush fontBrush = stamp.IsFillColor ? new SolidBrush(stamp.Color.GetInvertColor()) : new SolidBrush(stamp.Color);
             float stringX = imageWidth / 2;
 
             StampText stampText = stamp.Text;
@@ -567,6 +601,10 @@ namespace StampImages.Core
             // 背景透過
             stampImage.MakeTransparent();
 
+            if (stamp.IsFillColor)
+            {
+                stampImage.MakeTransparent(stamp.Color.GetInvertColor());
+            }
 
             AppendEffects(stamp, stampImage);
 
@@ -744,12 +782,20 @@ namespace StampImages.Core
         /// <param name="width"></param>
         /// <param name="height"></param>
         /// <param name="radius"></param>
-        static void DrawRoundedRectangle(Graphics graphics, Pen pen, int x, int y, int width, int height, int radius)
+        static void DrawRoundedRectangle(Graphics graphics, Pen pen, int x, int y, int width, int height, int radius, bool isFill)
         {
 
             if (radius == 0)
             {
                 graphics.DrawRectangle(pen, x, y, width, height);
+
+                if (isFill)
+                {
+                    using (var fillBrush = new SolidBrush(pen.Color))
+                    {
+                        graphics.FillRectangle(fillBrush, x, y, width, height);
+                    }
+                }
                 return;
             }
 
@@ -778,6 +824,14 @@ namespace StampImages.Core
 
             path.CloseFigure();
             graphics.DrawPath(pen, path);
+
+            if (isFill)
+            {
+                using (var fillBrush = new SolidBrush(pen.Color))
+                {
+                    graphics.FillPath(fillBrush, path);
+                }
+            }
         }
 
 

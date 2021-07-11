@@ -26,6 +26,11 @@ namespace StampImages.Core
         public Color Color { get; set; } = DEFAULT_STAMP_COLOR;
 
         /// <summary>
+        /// 塗りつぶし
+        /// </summary>
+        public bool IsFillColor { get; set; } = false;
+
+        /// <summary>
         /// 縁
         /// </summary>
         public StampEdgeType EdgeType { get; set; } = StampEdgeType.Single;
