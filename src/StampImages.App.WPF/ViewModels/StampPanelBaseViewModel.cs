@@ -58,6 +58,10 @@ namespace StampImages.App.WPF.ViewModels
         /// </summary>
         public ReactiveProperty<bool> IsAppendNoise { get; } = new ReactiveProperty<bool>(false);
         /// <summary>
+        /// 汚し加工付与
+        /// </summary>
+        public ReactiveProperty<bool> IsAppendGrunge { get; } = new ReactiveProperty<bool>(false);
+        /// <summary>
         /// スタンプカラー
         /// </summary>
         public ReactiveProperty<Media.Color> StampColor { get; }
@@ -150,6 +154,7 @@ namespace StampImages.App.WPF.ViewModels
             IsDoubleStampEdge.Subscribe(_ => RequestUpdateStampImage());
             RotationAngle.Subscribe(_ => RequestUpdateStampImage());
             IsAppendNoise.Subscribe(_ => RequestUpdateStampImage());
+            IsAppendGrunge.Subscribe(_ => RequestUpdateStampImage());
             StampColor.Subscribe(_ => RequestUpdateStampImage());
             FontFamily.Subscribe(_ => RequestUpdateStampImage());
 
@@ -237,6 +242,7 @@ namespace StampImages.App.WPF.ViewModels
 
             RotationAngle.Value = 0;
             IsAppendNoise.Value = false;
+            IsAppendGrunge.Value = false;
             IsDoubleStampEdge.Value = false;
 
             FontFamily.Value = new Media.FontFamily("MS UI Gothic");
@@ -403,6 +409,11 @@ namespace StampImages.App.WPF.ViewModels
             if (IsAppendNoise.Value)
             {
                 stamp.EffectTypes.Add(StampEffectType.Noise);
+            }
+
+            if (IsAppendGrunge.Value)
+            {
+                stamp.EffectTypes.Add(StampEffectType.Grunge);
             }
 
             System.Drawing.Color drawingColor = System.Drawing.Color.FromArgb(StampColor.Value.A, StampColor.Value.R, StampColor.Value.G, StampColor.Value.B);
