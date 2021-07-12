@@ -190,6 +190,7 @@ namespace StampImages.App.WPF.ViewModels
             IsDoubleStampEdge.Value = stamp.EdgeType == StampEdgeType.Double;
             RotationAngle.Value = stamp.RotationAngle;
             IsAppendNoise.Value = stamp.EffectTypes.Contains(StampEffectType.Noise);
+            IsAppendGrunge.Value = stamp.EffectTypes.Contains(StampEffectType.Grunge);
             StampColor.Value = Media.Color.FromRgb(stamp.Color.R, stamp.Color.G, stamp.Color.B);
         }
 
