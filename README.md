@@ -49,6 +49,33 @@ using (var bitmap = stampImageFactory.Create(stamp))
 ![stamp-20210705222034](https://user-images.githubusercontent.com/17096601/124477687-429d9080-dddf-11eb-9e29-b7225389f8ce.png)
 
 
+```C#
+StampImageFactory stampImageFactory = new StampImageFactory();
+var stamp = new RectangleStamp
+{
+    Size = new Size(512, 110),
+    Color = ColorTranslator.FromHtml("#1f456e"),
+    IsFillColor = true,
+    EdgeType = StampEdgeType.Double,
+    EdgeWidth = 5,
+    EdgeRadius = 0,
+
+    Text = new StampText { Value = "SOLD OUT", Size = 70, FontFamily = new FontFamily("Stardos Stencil") },
+};
+stamp.EffectTypes.Add(StampEffectType.Grunge);
+
+using (stamp)
+using (var bitmap = stampImageFactory.Create(stamp))
+{
+    bitmap.Save("./stamp_sold_out.png");
+}
+```
+
+![stamp_sold_out](https://user-images.githubusercontent.com/17096601/125278737-0f628080-e34e-11eb-9117-1844d54a22a5.png)
+
+
+
+
 ## [StampImages.App.WPF](https://github.com/try0/StampImages/tree/main/src/StampImages.App.WPF)
 
 netcoreapp3.1  
