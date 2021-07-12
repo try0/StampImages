@@ -32,10 +32,6 @@ namespace StampImages.Core
         /// フォント
         /// </summary>
         public FontFamily FontFamily { get; set; } = GetDefaultFontFamily();
-        /// <summary>
-        /// Descent領域を無視するか否か
-        /// </summary>
-        public bool IsIgnoreFontDescent { get; set; } = CultureInfo.CurrentUICulture.ToString().ToLower().Contains("ja");
 
 
         /// <summary>

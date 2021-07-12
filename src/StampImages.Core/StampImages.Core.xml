@@ -169,11 +169,6 @@
             フォント
             </summary>
         </member>
-        <member name="P:StampImages.Core.StampText.IsIgnoreFontDescent">
-            <summary>
-            Descent領域を無視するか否か
-            </summary>
-        </member>
         <member name="M:StampImages.Core.StampText.#ctor">
             <summary>
             コンストラクター
