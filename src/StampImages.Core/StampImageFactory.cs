@@ -230,12 +230,8 @@ namespace StampImages.Core
                 SizeF size = graphics.MeasureString(topText.Value, font, imageWidth, sf);
                 RectangleF rect = graphics.MeasureDrawedString(topText.Value, font, stamp.Size, sf);
 
-                var basePosY = topLineY - stamp.TopBottomTextOffset - rect.Height;
-
-                var tmpPosX = ((stamp.Size.Width - size.Width) / 2);
-
-                var centerPosX = (stamp.Size.Width - rect.Width) / 2;
-                var centerPosY = basePosY - (size.Height - rect.Height) / 2;
+                float centerPosX = (stamp.Size.Width - rect.Width) / 2;
+                float centerPosY = topLineY - stamp.TopBottomTextOffset - rect.Height;
 
 
 #if DEBUG
@@ -247,7 +243,9 @@ namespace StampImages.Core
                     }
                 }
 #endif
-                centerPosX -= (centerPosX - tmpPosX);
+
+                centerPosX -= rect.X;
+                centerPosY -= rect.Y;
 
                 graphics.DrawString(topText.Value, font, fontBrush, centerPosX, centerPosY, sf);
 
@@ -262,11 +260,8 @@ namespace StampImages.Core
                 SizeF size = graphics.MeasureString(middleText.Value, font, imageWidth, sf);
                 RectangleF rect = graphics.MeasureDrawedString(middleText.Value, font, stamp.Size, sf);
 
-                var tmpPosX = ((stamp.Size.Width - size.Width) / 2);
-                var tmpPosY = ((stamp.Size.Height - size.Height) / 2);
-
-                var centerPosX = (stamp.Size.Width - rect.Width) / 2;
-                var centerPosY = (stamp.Size.Height - rect.Height) / 2;
+                float centerPosX = (stamp.Size.Width - rect.Width) / 2;
+                float centerPosY = (stamp.Size.Height - rect.Height) / 2;
 
 #if DEBUG
                 if (StampUtils.IsDebug())
@@ -278,9 +273,8 @@ namespace StampImages.Core
                 }
 #endif
 
-
-                centerPosX -= (centerPosX - tmpPosX);
-                centerPosY -= (centerPosY - tmpPosY);
+                centerPosX -= rect.X;
+                centerPosY -= rect.Y;
 
 
                 graphics.DrawString(middleText.Value, font, fontBrush, centerPosX, centerPosY, sf);
@@ -296,12 +290,8 @@ namespace StampImages.Core
                 SizeF size = graphics.MeasureString(bottomText.Value, font, imageWidth, sf);
                 RectangleF rect = graphics.MeasureDrawedString(bottomText.Value, font, stamp.Size, sf);
 
-                var basePosY = bottomLineY + stamp.TopBottomTextOffset;
-
-                var tmpPosX = ((stamp.Size.Width - size.Width) / 2);
-
-                var centerPosX = (stamp.Size.Width - rect.Width) / 2;
-                var centerPosY = basePosY - (size.Height - rect.Height) / 2;
+                float centerPosX = (stamp.Size.Width - rect.Width) / 2;
+                float centerPosY = bottomLineY + stamp.TopBottomTextOffset;
 
 
 #if DEBUG
@@ -313,7 +303,9 @@ namespace StampImages.Core
                     }
                 }
 #endif
-                centerPosX -= (centerPosX - tmpPosX);
+
+                centerPosX -= rect.X;
+                centerPosY -= rect.Y;
 
                 graphics.DrawString(bottomText.Value, font, fontBrush, centerPosX, centerPosY, sf);
             }
@@ -430,11 +422,8 @@ namespace StampImages.Core
                 var size = graphics.MeasureString(stampText.Value, font, imageWidth, sf);
                 RectangleF rect = graphics.MeasureDrawedString(stampText.Value, font, stamp.Size, sf);
 
-                var tmpPosX = ((stamp.Size.Width - size.Width) / 2);
-                var tmpPosY = ((stamp.Size.Height - size.Height) / 2);
-
-                var centerPosX = (stamp.Size.Width - rect.Width) / 2;
-                var centerPosY = (stamp.Size.Height - rect.Height) / 2;
+                float centerPosX = (stamp.Size.Width - rect.Width) / 2;
+                float centerPosY = (stamp.Size.Height - rect.Height) / 2;
 
 #if DEBUG
                 if (StampUtils.IsDebug())
@@ -447,8 +436,8 @@ namespace StampImages.Core
 #endif
 
 
-                centerPosX -= (centerPosX - tmpPosX);
-                centerPosY -= (centerPosY - tmpPosY);
+                centerPosX -= rect.X;
+                centerPosY -= rect.Y;
 
 
                 graphics.DrawString(stampText.Value, font, fontBrush, centerPosX, centerPosY, sf);
@@ -565,11 +554,8 @@ namespace StampImages.Core
                 var size = graphics.MeasureString(stampText.Value, font, imageWidth, sf);
                 RectangleF rect = graphics.MeasureDrawedString(stampText.Value, font, stamp.Size, sf);
 
-                var tmpPosX = ((stamp.Size.Width - size.Width) / 2);
-                var tmpPosY = ((stamp.Size.Height - size.Height) / 2);
-
-                var centerPosX = (stamp.Size.Width - rect.Width) / 2;
-                var centerPosY = (stamp.Size.Height - rect.Height) / 2;
+                float centerPosX = (stamp.Size.Width - rect.Width) / 2;
+                float centerPosY = (stamp.Size.Height - rect.Height) / 2;
 
 #if DEBUG
                 if (StampUtils.IsDebug())
@@ -582,8 +568,8 @@ namespace StampImages.Core
 #endif
 
 
-                centerPosX -= (centerPosX - tmpPosX);
-                centerPosY -= (centerPosY - tmpPosY);
+                centerPosX -= rect.X;
+                centerPosY -= rect.Y;
 
 
                 graphics.DrawString(stampText.Value, font, fontBrush, centerPosX, centerPosY, sf);
