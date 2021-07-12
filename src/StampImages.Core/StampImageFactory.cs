@@ -623,14 +623,14 @@ namespace StampImages.Core
         /// <param name="stampImage"></param>
         static void AppendEffects(BaseStamp stamp, Bitmap stampImage)
         {
-            if (stamp.EffectTypes.Contains(StampEffectType.Noise))
-            {
-                AppendNoise(stamp, stampImage);
-            }
-
             if (stamp.EffectTypes.Contains(StampEffectType.Grunge))
             {
                 AppendGrunge(stamp, stampImage);
+            }
+
+            if (stamp.EffectTypes.Contains(StampEffectType.Noise))
+            {
+                AppendNoise(stamp, stampImage);
             }
         }
 
