@@ -20,7 +20,7 @@
             <i:InvokeCommandAction Command="{Binding UnloadedCommand}"/>
         </i:EventTrigger>
     </i:Interaction.Triggers>
-    
+
 
 
     <Grid>
@@ -40,8 +40,11 @@
 
         </ContentControl>
 
-        <Controls:ToggleSwitch Header="" Content="2重" Height="49" Margin="33,151,0,0" Width="111" IsOn="{Binding IsDoubleStampEdge.Value, Mode=TwoWay}" VerticalAlignment="Top" />
-        <Controls:ToggleSwitch Header="" Content="ノイズ"  Margin="33,192,0,104" VerticalAlignment="Stretch" Width="204" IsOn="{Binding IsAppendNoise.Value, Mode=TwoWay}" Controls:HeaderedControlHelper.HeaderHorizontalContentAlignment="Stretch" Controls:HeaderedControlHelper.HeaderVerticalContentAlignment="Bottom" Controls:HeaderedControlHelper.HeaderMargin="0,0,0,0" />
+        <Controls:ToggleSwitch Header="" Content="塗りつぶし" Height="49" Margin="33,185,0,0" Width="111" IsOn="{Binding IsFillColor.Value, Mode=TwoWay}" VerticalAlignment="Top" />
+        <Controls:ToggleSwitch Header="" Content="2重" Height="48" Margin="33,0,0,0" Width="111" IsOn="{Binding IsDoubleStampEdge.Value, Mode=TwoWay}" />
+        <Controls:ToggleSwitch Header="" Content="ノイズ"  Margin="33,225,0,71" VerticalAlignment="Stretch" Width="204" IsOn="{Binding IsAppendNoise.Value, Mode=TwoWay}" Controls:HeaderedControlHelper.HeaderHorizontalContentAlignment="Stretch" Controls:HeaderedControlHelper.HeaderVerticalContentAlignment="Bottom" Controls:HeaderedControlHelper.HeaderMargin="0,0,0,0" />
+        <Controls:ToggleSwitch Header="" Content="グランジ"  Margin="33,262,0,34" VerticalAlignment="Stretch" Width="204" IsOn="{Binding IsAppendGrunge.Value, Mode=TwoWay}" Controls:HeaderedControlHelper.HeaderHorizontalContentAlignment="Stretch" Controls:HeaderedControlHelper.HeaderVerticalContentAlignment="Bottom" Controls:HeaderedControlHelper.HeaderMargin="0,0,0,0" />
+
 
 
 
@@ -76,7 +79,6 @@
                  ToolTip="設定を初期化します"/>
         <Button Content="保存" Width="75" HorizontalAlignment="Left" Margin="364,311,0,0" VerticalAlignment="Top" Command="{Binding SaveImageCommand}"
                  ToolTip="画像ファイルを保存します"/>
-
 
     </Grid>
 </UserControl>

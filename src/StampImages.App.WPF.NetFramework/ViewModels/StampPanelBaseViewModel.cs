@@ -54,9 +54,18 @@ namespace StampImages.App.WPF.ViewModels
         public ReactiveProperty<int> RotationAngle { get; } = new ReactiveProperty<int>(0);
 
         /// <summary>
+        /// 塗りつぶし
+        /// </summary>
+        public ReactiveProperty<bool> IsFillColor { get; } = new ReactiveProperty<bool>(false);
+
+        /// <summary>
         /// ノイズ付与
         /// </summary>
         public ReactiveProperty<bool> IsAppendNoise { get; } = new ReactiveProperty<bool>(false);
+        /// <summary>
+        /// 汚し加工付与
+        /// </summary>
+        public ReactiveProperty<bool> IsAppendGrunge { get; } = new ReactiveProperty<bool>(false);
         /// <summary>
         /// スタンプカラー
         /// </summary>
@@ -146,10 +155,11 @@ namespace StampImages.App.WPF.ViewModels
                 LoadStamp(stamp);
                 stamp.Dispose();
             }
-
+            IsFillColor.Subscribe(_ => RequestUpdateStampImage());
             IsDoubleStampEdge.Subscribe(_ => RequestUpdateStampImage());
             RotationAngle.Subscribe(_ => RequestUpdateStampImage());
             IsAppendNoise.Subscribe(_ => RequestUpdateStampImage());
+            IsAppendGrunge.Subscribe(_ => RequestUpdateStampImage());
             StampColor.Subscribe(_ => RequestUpdateStampImage());
             FontFamily.Subscribe(_ => RequestUpdateStampImage());
 
@@ -182,9 +192,11 @@ namespace StampImages.App.WPF.ViewModels
         /// <param name="stamp"></param>
         protected virtual void LoadStamp(BaseStamp stamp)
         {
+            IsFillColor.Value = stamp.IsFillColor;
             IsDoubleStampEdge.Value = stamp.EdgeType == StampEdgeType.Double;
             RotationAngle.Value = stamp.RotationAngle;
             IsAppendNoise.Value = stamp.EffectTypes.Contains(StampEffectType.Noise);
+            IsAppendGrunge.Value = stamp.EffectTypes.Contains(StampEffectType.Grunge);
             StampColor.Value = Media.Color.FromRgb(stamp.Color.R, stamp.Color.G, stamp.Color.B);
         }
 
@@ -237,6 +249,8 @@ namespace StampImages.App.WPF.ViewModels
 
             RotationAngle.Value = 0;
             IsAppendNoise.Value = false;
+            IsAppendGrunge.Value = false;
+            IsFillColor.Value = false;
             IsDoubleStampEdge.Value = false;
 
             FontFamily.Value = new Media.FontFamily("MS UI Gothic");
@@ -397,12 +411,17 @@ namespace StampImages.App.WPF.ViewModels
 
             stamp.SetFontFamily(new System.Drawing.FontFamily(FontFamily.Value.Source));
 
-
+            stamp.IsFillColor = IsFillColor.Value;
             stamp.EdgeType = IsDoubleStampEdge.Value ? StampEdgeType.Double : StampEdgeType.Single;
             stamp.RotationAngle = RotationAngle.Value;
             if (IsAppendNoise.Value)
             {
                 stamp.EffectTypes.Add(StampEffectType.Noise);
+            }
+
+            if (IsAppendGrunge.Value)
+            {
+                stamp.EffectTypes.Add(StampEffectType.Grunge);
             }
 
             System.Drawing.Color drawingColor = System.Drawing.Color.FromArgb(StampColor.Value.A, StampColor.Value.R, StampColor.Value.G, StampColor.Value.B);
