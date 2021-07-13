@@ -44,11 +44,11 @@ namespace StampImages.Test.NetFramework
         {
             var stamp = new RectangleStamp
             {
-                EdgeType = StampEdgeType.DOUBLE,
-                TextOrientationType = TextOrientationType.VERTICAL,
+                EdgeType = StampEdgeType.Double,
+                TextOrientationType = TextOrientationType.Vertical,
                 Text = new StampText { Value = "è≥îF", Size = 60 },
             };
-            stamp.EffectTypes.Add(StampEffectType.NOISE);
+            stamp.EffectTypes.Add(StampEffectType.Noise);
 
             using (stamp)
             using (var bitmap = stampImageFactory.Create(stamp))
@@ -62,13 +62,16 @@ namespace StampImages.Test.NetFramework
         {
             var stamp = new RectangleStamp
             {
-                Size = new Size(512, 180),
-                EdgeType = StampEdgeType.SINGLE,
-                EdgeWidth = 10,
+                Size = new Size(512, 110),
+                Color = Color.DarkCyan,
+                IsFillColor = true,
+                EdgeType = StampEdgeType.Double,
+                EdgeWidth = 5,
                 EdgeRadius = 0,
-                Text = new StampText { Value = "SOLD OUT", Size = 70, IsIgnoreFontDescent = false },
+
+                Text = new StampText { Value = "SOLD OUT", Size = 70 },
             };
-            stamp.EffectTypes.Add(StampEffectType.NOISE);
+            stamp.EffectTypes.Add(StampEffectType.Grunge);
 
             using (stamp)
             using (var bitmap = stampImageFactory.Create(stamp))
