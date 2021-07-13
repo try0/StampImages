@@ -376,6 +376,7 @@
         <member name="F:StampImages.Core.StampEffectType.Grunge">
             <summary>
             グランジ
+            <para><see href="https://jp.freepik.com/photos/grunge"/>Freepik.comのリソースを使用しています</para>
             </summary>
         </member>
         <member name="T:StampImages.Core.TextOrientationType">

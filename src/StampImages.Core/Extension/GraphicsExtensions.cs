@@ -239,7 +239,6 @@ namespace StampImages.Core
         /// <param name="width"></param>
         /// <param name="height"></param>
         /// <param name="radius"></param>
-        /// <param name="isFill"></param>
         public static void DrawRoundedRectangle(this Graphics graphics, Pen pen, int x, int y, int width, int height, int radius)
         {
 
