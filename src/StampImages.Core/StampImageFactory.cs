@@ -203,7 +203,7 @@ namespace StampImages.Core
 
             if (stamp.IsFillColor)
             {
-                space -= Math.Max((int)( stamp.DoubleEdgeOffset * 0.6), 0);
+                space -= Math.Max((int)(stamp.DoubleEdgeOffset * 0.6), 0);
             }
 
             graphics.SmoothingMode = SmoothingMode.HighSpeed;
@@ -215,7 +215,7 @@ namespace StampImages.Core
 
             graphics.SmoothingMode = SmoothingMode.HighQuality;
 
- 
+
 
             StringFormat sf = new StringFormat(StringFormat.GenericTypographic);
 
@@ -382,7 +382,7 @@ namespace StampImages.Core
             if (stamp.EdgeType == StampEdgeType.Double)
             {
                 // 外描画
-                DrawRoundedRectangle(graphics, edgePen, outerSpaceX, outerSpaceY, stampWidth, stampHeight, edgeRadius, false);
+                graphics.DrawRoundedRectangle(edgePen, outerSpaceX, outerSpaceY, stampWidth, stampHeight, edgeRadius);
 
                 // 内の設定へ更新
                 stampHeight -= stamp.DoubleEdgeOffset * 2;
@@ -399,7 +399,17 @@ namespace StampImages.Core
 
 
             // 印鑑の縁
-            DrawRoundedRectangle(graphics, edgePen, outerSpaceX, outerSpaceY, stampWidth, stampHeight, edgeRadius, stamp.IsFillColor);
+            if (stamp.IsFillColor)
+            {
+                using (var edgeBrush = new SolidBrush(edgePen.Color))
+                {
+                    graphics.FillRoundedRectangle(edgeBrush, outerSpaceX, outerSpaceY, stampWidth, stampHeight, edgeRadius);
+                }
+            }
+            else
+            {
+                graphics.DrawRoundedRectangle(edgePen, outerSpaceX, outerSpaceY, stampWidth, stampHeight, edgeRadius);
+            }
 
 
 
@@ -755,67 +765,6 @@ namespace StampImages.Core
             }
         }
 
-        /// <summary>
-        /// 丸角の四角形を描画します。
-        /// </summary>
-        /// <param name="graphics"></param>
-        /// <param name="pen"></param>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// <param name="width"></param>
-        /// <param name="height"></param>
-        /// <param name="radius"></param>
-        static void DrawRoundedRectangle(Graphics graphics, Pen pen, int x, int y, int width, int height, int radius, bool isFill)
-        {
-
-            if (radius == 0)
-            {
-                graphics.DrawRectangle(pen, x, y, width, height);
-
-                if (isFill)
-                {
-                    using (var fillBrush = new SolidBrush(pen.Color))
-                    {
-                        graphics.FillRectangle(fillBrush, x, y, width, height);
-                    }
-                }
-                return;
-            }
-
-            GraphicsPath path = new GraphicsPath();
-            // 左上
-            path.AddArc(x, y, 2 * radius, 2 * radius, 180, 90);
-
-            // 上ライン
-            path.AddLine(x + radius, y, x + width - radius, y);
-
-            // 右上
-            path.AddArc(x + width - 2 * radius, y, 2 * radius, 2 * radius, 270, 90);
-
-            // 右ライン
-            path.AddLine(x + width, y + radius, x + width, y + height - radius);
-
-            // 右下
-            path.AddArc(x + width - 2 * radius, y + height - 2 * radius, radius + radius, radius + radius, 0, 90);
-
-            // 下ライン
-            path.AddLine(x + radius, y + height, x + width - radius, y + height);
-
-            // 左下
-            path.AddArc(x, y + height - 2 * radius, 2 * radius, 2 * radius, 90, 90);
-
-
-            path.CloseFigure();
-            graphics.DrawPath(pen, path);
-
-            if (isFill)
-            {
-                using (var fillBrush = new SolidBrush(pen.Color))
-                {
-                    graphics.FillPath(fillBrush, path);
-                }
-            }
-        }
 
 
         #region DEBUG

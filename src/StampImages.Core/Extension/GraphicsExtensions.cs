@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 
@@ -180,6 +181,99 @@ namespace StampImages.Core
 
                 return new Rectangle(stringX, stringY, stringWidth, stringHeight);
             }
+        }
+
+        /// <summary>
+        /// 塗りつぶした丸角の四角形を描画します。
+        /// </summary>
+        /// <param name="graphics"></param>
+        /// <param name="brush"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        /// <param name="radius"></param>
+        public static void FillRoundedRectangle(this Graphics graphics, SolidBrush brush, int x, int y, int width, int height, int radius)
+        {
+
+            if (radius == 0)
+            {
+                graphics.FillRectangle(brush, x, y, width, height);
+                return;
+            }
+
+            GraphicsPath path = new GraphicsPath();
+            // 左上
+            path.AddArc(x, y, 2 * radius, 2 * radius, 180, 90);
+
+            // 上ライン
+            path.AddLine(x + radius, y, x + width - radius, y);
+
+            // 右上
+            path.AddArc(x + width - 2 * radius, y, 2 * radius, 2 * radius, 270, 90);
+
+            // 右ライン
+            path.AddLine(x + width, y + radius, x + width, y + height - radius);
+
+            // 右下
+            path.AddArc(x + width - 2 * radius, y + height - 2 * radius, radius + radius, radius + radius, 0, 90);
+
+            // 下ライン
+            path.AddLine(x + radius, y + height, x + width - radius, y + height);
+
+            // 左下
+            path.AddArc(x, y + height - 2 * radius, 2 * radius, 2 * radius, 90, 90);
+
+
+            path.CloseFigure();
+            graphics.FillPath(brush, path);
+        }
+
+        /// <summary>
+        /// 丸角の四角形を描画します。
+        /// </summary>
+        /// <param name="graphics"></param>
+        /// <param name="pen"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        /// <param name="radius"></param>
+        /// <param name="isFill"></param>
+        public static void DrawRoundedRectangle(this Graphics graphics, Pen pen, int x, int y, int width, int height, int radius)
+        {
+
+            if (radius == 0)
+            {
+                graphics.DrawRectangle(pen, x, y, width, height);
+                return;
+            }
+
+            GraphicsPath path = new GraphicsPath();
+            // 左上
+            path.AddArc(x, y, 2 * radius, 2 * radius, 180, 90);
+
+            // 上ライン
+            path.AddLine(x + radius, y, x + width - radius, y);
+
+            // 右上
+            path.AddArc(x + width - 2 * radius, y, 2 * radius, 2 * radius, 270, 90);
+
+            // 右ライン
+            path.AddLine(x + width, y + radius, x + width, y + height - radius);
+
+            // 右下
+            path.AddArc(x + width - 2 * radius, y + height - 2 * radius, radius + radius, radius + radius, 0, 90);
+
+            // 下ライン
+            path.AddLine(x + radius, y + height, x + width - radius, y + height);
+
+            // 左下
+            path.AddArc(x, y + height - 2 * radius, 2 * radius, 2 * radius, 90, 90);
+
+
+            path.CloseFigure();
+            graphics.DrawPath(pen, path);
         }
     }
 }

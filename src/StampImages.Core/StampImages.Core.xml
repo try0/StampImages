@@ -32,6 +32,31 @@
             <param name="format"></param>
             <returns></returns>
         </member>
+        <member name="M:StampImages.Core.GraphicsExtensions.FillRoundedRectangle(System.Drawing.Graphics,System.Drawing.SolidBrush,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            塗りつぶした丸角の四角形を描画します。
+            </summary>
+            <param name="graphics"></param>
+            <param name="brush"></param>
+            <param name="x"></param>
+            <param name="y"></param>
+            <param name="width"></param>
+            <param name="height"></param>
+            <param name="radius"></param>
+        </member>
+        <member name="M:StampImages.Core.GraphicsExtensions.DrawRoundedRectangle(System.Drawing.Graphics,System.Drawing.Pen,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            丸角の四角形を描画します。
+            </summary>
+            <param name="graphics"></param>
+            <param name="pen"></param>
+            <param name="x"></param>
+            <param name="y"></param>
+            <param name="width"></param>
+            <param name="height"></param>
+            <param name="radius"></param>
+            <param name="isFill"></param>
+        </member>
         <member name="T:StampImages.Core.StampImageFactory">
             <summary>
             職印画像生成処理
@@ -118,18 +143,6 @@
             </summary>
             <param name="stamp"></param>
             <param name="stampImage"></param>
-        </member>
-        <member name="M:StampImages.Core.StampImageFactory.DrawRoundedRectangle(System.Drawing.Graphics,System.Drawing.Pen,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Boolean)">
-            <summary>
-            丸角の四角形を描画します。
-            </summary>
-            <param name="graphics"></param>
-            <param name="pen"></param>
-            <param name="x"></param>
-            <param name="y"></param>
-            <param name="width"></param>
-            <param name="height"></param>
-            <param name="radius"></param>
         </member>
         <member name="M:StampImages.Core.StampImageFactory.Dispose">
             <inheritdoc />
