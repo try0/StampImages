@@ -72,7 +72,7 @@ using (var bitmap = stampImageFactory.Create(stamp))
 ```
 
 ![stamp_sold_out](https://user-images.githubusercontent.com/17096601/125278737-0f628080-e34e-11eb-9117-1844d54a22a5.png)
-
+[Stardos Stencil](https://fonts.google.com/specimen/Stardos+Stencil) (SIL Open Font License)
 
 
 
