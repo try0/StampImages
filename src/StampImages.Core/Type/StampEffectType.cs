@@ -12,6 +12,7 @@
 
         /// <summary>
         /// グランジ
+        /// <para><see href="https://jp.freepik.com/photos/grunge"/>Freepik.comのリソースを使用しています</para>
         /// </summary>
         Grunge
     }
