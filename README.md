@@ -14,6 +14,10 @@ netstandard2.0
 [System.Drawing.Common](https://www.nuget.org/packages/System.Drawing.Common/)
 
 
+--- 
+
+
+![stamp-20210705221944](https://user-images.githubusercontent.com/17096601/124477676-3f0a0980-dddf-11eb-92ca-6b2e06e659a7.png)
 
 ```C#
 StampImageFactory stampImageFactory = new StampImageFactory(new StampImageFactoryConfig());
@@ -30,7 +34,11 @@ using (stamp)
 }
 ```
 
-![stamp-20210705221944](https://user-images.githubusercontent.com/17096601/124477676-3f0a0980-dddf-11eb-92ca-6b2e06e659a7.png)
+
+--- 
+
+
+![stamp-20210705222034](https://user-images.githubusercontent.com/17096601/124477687-429d9080-dddf-11eb-9e29-b7225389f8ce.png)
 
 ```C#
 StampImageFactory stampImageFactory = new StampImageFactory(new StampImageFactoryConfig());
@@ -49,8 +57,12 @@ using (var bitmap = stampImageFactory.Create(stamp))
 }
 ```
 
-![stamp-20210705222034](https://user-images.githubusercontent.com/17096601/124477687-429d9080-dddf-11eb-9e29-b7225389f8ce.png)
 
+--- 
+
+
+![stamp_images](https://user-images.githubusercontent.com/17096601/125439174-af5be80d-0eec-449b-b639-f57e2de5033c.png)
+[Stardos Stencil](https://fonts.google.com/specimen/Stardos+Stencil) (OFL)
 
 ```C#
 StampImageFactory stampImageFactory = new StampImageFactory();
@@ -74,10 +86,8 @@ using (var bitmap = stampImageFactory.Create(stamp))
 }
 ```
 
-![stamp_images](https://user-images.githubusercontent.com/17096601/125439174-af5be80d-0eec-449b-b639-f57e2de5033c.png)
-[Stardos Stencil](https://fonts.google.com/specimen/Stardos+Stencil) (OFL)
 
-
+--- 
 
 ## [StampImages.App.WPF](https://github.com/try0/StampImages/tree/main/src/StampImages.App.WPF)
 
@@ -93,6 +103,7 @@ WPF
 
 <!-- [キャプチャー:ScreenToGif](https://github.com/NickeManarin/ScreenToGif) -->
 
+--- 
 
 ## [StampImages.WebApp.Blazor](https://github.com/try0/StampImages/tree/main/src/StampImages.WebApp.Blazor)
 
