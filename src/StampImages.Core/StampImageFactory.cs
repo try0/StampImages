@@ -721,11 +721,8 @@ namespace StampImages.Core
                 Marshal.Copy(ptr, rgbValues, 0, bytes);
 
 
-                int xRange = grungeBitmap.Size.Width - stampImage.Size.Width;
-                int yRange = grungeBitmap.Size.Height - stampImage.Size.Height;
-
-                int xInit = rand.Next(xRange);
-                int yInit = rand.Next(yRange);
+                int xInit = rand.Next(grungeBitmap.Size.Width);
+                int yInit = rand.Next(grungeBitmap.Size.Height);
 
                 int grungeLength = grungeBitmap.Width * grungeBitmap.Height * pixelSize;
 
