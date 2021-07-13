@@ -70,7 +70,7 @@ stamp.EffectTypes.Add(StampEffectType.Grunge);
 using (stamp)
 using (var bitmap = stampImageFactory.Create(stamp))
 {
-    bitmap.Save("./stamp_sold_out.png");
+    bitmap.Save("./stamp_images.png");
 }
 ```
 
