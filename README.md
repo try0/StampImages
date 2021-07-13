@@ -1,4 +1,7 @@
 # StampImages
+
+<!-- ![stamp_images](https://user-images.githubusercontent.com/17096601/125440678-31126fea-f356-4262-8fee-485c5ac01ace.png) -->
+
 印鑑画像 日付印 データネーム印 職印 スタンプ はんこ ただの画像  
 WPF/Blazor画像ファイル 勉強用
 
@@ -11,6 +14,10 @@ netstandard2.0
 [System.Drawing.Common](https://www.nuget.org/packages/System.Drawing.Common/)
 
 
+--- 
+
+
+![stamp-20210705221944](https://user-images.githubusercontent.com/17096601/124477676-3f0a0980-dddf-11eb-92ca-6b2e06e659a7.png)
 
 ```C#
 StampImageFactory stampImageFactory = new StampImageFactory(new StampImageFactoryConfig());
@@ -27,7 +34,11 @@ using (stamp)
 }
 ```
 
-![stamp-20210705221944](https://user-images.githubusercontent.com/17096601/124477676-3f0a0980-dddf-11eb-92ca-6b2e06e659a7.png)
+
+--- 
+
+
+![stamp-20210705222034](https://user-images.githubusercontent.com/17096601/124477687-429d9080-dddf-11eb-9e29-b7225389f8ce.png)
 
 ```C#
 StampImageFactory stampImageFactory = new StampImageFactory(new StampImageFactoryConfig());
@@ -46,35 +57,37 @@ using (var bitmap = stampImageFactory.Create(stamp))
 }
 ```
 
-![stamp-20210705222034](https://user-images.githubusercontent.com/17096601/124477687-429d9080-dddf-11eb-9e29-b7225389f8ce.png)
 
+--- 
+
+
+![stamp_images](https://user-images.githubusercontent.com/17096601/125439174-af5be80d-0eec-449b-b639-f57e2de5033c.png)
+[Stardos Stencil](https://fonts.google.com/specimen/Stardos+Stencil) (OFL)
 
 ```C#
 StampImageFactory stampImageFactory = new StampImageFactory();
 var stamp = new RectangleStamp
 {
-    Size = new Size(512, 110),
+    Size = new Size(680, 140),
     Color = ColorTranslator.FromHtml("#1f456e"),
     IsFillColor = true,
     EdgeType = StampEdgeType.Double,
     EdgeWidth = 5,
     EdgeRadius = 0,
+    Text = new StampText { Value = "Stamp Images", Size = 70, FontFamily = new FontFamily("Stardos Stencil") },
 
-    Text = new StampText { Value = "SOLD OUT", Size = 70, FontFamily = new FontFamily("Stardos Stencil") },
 };
 stamp.EffectTypes.Add(StampEffectType.Grunge);
 
 using (stamp)
 using (var bitmap = stampImageFactory.Create(stamp))
 {
-    bitmap.Save("./stamp_sold_out.png");
+    bitmap.Save("./stamp_images.png");
 }
 ```
 
-![stamp_sold_out](https://user-images.githubusercontent.com/17096601/125278737-0f628080-e34e-11eb-9117-1844d54a22a5.png)
-[Stardos Stencil](https://fonts.google.com/specimen/Stardos+Stencil) (SIL Open Font License)
 
-
+--- 
 
 ## [StampImages.App.WPF](https://github.com/try0/StampImages/tree/main/src/StampImages.App.WPF)
 
@@ -90,6 +103,7 @@ WPF
 
 <!-- [キャプチャー:ScreenToGif](https://github.com/NickeManarin/ScreenToGif) -->
 
+--- 
 
 ## [StampImages.WebApp.Blazor](https://github.com/try0/StampImages/tree/main/src/StampImages.WebApp.Blazor)
 
