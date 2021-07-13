@@ -53,14 +53,14 @@ using (var bitmap = stampImageFactory.Create(stamp))
 StampImageFactory stampImageFactory = new StampImageFactory();
 var stamp = new RectangleStamp
 {
-    Size = new Size(512, 110),
+    Size = new Size(680, 140),
     Color = ColorTranslator.FromHtml("#1f456e"),
     IsFillColor = true,
     EdgeType = StampEdgeType.Double,
     EdgeWidth = 5,
     EdgeRadius = 0,
+    Text = new StampText { Value = "Stamp Images", Size = 70, FontFamily = new FontFamily("Stardos Stencil") },
 
-    Text = new StampText { Value = "SOLD OUT", Size = 70, FontFamily = new FontFamily("Stardos Stencil") },
 };
 stamp.EffectTypes.Add(StampEffectType.Grunge);
 
@@ -71,8 +71,8 @@ using (var bitmap = stampImageFactory.Create(stamp))
 }
 ```
 
-![stamp_sold_out](https://user-images.githubusercontent.com/17096601/125278737-0f628080-e34e-11eb-9117-1844d54a22a5.png)
-[Stardos Stencil](https://fonts.google.com/specimen/Stardos+Stencil) (SIL Open Font License)
+![stamp_images](https://user-images.githubusercontent.com/17096601/125439174-af5be80d-0eec-449b-b639-f57e2de5033c.png)
+[Stardos Stencil](https://fonts.google.com/specimen/Stardos+Stencil) (OFL)
 
 
 
