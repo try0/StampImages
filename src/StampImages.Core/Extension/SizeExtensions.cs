@@ -26,9 +26,9 @@ namespace StampImages.Core
 
             angle %= 90;
 
-            int width = (int)Math.Abs(size.Height * Math.Sin(StampUtils.ConvertToRadian(90 - angle)) + Math.Abs(size.Width * Math.Sin(StampUtils.ConvertToRadian(angle))));
+            int width = (int)Math.Abs(size.Width * Math.Sin(StampUtils.ConvertToRadian(90 - angle)) + Math.Abs(size.Height * Math.Sin(StampUtils.ConvertToRadian(angle)))); 
+            int height = (int)Math.Abs(size.Height * Math.Sin(StampUtils.ConvertToRadian(90 - angle)) + Math.Abs(size.Width * Math.Sin(StampUtils.ConvertToRadian(angle))));
 
-            int height = (int)Math.Abs(size.Width * Math.Sin(StampUtils.ConvertToRadian(90 - angle)) + Math.Abs(size.Height * Math.Sin(StampUtils.ConvertToRadian(angle))));
 
             return new Size(width, height);
 

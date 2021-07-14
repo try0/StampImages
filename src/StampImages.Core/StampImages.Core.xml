@@ -84,6 +84,11 @@
             左右スペース
             </summary>
         </member>
+        <member name="M:StampImages.Core.StampMargin.#ctor">
+            <summary>
+            余白情報を生成します。
+            </summary>
+        </member>
         <member name="M:StampImages.Core.StampMargin.#ctor(System.Int32,System.Int32)">
             <summary>
             余白情報を生成します。
