@@ -56,6 +56,82 @@
             <param name="height"></param>
             <param name="radius"></param>
         </member>
+        <member name="T:StampImages.Core.SizeExtensions">
+            <summary>
+            <see cref="T:System.Drawing.Size"/> 拡張
+            </summary>
+        </member>
+        <member name="M:StampImages.Core.SizeExtensions.GetRotatedContainerSize(System.Drawing.Size,System.Int32)">
+            <summary>
+            回転後のサイズを覆うサイズを取得します。
+            </summary>
+            <param name="size"></param>
+            <param name="angle"></param>
+            <returns></returns>
+        </member>
+        <member name="T:StampImages.Core.StampMargin">
+            <summary>
+            余白情報
+            </summary>
+        </member>
+        <member name="P:StampImages.Core.StampMargin.TopBottom">
+            <summary>
+            上下スペース
+            </summary>
+        </member>
+        <member name="P:StampImages.Core.StampMargin.LeftRight">
+            <summary>
+            左右スペース
+            </summary>
+        </member>
+        <member name="M:StampImages.Core.StampMargin.#ctor(System.Int32,System.Int32)">
+            <summary>
+            余白情報を生成します。
+            </summary>
+            <param name="topBottom"></param>
+            <param name="leftRight"></param>
+        </member>
+        <member name="T:StampImages.Core.StampText">
+            <summary>
+            スタンプテキスト
+            </summary>
+        </member>
+        <member name="M:StampImages.Core.StampText.GetDefaultFontFamily">
+            <summary>
+            デフォルトフォントを取得します。
+            <para>MS UI Gothic</para>
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:StampImages.Core.StampText.Value">
+            <summary>
+            出力対象文字列
+            </summary>
+        </member>
+        <member name="P:StampImages.Core.StampText.Size">
+            <summary>
+            emSize
+            </summary>
+        </member>
+        <member name="P:StampImages.Core.StampText.FontFamily">
+            <summary>
+            フォント
+            </summary>
+        </member>
+        <member name="M:StampImages.Core.StampText.#ctor">
+            <summary>
+            コンストラクター
+            </summary>
+        </member>
+        <member name="M:StampImages.Core.StampText.#ctor(System.String)">
+            <summary>
+            コンストラクター
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:StampImages.Core.StampText.Dispose">
+            <inheritdoc />
+        </member>
         <member name="T:StampImages.Core.StampImageFactory">
             <summary>
             職印画像生成処理
@@ -154,47 +230,6 @@
         <member name="M:StampImages.Core.StampImageFactoryConfig.Dispose">
             <inheritdoc />
         </member>
-        <member name="T:StampImages.Core.StampText">
-            <summary>
-            スタンプテキスト
-            </summary>
-        </member>
-        <member name="M:StampImages.Core.StampText.GetDefaultFontFamily">
-            <summary>
-            デフォルトフォントを取得します。
-            <para>MS UI Gothic</para>
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="P:StampImages.Core.StampText.Value">
-            <summary>
-            出力対象文字列
-            </summary>
-        </member>
-        <member name="P:StampImages.Core.StampText.Size">
-            <summary>
-            emSize
-            </summary>
-        </member>
-        <member name="P:StampImages.Core.StampText.FontFamily">
-            <summary>
-            フォント
-            </summary>
-        </member>
-        <member name="M:StampImages.Core.StampText.#ctor">
-            <summary>
-            コンストラクター
-            </summary>
-        </member>
-        <member name="M:StampImages.Core.StampText.#ctor(System.String)">
-            <summary>
-            コンストラクター
-            </summary>
-            <param name="value"></param>
-        </member>
-        <member name="M:StampImages.Core.StampText.Dispose">
-            <inheritdoc />
-        </member>
         <member name="T:StampImages.Core.BaseStamp">
             <summary>
             スタンプ
@@ -207,7 +242,12 @@
         </member>
         <member name="P:StampImages.Core.BaseStamp.Size">
             <summary>
-            出力画像サイズ
+            スタンプサイズ
+            </summary>
+        </member>
+        <member name="P:StampImages.Core.BaseStamp.Margin">
+            <summary>
+            余白
             </summary>
         </member>
         <member name="P:StampImages.Core.BaseStamp.Color">
@@ -232,7 +272,7 @@
         </member>
         <member name="P:StampImages.Core.BaseStamp.DoubleEdgeOffset">
             <summary>
-            2重円間隔調整池
+            2重円間隔調整値
             </summary>
         </member>
         <member name="P:StampImages.Core.BaseStamp.RotationAngle">

@@ -120,8 +120,8 @@ namespace StampImages.Core
             StampUtils.RequiredArgument(stamp, "stamp");
 
 
-            int imageWidth = stamp.Size.Width;
-            int imageHeight = stamp.Size.Height;
+            int imageWidth = stamp.Size.Width + stamp.Margin.LeftRight * 2;
+            int imageHeight = stamp.Size.Height + stamp.Margin.TopBottom * 2;
             Pen edgePen = new Pen(stamp.Color)
             {
                 Width = stamp.EdgeWidth
@@ -143,11 +143,10 @@ namespace StampImages.Core
             graphics.TranslateTransform(halfImageWidth, halfImageHeight, MatrixOrder.Append);
 
             // 半径
-            int r = (imageWidth - (imageWidth / 20)) / 2;
+            int r = stamp.Size.Width / 2;
 
-            //int r = 120;
-            // 画像の縁からスタンプの縁までの上下左右の最も短い絶対値
-            int outerSpace = (imageWidth - (r * 2)) / 2;
+
+            int outerSpace = stamp.Margin.LeftRight;
 
 
             // 2重円
@@ -230,7 +229,7 @@ namespace StampImages.Core
                 SizeF size = graphics.MeasureString(topText.Value, font, imageWidth, sf);
                 RectangleF rect = graphics.MeasureDrawedString(topText.Value, font, stamp.Size, sf);
 
-                float centerPosX = (stamp.Size.Width - rect.Width) / 2;
+                float centerPosX = (imageWidth - rect.Width) / 2;
                 float centerPosY = topLineY - stamp.TopBottomTextOffset - rect.Height;
 
 
@@ -260,8 +259,8 @@ namespace StampImages.Core
                 SizeF size = graphics.MeasureString(middleText.Value, font, imageWidth, sf);
                 RectangleF rect = graphics.MeasureDrawedString(middleText.Value, font, stamp.Size, sf);
 
-                float centerPosX = (stamp.Size.Width - rect.Width) / 2;
-                float centerPosY = (stamp.Size.Height - rect.Height) / 2;
+                float centerPosX = (imageWidth - rect.Width) / 2;
+                float centerPosY = (imageHeight - rect.Height) / 2;
 
 #if DEBUG
                 if (StampUtils.IsDebug())
@@ -290,7 +289,7 @@ namespace StampImages.Core
                 SizeF size = graphics.MeasureString(bottomText.Value, font, imageWidth, sf);
                 RectangleF rect = graphics.MeasureDrawedString(bottomText.Value, font, stamp.Size, sf);
 
-                float centerPosX = (stamp.Size.Width - rect.Width) / 2;
+                float centerPosX = (imageWidth - rect.Width) / 2;
                 float centerPosY = bottomLineY + stamp.TopBottomTextOffset;
 
 
@@ -345,16 +344,20 @@ namespace StampImages.Core
         {
             StampUtils.RequiredArgument(stamp, "stamp");
 
-            int imageWidth = stamp.Size.Width;
-            int imageHeight = stamp.Size.Height;
+            int imageWidth = stamp.Size.Width + stamp.Margin.LeftRight * 2;
+            int imageHeight = stamp.Size.Height + stamp.Margin.TopBottom * 2;
 
             Pen edgePen = new Pen(stamp.Color)
             {
                 Width = stamp.EdgeWidth
             };
 
+            // 回転後にひつような描画サイズへ更新
+            Size rotatedSize = new Size(imageWidth, imageHeight).GetRotatedContainerSize(stamp.RotationAngle);
+            imageWidth = rotatedSize.Width;
+            imageHeight = rotatedSize.Height;
 
-            Bitmap stampImage = new Bitmap(imageWidth, imageHeight);
+            Bitmap stampImage = new Bitmap(rotatedSize.Width, rotatedSize.Height);
 
             Graphics graphics = Graphics.FromImage(stampImage);
 
@@ -369,12 +372,12 @@ namespace StampImages.Core
             graphics.RotateTransform(-stamp.RotationAngle, MatrixOrder.Append);
             graphics.TranslateTransform(halfImageWidth, halfImageHeight, MatrixOrder.Append);
 
-            // 半径
-            int stampWidth = (imageWidth - (imageWidth / 20));
-            int stampHeight = (imageHeight - (imageHeight / 20));
 
-            int outerSpaceX = (imageWidth - stampWidth) / 2;
-            int outerSpaceY = (imageHeight - stampHeight) / 2;
+            int stampWidth = stamp.Size.Width;
+            int stampHeight = stamp.Size.Height;
+
+            int outerSpaceX = (imageWidth - stamp.Size.Width) / 2;
+            int outerSpaceY = (imageHeight - stamp.Size.Height) / 2;
 
             int edgeRadius = stamp.EdgeRadius;
 
@@ -432,8 +435,8 @@ namespace StampImages.Core
                 var size = graphics.MeasureString(stampText.Value, font, imageWidth, sf);
                 RectangleF rect = graphics.MeasureDrawedString(stampText.Value, font, stamp.Size, sf);
 
-                float centerPosX = (stamp.Size.Width - rect.Width) / 2;
-                float centerPosY = (stamp.Size.Height - rect.Height) / 2;
+                float centerPosX = (imageWidth - rect.Width) / 2;
+                float centerPosY = (imageHeight - rect.Height) / 2;
 
 #if DEBUG
                 if (StampUtils.IsDebug())
@@ -488,8 +491,8 @@ namespace StampImages.Core
         {
             StampUtils.RequiredArgument(stamp, "stamp");
 
-            int imageWidth = stamp.Size.Width;
-            int imageHeight = stamp.Size.Height;
+            int imageWidth = stamp.Size.Width + stamp.Margin.LeftRight * 2;
+            int imageHeight = stamp.Size.Height + stamp.Margin.TopBottom * 2;
 
             Pen edgePen = new Pen(stamp.Color)
             {
@@ -512,11 +515,11 @@ namespace StampImages.Core
             graphics.TranslateTransform(halfImageWidth, halfImageHeight, MatrixOrder.Append);
 
             // 半径
-            int r = (imageWidth - (imageWidth / 20)) / 2;
+            int r = stamp.Size.Width / 2;
 
             //int r = 120;
             // 画像の縁からスタンプの縁までの上下左右の最も短い絶対値
-            int outerSpace = (imageWidth - (r * 2)) / 2;
+            int outerSpace = stamp.Margin.LeftRight;
 
 
             // 2重円
@@ -564,8 +567,8 @@ namespace StampImages.Core
                 var size = graphics.MeasureString(stampText.Value, font, imageWidth, sf);
                 RectangleF rect = graphics.MeasureDrawedString(stampText.Value, font, stamp.Size, sf);
 
-                float centerPosX = (stamp.Size.Width - rect.Width) / 2;
-                float centerPosY = (stamp.Size.Height - rect.Height) / 2;
+                float centerPosX = (imageWidth - rect.Width) / 2;
+                float centerPosY = (imageHeight - rect.Height) / 2;
 
 #if DEBUG
                 if (StampUtils.IsDebug())
@@ -764,8 +767,6 @@ namespace StampImages.Core
                 stampImage.UnlockBits(stampData);
             }
         }
-
-
 
         #region DEBUG
 

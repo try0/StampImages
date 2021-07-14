@@ -16,9 +16,14 @@ namespace StampImages.Core
         public static readonly Color DEFAULT_STAMP_COLOR = Color.FromArgb(239, 69, 74);
 
         /// <summary>
-        /// 出力画像サイズ
+        /// スタンプサイズ
         /// </summary>
-        public Size Size { get; set; } = new Size(256, 256);
+        public Size Size { get; set; } = new Size(244, 244);
+
+        /// <summary>
+        /// 余白
+        /// </summary>
+        public StampMargin Margin { get; set; } = new StampMargin(6, 6);
 
         /// <summary>
         /// スタンプカラー
@@ -41,7 +46,7 @@ namespace StampImages.Core
         public int EdgeWidth { get; set; } = 5;
 
         /// <summary>
-        /// 2重円間隔調整池
+        /// 2重円間隔調整値
         /// </summary>
         public int DoubleEdgeOffset { get; set; } = 10;
 
