@@ -112,6 +112,7 @@ namespace StampImages.Core
 
         /// <summary>
         /// 垂直に3分割した印鑑イメージを作成します。
+        /// <para>常に正円で描画されます。指定したWidth、Heightの小さいいずれかの値でスタンプを描画します。</para>
         /// </summary>
         /// <param name="stamp"></param>
         /// <returns></returns>
@@ -142,22 +143,36 @@ namespace StampImages.Core
             graphics.RotateTransform(-stamp.RotationAngle, MatrixOrder.Append);
             graphics.TranslateTransform(halfImageWidth, halfImageHeight, MatrixOrder.Append);
 
+
+
+            // 小さい方をスタンプサイズとする
+            int stampSize = Math.Min(stamp.Size.Width, stamp.Size.Height);
+
             // 半径
-            int r = stamp.Size.Width / 2;
+            int r = stampSize / 2;
 
+            int outerSpaceX = stamp.Margin.LeftRight;
+            int outerSpaceY = stamp.Margin.TopBottom;
 
-            int outerSpace = stamp.Margin.LeftRight;
-
+            if (stamp.Size.Width > stamp.Size.Height)
+            {
+                outerSpaceX += Math.Abs(stamp.Size.Width - stamp.Size.Height) / 2;
+            }
+            else if (stamp.Size.Width < stamp.Size.Height)
+            {
+                outerSpaceY += Math.Abs(stamp.Size.Width - stamp.Size.Height) / 2;
+            }
 
             // 2重円
             if (stamp.EdgeType == StampEdgeType.Double)
             {
                 // 外円描画
-                graphics.DrawEllipse(edgePen, outerSpace, outerSpace, 2 * r, 2 * r);
+                graphics.DrawEllipse(edgePen, outerSpaceX, outerSpaceY, 2 * r, 2 * r);
 
                 // 内円の設定へ更新
                 r -= stamp.DoubleEdgeOffset;
-                outerSpace += stamp.DoubleEdgeOffset;
+                outerSpaceX += stamp.DoubleEdgeOffset;
+                outerSpaceY += stamp.DoubleEdgeOffset;
 
             }
 
@@ -165,13 +180,13 @@ namespace StampImages.Core
             int angle = 15;
 
             // 印鑑の縁
-            graphics.DrawEllipse(edgePen, outerSpace, outerSpace, 2 * r, 2 * r);
+            graphics.DrawEllipse(edgePen, outerSpaceX, outerSpaceY, 2 * r, 2 * r);
 
             if (stamp.IsFillColor)
             {
                 using (var fillBrush = new SolidBrush(stamp.Color))
                 {
-                    graphics.FillEllipse(fillBrush, outerSpace, outerSpace, 2 * r, 2 * r);
+                    graphics.FillEllipse(fillBrush, outerSpaceX, outerSpaceY, 2 * r, 2 * r);
                 }
 
             }
@@ -181,7 +196,7 @@ namespace StampImages.Core
             {
                 using (var pen = GetDebugPen())
                 {
-                    graphics.DrawRectangle(pen, outerSpace, outerSpace, 2 * r, 2 * r);
+                    graphics.DrawRectangle(pen, outerSpaceX, outerSpaceY, 2 * r, 2 * r);
                 }
             }
 #endif
@@ -193,8 +208,8 @@ namespace StampImages.Core
             // 分割ラインと縁が重なる点からのスペース
             int space = (r * 2 - chord) / 2;
 
-            int topLineY = imageWidth / 2 - y;
-            int bottomLineY = imageWidth / 2 + y;
+            int topLineY = imageHeight / 2 - y;
+            int bottomLineY = imageHeight / 2 + y;
 
             Pen dividerPen = stamp.IsFillColor ? new Pen(stamp.Color.GetInvertColor()) : new Pen(stamp.Color);
 
@@ -208,9 +223,9 @@ namespace StampImages.Core
             graphics.SmoothingMode = SmoothingMode.HighSpeed;
 
             // 上部ライン
-            graphics.DrawLine(dividerPen, space + outerSpace, topLineY, imageWidth - (space + outerSpace), topLineY);
+            graphics.DrawLine(dividerPen, space + outerSpaceX, topLineY, imageWidth - (space + outerSpaceX), topLineY);
             // 下部ライン
-            graphics.DrawLine(dividerPen, space + outerSpace, bottomLineY, imageWidth - (space + outerSpace), bottomLineY);
+            graphics.DrawLine(dividerPen, space + outerSpaceX, bottomLineY, imageWidth - (space + outerSpaceX), bottomLineY);
 
             graphics.SmoothingMode = SmoothingMode.HighQuality;
 
@@ -519,33 +534,33 @@ namespace StampImages.Core
             int stampHeight = stamp.Size.Height;
 
 
-            int outerSpaceH = stamp.Margin.LeftRight;
-            int outerSpaceV = stamp.Margin.TopBottom;
+            int outerSpaceX = stamp.Margin.LeftRight;
+            int outerSpaceY = stamp.Margin.TopBottom;
 
 
             // 2重円
             if (stamp.EdgeType == StampEdgeType.Double)
             {
                 // 外円描画
-                graphics.DrawEllipse(edgePen, outerSpaceH, outerSpaceV, stampWidth, stampHeight);
+                graphics.DrawEllipse(edgePen, outerSpaceX, outerSpaceY, stampWidth, stampHeight);
 
 
                 // 内円の設定へ更新
                 stampWidth -= stamp.DoubleEdgeOffset * 2;
                 stampHeight -= stamp.DoubleEdgeOffset * 2;
-                outerSpaceH += stamp.DoubleEdgeOffset;
-                outerSpaceV += stamp.DoubleEdgeOffset;
+                outerSpaceX += stamp.DoubleEdgeOffset;
+                outerSpaceY += stamp.DoubleEdgeOffset;
 
             }
 
             // 印鑑の縁
-            graphics.DrawEllipse(edgePen, outerSpaceH, outerSpaceV, stampWidth, stampHeight);
+            graphics.DrawEllipse(edgePen, outerSpaceX, outerSpaceY, stampWidth, stampHeight);
 
             if (stamp.IsFillColor)
             {
                 using (var fillBrush = new SolidBrush(stamp.Color))
                 {
-                    graphics.FillEllipse(fillBrush, outerSpaceH, outerSpaceV, stampWidth, stampHeight);
+                    graphics.FillEllipse(fillBrush, outerSpaceX, outerSpaceY, stampWidth, stampHeight);
                 }
             }
 

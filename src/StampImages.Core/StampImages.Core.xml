@@ -184,6 +184,7 @@
         <member name="M:StampImages.Core.StampImageFactory.Create(StampImages.Core.ThreeAreaCircularStamp)">
             <summary>
             垂直に3分割した印鑑イメージを作成します。
+            <para>常に正円で描画されます。指定したWidth、Heightの小さいいずれかの値でスタンプを描画します。</para>
             </summary>
             <param name="stamp"></param>
             <returns></returns>
