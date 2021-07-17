@@ -514,35 +514,38 @@ namespace StampImages.Core
             graphics.RotateTransform(-stamp.RotationAngle, MatrixOrder.Append);
             graphics.TranslateTransform(halfImageWidth, halfImageHeight, MatrixOrder.Append);
 
-            // 半径
-            int r = stamp.Size.Width / 2;
 
-            //int r = 120;
-            // 画像の縁からスタンプの縁までの上下左右の最も短い絶対値
-            int outerSpace = stamp.Margin.LeftRight;
+            int stampWidth = stamp.Size.Width;
+            int stampHeight = stamp.Size.Height;
+
+
+            int outerSpaceH = stamp.Margin.LeftRight;
+            int outerSpaceV = stamp.Margin.TopBottom;
 
 
             // 2重円
             if (stamp.EdgeType == StampEdgeType.Double)
             {
                 // 外円描画
-                graphics.DrawEllipse(edgePen, outerSpace, outerSpace, 2 * r, 2 * r);
+                graphics.DrawEllipse(edgePen, outerSpaceH, outerSpaceV, stampWidth, stampHeight);
 
 
                 // 内円の設定へ更新
-                r -= stamp.DoubleEdgeOffset;
-                outerSpace += stamp.DoubleEdgeOffset;
+                stampWidth -= stamp.DoubleEdgeOffset * 2;
+                stampHeight -= stamp.DoubleEdgeOffset * 2;
+                outerSpaceH += stamp.DoubleEdgeOffset;
+                outerSpaceV += stamp.DoubleEdgeOffset;
 
             }
 
             // 印鑑の縁
-            graphics.DrawEllipse(edgePen, outerSpace, outerSpace, 2 * r, 2 * r);
+            graphics.DrawEllipse(edgePen, outerSpaceH, outerSpaceV, stampWidth, stampHeight);
 
             if (stamp.IsFillColor)
             {
                 using (var fillBrush = new SolidBrush(stamp.Color))
                 {
-                    graphics.FillEllipse(fillBrush, outerSpace, outerSpace, 2 * r, 2 * r);
+                    graphics.FillEllipse(fillBrush, outerSpaceH, outerSpaceV, stampWidth, stampHeight);
                 }
             }
 
