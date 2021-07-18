@@ -514,6 +514,9 @@ namespace StampImages.Core
                 Width = stamp.EdgeWidth
             };
 
+            Size rotatedSize = new Size(imageWidth, imageHeight).GetRotatedContainerSize(stamp.RotationAngle);
+            imageWidth = rotatedSize.Width;
+            imageHeight = rotatedSize.Height;
 
             Bitmap stampImage = new Bitmap(imageWidth, imageHeight);
 
@@ -534,8 +537,8 @@ namespace StampImages.Core
             int stampHeight = stamp.Size.Height;
 
 
-            int outerSpaceX = stamp.Margin.LeftRight;
-            int outerSpaceY = stamp.Margin.TopBottom;
+            int outerSpaceX = (imageWidth - stamp.Size.Width) / 2;
+            int outerSpaceY = (imageHeight - stamp.Size.Height) / 2;
 
 
             // 2重円
