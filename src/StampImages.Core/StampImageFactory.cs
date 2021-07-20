@@ -514,9 +514,12 @@ namespace StampImages.Core
                 Width = stamp.EdgeWidth
             };
 
-            Size rotatedSize = new Size(imageWidth, imageHeight).GetRotatedContainerSize(stamp.RotationAngle);
-            imageWidth = rotatedSize.Width;
-            imageHeight = rotatedSize.Height;
+            if (stamp.Size.Width != stamp.Size.Height)
+            {
+                Size rotatedSize = new Size(imageWidth, imageHeight).GetRotatedContainerSize(stamp.RotationAngle);
+                imageWidth = rotatedSize.Width;
+                imageHeight = rotatedSize.Height;
+            }
 
             Bitmap stampImage = new Bitmap(imageWidth, imageHeight);
 
