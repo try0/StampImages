@@ -3,7 +3,7 @@
 <!-- ![stamp_images](https://user-images.githubusercontent.com/17096601/125440678-31126fea-f356-4262-8fee-485c5ac01ace.png) -->
 
 印鑑画像 日付印 データネーム印 職印 スタンプ はんこ ただの画像  
-WPF/Blazor画像ファイル 勉強用
+WPF/Blazor/VSTO 画像ファイル 勉強用
 
 
 ## [StampImages.Core](https://github.com/try0/StampImages/tree/main/src/StampImages.Core)  
