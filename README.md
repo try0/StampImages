@@ -114,7 +114,7 @@ Blazor(Server-Side)
 [Index.razor](https://github.com/try0/StampImages/blob/main/src/StampImages.WebApp.Blazor/Pages/Index.razor)
 ![StampImages WebApp Blazor](https://user-images.githubusercontent.com/17096601/124589108-91f1c880-de94-11eb-8398-20e89e30ad91.gif)
 
-## [StampImages Excel AddIn](https://github.com/try0/StampImages/tree/main/src/StampImages.OfficeAddIn.Excel)
+## [StampImages.OfficeAddIn.Excel](https://github.com/try0/StampImages/tree/main/src/StampImages.OfficeAddIn.Excel)
 
 ![ExcelAddIn](https://user-images.githubusercontent.com/17096601/149352839-5f9375b2-5cfc-45de-bf7a-b0dde832f4f2.gif)
 
