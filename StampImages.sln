@@ -21,7 +21,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StampImages.App.WPF.NetFram
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StampImages.Test.PublishedPackage", "tests\StampImages.Test.PublishedPackage\StampImages.Test.PublishedPackage.csproj", "{120C6E49-97D0-42D6-9D07-0A7109E5B551}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StampImages.WebApp.Blazor", "src\StampImages.WebApp.Blazor\StampImages.WebApp.Blazor.csproj", "{76986504-D897-44E8-925D-185F4036F5D6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StampImages.WebApp.Blazor", "src\StampImages.WebApp.Blazor\StampImages.WebApp.Blazor.csproj", "{76986504-D897-44E8-925D-185F4036F5D6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StampImages.OfficeAddIn.Excel", "src\StampImages.OfficeAddIn.Excel\StampImages.OfficeAddIn.Excel.csproj", "{1B2672F4-3588-45D4-BEA3-1D80DB820587}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -61,6 +63,10 @@ Global
 		{76986504-D897-44E8-925D-185F4036F5D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{76986504-D897-44E8-925D-185F4036F5D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{76986504-D897-44E8-925D-185F4036F5D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B2672F4-3588-45D4-BEA3-1D80DB820587}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B2672F4-3588-45D4-BEA3-1D80DB820587}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B2672F4-3588-45D4-BEA3-1D80DB820587}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B2672F4-3588-45D4-BEA3-1D80DB820587}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -73,6 +79,7 @@ Global
 		{8980FE32-08AB-4026-9E6F-79DBAE59C119} = {7082C113-2807-494B-BDCB-BA7AF59D988B}
 		{120C6E49-97D0-42D6-9D07-0A7109E5B551} = {53E79169-D876-41E6-A466-BA0DF1C564B1}
 		{76986504-D897-44E8-925D-185F4036F5D6} = {7082C113-2807-494B-BDCB-BA7AF59D988B}
+		{1B2672F4-3588-45D4-BEA3-1D80DB820587} = {7082C113-2807-494B-BDCB-BA7AF59D988B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0ADB583E-F09B-4BFF-8D7B-49AAB7FD8466}
