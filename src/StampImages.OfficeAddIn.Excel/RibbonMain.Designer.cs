@@ -37,25 +37,25 @@ namespace StampImages.OfficeAddIn.Excel
         {
             Microsoft.Office.Tools.Ribbon.RibbonDialogLauncher ribbonDialogLauncherImpl1 = this.Factory.CreateRibbonDialogLauncher();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RibbonMain));
-            this.TabStampImages = this.Factory.CreateRibbonTab();
+            this.アドイン = this.Factory.CreateRibbonTab();
             this.groupMain = this.Factory.CreateRibbonGroup();
             this.btnPasteStamp = this.Factory.CreateRibbonButton();
-            this.TabStampImages.SuspendLayout();
+            this.アドイン.SuspendLayout();
             this.groupMain.SuspendLayout();
             this.SuspendLayout();
             // 
-            // TabStampImages
+            // アドイン
             // 
-            this.TabStampImages.ControlId.ControlIdType = Microsoft.Office.Tools.Ribbon.RibbonControlIdType.Office;
-            this.TabStampImages.Groups.Add(this.groupMain);
-            this.TabStampImages.Label = "StampImages";
-            this.TabStampImages.Name = "TabStampImages";
+            this.アドイン.ControlId.ControlIdType = Microsoft.Office.Tools.Ribbon.RibbonControlIdType.Office;
+            this.アドイン.Groups.Add(this.groupMain);
+            this.アドイン.Label = "TabAddIns";
+            this.アドイン.Name = "アドイン";
             // 
             // groupMain
             // 
             this.groupMain.DialogLauncher = ribbonDialogLauncherImpl1;
             this.groupMain.Items.Add(this.btnPasteStamp);
-            this.groupMain.Label = "設定";
+            this.groupMain.Label = "StampImages";
             this.groupMain.Name = "groupMain";
             // 
             // btnPasteStamp
@@ -70,10 +70,10 @@ namespace StampImages.OfficeAddIn.Excel
             // 
             this.Name = "RibbonMain";
             this.RibbonType = "Microsoft.Excel.Workbook";
-            this.Tabs.Add(this.TabStampImages);
+            this.Tabs.Add(this.アドイン);
             this.Load += new Microsoft.Office.Tools.Ribbon.RibbonUIEventHandler(this.RibbonMain_Load);
-            this.TabStampImages.ResumeLayout(false);
-            this.TabStampImages.PerformLayout();
+            this.アドイン.ResumeLayout(false);
+            this.アドイン.PerformLayout();
             this.groupMain.ResumeLayout(false);
             this.groupMain.PerformLayout();
             this.ResumeLayout(false);
@@ -82,7 +82,7 @@ namespace StampImages.OfficeAddIn.Excel
 
         #endregion
 
-        internal Microsoft.Office.Tools.Ribbon.RibbonTab TabStampImages;
+        internal Microsoft.Office.Tools.Ribbon.RibbonTab アドイン;
         internal Microsoft.Office.Tools.Ribbon.RibbonGroup groupMain;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton btnPasteStamp;
     }
