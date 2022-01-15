@@ -118,7 +118,6 @@ Blazor(Server-Side)
 
 ## [StampImages.OfficeAddIn.Excel](https://github.com/try0/StampImages/tree/main/src/StampImages.OfficeAddIn.Excel)
 
-![ExcelAddIn](https://user-images.githubusercontent.com/17096601/149352839-5f9375b2-5cfc-45de-bf7a-b0dde832f4f2.gif)
-
+![ExcelAddIn](https://user-images.githubusercontent.com/17096601/149621776-931281ad-02fc-4729-8743-f20ace5fd70d.gif)
 
 
