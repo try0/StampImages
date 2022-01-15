@@ -223,9 +223,9 @@ namespace StampImages.Core
             graphics.SmoothingMode = SmoothingMode.HighSpeed;
 
             // 上部ライン
-            graphics.DrawLine(dividerPen, space + outerSpaceX, topLineY, imageWidth - (space + outerSpaceX), topLineY);
+            graphics.DrawLine(dividerPen, space + outerSpaceX + 1, topLineY, imageWidth - (space + outerSpaceX) - 1, topLineY);
             // 下部ライン
-            graphics.DrawLine(dividerPen, space + outerSpaceX, bottomLineY, imageWidth - (space + outerSpaceX), bottomLineY);
+            graphics.DrawLine(dividerPen, space + outerSpaceX + 1, bottomLineY, imageWidth - (space + outerSpaceX) - 1, bottomLineY);
 
             graphics.SmoothingMode = SmoothingMode.HighQuality;
 
