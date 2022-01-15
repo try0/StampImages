@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Text;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,6 +28,12 @@ namespace StampImages.OfficeAddIn.Excel
         {
             InitializeComponent();
 
+
+            ddlFontFamily.DataSource = new InstalledFontCollection().Families;
+            ddlFontFamily.ValueMember = "Name";
+            ddlFontFamily.DisplayMember = "Name";
+
+
             // 設定ロード
             ThreeAreaCircularStamp stamp = (ThreeAreaCircularStamp)ConfigService.Load(typeof(ThreeAreaCircularStamp));
 
@@ -36,8 +43,44 @@ namespace StampImages.OfficeAddIn.Excel
                 txtMiddle.Text = DateTime.Today.ToString("yyyy/MM/dd");
                 txtBottom.Text = stamp.BottomText.Value;
 
+                numTopSize.Value = (decimal)Math.Max(stamp.TopText.Size, 1);
+                numMiddleSize.Value = (decimal)Math.Max(stamp.MiddleText.Size, 1);
+                numBottomSize.Value = (decimal)Math.Max(stamp.BottomText.Size, 1);
+
+                ddlFontFamily.SelectedValue = stamp.TopText.FontFamily.Name;
+
+                btnColor.BackColor = stamp.Color;
+
+                chkEdgeType.Checked = stamp.EdgeType == StampEdgeType.Double;
+
+                chkFill.Checked = stamp.IsFillColor;
+
                 UpdateStampImagePreview();
             }
+            else
+            {
+                txtMiddle.Text = DateTime.Today.ToString("yyyy/MM/dd");
+                ddlFontFamily.SelectedValue = "MS UI Gothic";
+                btnColor.BackColor = Color.Red;
+            }
+
+
+
+
+
+            txtTop.TextChanged += OnPropertyChanged;
+            txtBottom.TextChanged += OnPropertyChanged;
+
+            numTopSize.TextChanged += OnPropertyChanged;
+            numMiddleSize.TextChanged += OnPropertyChanged;
+            numBottomSize.TextChanged += OnPropertyChanged;
+
+
+            chkEdgeType.CheckedChanged += OnPropertyChanged;
+            chkFill.CheckedChanged += OnPropertyChanged;
+
+            ddlFontFamily.SelectedIndexChanged += OnPropertyChanged;
+
         }
 
 
@@ -57,13 +100,58 @@ namespace StampImages.OfficeAddIn.Excel
         }
 
         /// <summary>
-        /// テキスト編集時に実行されます。
+        /// クリアボタンクリック時に実行されます。
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void txtTop_TextChanged(object sender, EventArgs e)
+        private void btnClear_Click(object sender, EventArgs e)
         {
+            ConfigService.Save(new ThreeAreaCircularStamp());
+
+            txtTop.Text = "";
+            txtMiddle.Text = DateTime.Today.ToString("yyyy/MM/dd");
+            txtBottom.Text = "";
+
+            numTopSize.Value = 10;
+            numMiddleSize.Value = 10;
+            numBottomSize.Value = 10;
+
+
+            chkEdgeType.Checked = false;
+            chkFill.Checked = false;
+
+
+            txtMiddle.Text = DateTime.Today.ToString("yyyy/MM/dd");
+            ddlFontFamily.SelectedValue = "MS UI Gothic";
+            btnColor.BackColor = Color.Red;
+
             UpdateStampImagePreview();
+        }
+
+        /// <summary>
+        /// 色指定ボタンクリック時に実行されます。
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnColor_Click(object sender, EventArgs e)
+        {
+            var colorDialog = new ColorDialog();
+            if (colorDialog1.ShowDialog() == DialogResult.OK)
+            {
+                var color = colorDialog1.Color;
+                btnColor.BackColor = color;
+                UpdateStampImagePreview();
+
+
+                if (color.GetBrightness() < 0.5)
+                {
+                    btnColor.ForeColor = Color.White;
+                }
+                else
+                {
+                    btnColor.ForeColor = Color.Black;
+                }
+            }
         }
 
         /// <summary>
@@ -71,10 +159,11 @@ namespace StampImages.OfficeAddIn.Excel
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void txtBottom_TextChanged(object sender, EventArgs e)
+        private void OnPropertyChanged(object sender, EventArgs e)
         {
             UpdateStampImagePreview();
         }
+
 
         /// <summary>
         /// 編集内容を考慮したスタンプデータを取得します。
@@ -89,28 +178,38 @@ namespace StampImages.OfficeAddIn.Excel
                 stamp = new ThreeAreaCircularStamp();
             }
 
-            stamp.Color = Color.Red;
+            stamp.Color = btnColor.BackColor;
             stamp.SetFontFamily(new FontFamily("MS UI Gothic"));
             stamp.Size = new Size(100, 100);
             stamp.EdgeWidth = 2;
             stamp.DividerWidth = 2;
             stamp.TopBottomTextOffset = 5;
+            stamp.DoubleEdgeOffset = stamp.EdgeWidth + 2;
 
             stamp.TopText = new StampText
             {
                 Value = txtTop.Text,
-                Size = 10
+                Size = ((float)numTopSize.Value)
             };
             stamp.MiddleText = new StampText
             {
                 Value = DateTime.Today.ToString("yyyy/MM/dd"),
-                Size = 13
+                Size = ((float)numMiddleSize.Value)
             };
             stamp.BottomText = new StampText
             {
                 Value = txtBottom.Text,
-                Size = 11
+                Size = ((float)numBottomSize.Value)
             };
+
+            stamp.SetFontFamily(((FontFamily[])ddlFontFamily.DataSource)[ddlFontFamily.SelectedIndex]);
+
+            stamp.EdgeType = chkEdgeType.Checked ? StampEdgeType.Double : StampEdgeType.Single;
+
+            stamp.IsFillColor = chkFill.Checked;
+
+
+
 
             return stamp;
         }
@@ -120,6 +219,10 @@ namespace StampImages.OfficeAddIn.Excel
         /// </summary>
         private void UpdateStampImagePreview()
         {
+            if (picStamp.Image != null)
+            {
+                picStamp.Image.Dispose();
+            }
             var stamp = GetStamp();
 
             using (var factory = new StampImageFactory())
@@ -129,5 +232,8 @@ namespace StampImages.OfficeAddIn.Excel
             }
 
         }
+
+
+
     }
 }

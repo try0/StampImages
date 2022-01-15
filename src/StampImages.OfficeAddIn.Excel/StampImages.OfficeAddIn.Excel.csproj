@@ -304,7 +304,7 @@
     <ManifestKeyFile>StampImages.OfficeAddIn.Excel_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>272769F984CDDAB2F8A9F5CEB572A005E27B63AC</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>70D4805E261184F8A5A698CFDA09545CC1D0B092</ManifestCertificateThumbprint>
   </PropertyGroup>
   <!-- Include the build rules for a C# project. -->
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
