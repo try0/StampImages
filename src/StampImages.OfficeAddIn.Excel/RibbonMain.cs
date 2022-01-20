@@ -61,25 +61,37 @@ namespace StampImages.OfficeAddIn.Excel
             // アクティブシート取得
             Worksheet activeSheet = Globals.ThisAddIn.Application.ActiveSheet;
 
-            // アクティブセル
-            Range range = Globals.ThisAddIn.Application.ActiveCell;
+            var rangeA1 = activeSheet.Range["A1"];
+            float left = (float)rangeA1.Left;
+            float top = (float)rangeA1.Top;
 
-            if (range == null)
+            var selection = Globals.ThisAddIn.Application.Selection;
+            if (selection != null)
             {
-                range = activeSheet.Range["A1"];
+                try
+                {
+                    left = (float)selection.Left;
+                    top = (float)selection.Top;
+                }
+                catch (Exception ignore)
+                {
+                    left = (float)rangeA1.Left;
+                    top = (float)rangeA1.Top;
+                }
+
             }
 
-            // スタンプ貼り付け
-            float Left = (float)range.Left;
-            float Top = (float)range.Top;
-            float Width = 0.0F;
-            float Height = 0.0F;
-            Shape shape
-                  = activeSheet.Shapes.AddPicture(imagePath, MsoTriState.msoCTrue, MsoTriState.msoCTrue,
-                                            Left, Top, Width, Height);
 
-            shape.ScaleHeight(1.0F, MsoTriState.msoCTrue);
-            shape.ScaleWidth(1.0F, MsoTriState.msoCTrue);
+            // スタンプ貼り付け
+
+            float width = 0.0F;
+            float height = 0.0F;
+            Shape stampShape
+                  = activeSheet.Shapes.AddPicture(imagePath, MsoTriState.msoCTrue, MsoTriState.msoCTrue,
+                                            left, top, width, height);
+
+            stampShape.ScaleHeight(1.0F, MsoTriState.msoCTrue);
+            stampShape.ScaleWidth(1.0F, MsoTriState.msoCTrue);
 
 
             File.Delete(imagePath);
