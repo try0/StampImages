@@ -25,6 +25,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StampImages.WebApp.Blazor",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StampImages.OfficeAddIn.Excel", "src\StampImages.OfficeAddIn.Excel\StampImages.OfficeAddIn.Excel.csproj", "{1B2672F4-3588-45D4-BEA3-1D80DB820587}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "StampImages.OfficeAddIn.Excel.Setup", "src\StampImages.OfficeAddIn.Excel.Setup\StampImages.OfficeAddIn.Excel.Setup.vdproj", "{AB41676E-64C5-4ED4-9D17-C4D5F6DA5CD0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -67,6 +69,8 @@ Global
 		{1B2672F4-3588-45D4-BEA3-1D80DB820587}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1B2672F4-3588-45D4-BEA3-1D80DB820587}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1B2672F4-3588-45D4-BEA3-1D80DB820587}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB41676E-64C5-4ED4-9D17-C4D5F6DA5CD0}.Debug|Any CPU.ActiveCfg = Debug
+		{AB41676E-64C5-4ED4-9D17-C4D5F6DA5CD0}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -80,6 +84,7 @@ Global
 		{120C6E49-97D0-42D6-9D07-0A7109E5B551} = {53E79169-D876-41E6-A466-BA0DF1C564B1}
 		{76986504-D897-44E8-925D-185F4036F5D6} = {7082C113-2807-494B-BDCB-BA7AF59D988B}
 		{1B2672F4-3588-45D4-BEA3-1D80DB820587} = {7082C113-2807-494B-BDCB-BA7AF59D988B}
+		{AB41676E-64C5-4ED4-9D17-C4D5F6DA5CD0} = {7082C113-2807-494B-BDCB-BA7AF59D988B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0ADB583E-F09B-4BFF-8D7B-49AAB7FD8466}
