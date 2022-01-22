@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StampImages.OfficeAddIn.Exc
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "StampImages.OfficeAddIn.Excel.Setup", "src\StampImages.OfficeAddIn.Excel.Setup\StampImages.OfficeAddIn.Excel.Setup.vdproj", "{AB41676E-64C5-4ED4-9D17-C4D5F6DA5CD0}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "StampImages.App.WPF.Setup", "src\StampImages.App.WPF.Setup\StampImages.App.WPF.Setup.vdproj", "{6756CD70-71F0-48D2-924E-0D7B0BD585B7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -71,6 +73,8 @@ Global
 		{1B2672F4-3588-45D4-BEA3-1D80DB820587}.Release|Any CPU.Build.0 = Release|Any CPU
 		{AB41676E-64C5-4ED4-9D17-C4D5F6DA5CD0}.Debug|Any CPU.ActiveCfg = Debug
 		{AB41676E-64C5-4ED4-9D17-C4D5F6DA5CD0}.Release|Any CPU.ActiveCfg = Release
+		{6756CD70-71F0-48D2-924E-0D7B0BD585B7}.Debug|Any CPU.ActiveCfg = Debug
+		{6756CD70-71F0-48D2-924E-0D7B0BD585B7}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -85,6 +89,7 @@ Global
 		{76986504-D897-44E8-925D-185F4036F5D6} = {7082C113-2807-494B-BDCB-BA7AF59D988B}
 		{1B2672F4-3588-45D4-BEA3-1D80DB820587} = {7082C113-2807-494B-BDCB-BA7AF59D988B}
 		{AB41676E-64C5-4ED4-9D17-C4D5F6DA5CD0} = {7082C113-2807-494B-BDCB-BA7AF59D988B}
+		{6756CD70-71F0-48D2-924E-0D7B0BD585B7} = {7082C113-2807-494B-BDCB-BA7AF59D988B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0ADB583E-F09B-4BFF-8D7B-49AAB7FD8466}
