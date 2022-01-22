@@ -16,11 +16,11 @@
     </Resource>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="MahApps.Metro" Version="2.4.6" />
-    <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications" Version="7.0.2" />
-    <PackageReference Include="Prism.Unity" Version="8.0.0.1909" />
-    <PackageReference Include="ReactiveProperty.WPF" Version="7.11.0" />
-    <PackageReference Include="System.Drawing.Common" Version="5.0.2" />
+    <PackageReference Include="MahApps.Metro" Version="2.4.9" />
+    <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications" Version="7.1.2" />
+    <PackageReference Include="Prism.Unity" Version="8.1.97" />
+    <PackageReference Include="ReactiveProperty.WPF" Version="8.0.3" />
+    <PackageReference Include="System.Drawing.Common" Version="6.0.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\StampImages.Core\StampImages.Core.csproj" />

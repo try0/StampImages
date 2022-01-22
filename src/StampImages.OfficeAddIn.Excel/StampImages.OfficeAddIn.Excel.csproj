@@ -134,8 +134,8 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Drawing.Common, Version=4.0.0.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.Drawing.Common.5.0.3\lib\net461\System.Drawing.Common.dll</HintPath>
+    <Reference Include="System.Drawing.Common, Version=6.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Drawing.Common.6.0.0\lib\net461\System.Drawing.Common.dll</HintPath>
     </Reference>
     <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\..\packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
@@ -212,9 +212,7 @@
     can be found.
   -->
   <ItemGroup>
-    <Compile Include="FormStampConfig.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="FormStampConfig.cs" />
     <Compile Include="FormStampConfig.Designer.cs">
       <DependentUpon>FormStampConfig.cs</DependentUpon>
     </Compile>
@@ -247,9 +245,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="RibbonMain.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="RibbonMain.cs" />
     <Compile Include="RibbonMain.Designer.cs">
       <DependentUpon>RibbonMain.cs</DependentUpon>
     </Compile>
