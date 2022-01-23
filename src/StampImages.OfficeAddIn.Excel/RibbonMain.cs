@@ -35,7 +35,7 @@ namespace StampImages.OfficeAddIn.Excel
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void btnPasteStamp_Click(object sender, RibbonControlEventArgs e)
+        public void btnPasteStamp_Click(object sender, RibbonControlEventArgs e)
         {
             // 設定ロード
             ThreeAreaCircularStamp stamp = (ThreeAreaCircularStamp)ConfigService.Load(typeof(ThreeAreaCircularStamp));

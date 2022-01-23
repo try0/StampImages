@@ -212,7 +212,9 @@
     can be found.
   -->
   <ItemGroup>
-    <Compile Include="FormStampConfig.cs" />
+    <Compile Include="FormStampConfig.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="FormStampConfig.Designer.cs">
       <DependentUpon>FormStampConfig.cs</DependentUpon>
     </Compile>
@@ -230,6 +232,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="RibbonMain.resx">
       <DependentUpon>RibbonMain.cs</DependentUpon>
@@ -245,7 +248,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="RibbonMain.cs" />
+    <Compile Include="RibbonMain.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="RibbonMain.Designer.cs">
       <DependentUpon>RibbonMain.cs</DependentUpon>
     </Compile>
@@ -253,7 +258,6 @@
     <Compile Include="ThisAddIn.cs">
       <SubType>Code</SubType>
     </Compile>
-    <None Include="StampImages.OfficeAddIn.Excel_TemporaryKey.pfx" />
     <None Include="ThisAddIn.Designer.xml">
       <DependentUpon>ThisAddIn.cs</DependentUpon>
     </None>
@@ -269,10 +273,14 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="icon.ico" />
+    <EmbeddedResource Include="icon.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="icon.png" />
+    <EmbeddedResource Include="icon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
