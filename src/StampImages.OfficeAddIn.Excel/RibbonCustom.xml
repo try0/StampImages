@@ -5,11 +5,12 @@
 			<!-- アドインタブ -->
 			<tab idMso="TabAddIns">
 				<group id="StampImagesGroup" label="StampImages">
-					<button id="textButton" label="スタンプ"
+					
+					<button id="textButton" label="Stamp" size="large"
 						 screentip="スタンプ" onAction="OnClickStampButton"
 						 supertip="設定したスタンプの画像を貼り付けます。" getImage="GetIconImage"/>
 					<dialogBoxLauncher>
-						<button id="ConfigLauncher" screentip="スタンプの設定ダイアログを表示します。"
+						<button id="ConfigLauncher" screentip="設定ダイアログ" supertip="スタンプの設定ダイアログを表示します。"
 								onAction="OnClickConfigDialogLauncher" />
 					</dialogBoxLauncher>
 				</group>
