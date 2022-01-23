@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<customUI xmlns="http://schemas.microsoft.com/office/2009/07/customui" onLoad="Ribbon_Load" >
+	<ribbon>
+		<tabs>
+			<!-- アドインタブ -->
+			<tab idMso="TabAddIns">
+				<group id="StampImagesGroup" label="StampImages">
+					<button id="textButton" label="スタンプ"
+						 screentip="スタンプ" onAction="OnClickStampButton"
+						 supertip="設定したスタンプの画像を貼り付けます。" getImage="GetIconImage"/>
+					<dialogBoxLauncher>
+						<button id="ConfigLauncher" screentip="スタンプの設定ダイアログを表示します。"
+								onAction="OnClickConfigDialogLauncher" />
+					</dialogBoxLauncher>
+				</group>
+			</tab>
+		</tabs>
+
+	</ribbon>
+
+	<contextMenus>
+		<!-- セルコンテキストメニュー -->
+		<contextMenu idMso="ContextMenuCell">
+			<menuSeparator id="CellSeparator" />
+			<button id="CellStampButton" label="スタンプ貼り付け"
+					insertBeforeMso="HyperlinkInsert" onAction="OnClickStampButton" getImage="GetIconImage"/>
+		</contextMenu>
+
+		<!-- 図形コンテキストメニュー -->
+		<contextMenu idMso="ContextMenuShape">
+			<menuSeparator id="ShapeSeparator" />
+			<button id="ShapeStampButton" label="スタンプ貼り付け"
+					insertBeforeMso="HyperlinkInsert" onAction="OnClickStampButton" getImage="GetIconImage"/>
+		</contextMenu>
+
+	</contextMenus>
+</customUI>
+

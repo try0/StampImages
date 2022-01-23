@@ -234,9 +234,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="RibbonMain.resx">
-      <DependentUpon>RibbonMain.cs</DependentUpon>
-    </EmbeddedResource>
     <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -248,12 +245,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="RibbonMain.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="RibbonMain.Designer.cs">
-      <DependentUpon>RibbonMain.cs</DependentUpon>
-    </Compile>
+    <Compile Include="RibbonCustom.cs" />
     <Compile Include="Services\ConfigurationService.cs" />
     <Compile Include="ThisAddIn.cs">
       <SubType>Code</SubType>
@@ -281,6 +273,9 @@
     <EmbeddedResource Include="icon.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="RibbonCustom.xml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
