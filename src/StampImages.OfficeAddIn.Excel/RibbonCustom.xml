@@ -5,7 +5,7 @@
 			<!-- アドインタブ -->
 			<tab idMso="TabAddIns">
 				<group id="StampImagesGroup" label="StampImages">
-					
+
 					<button id="textButton" label="Stamp" size="large"
 						 screentip="スタンプ" onAction="OnClickStampButton"
 						 supertip="設定したスタンプの画像を貼り付けます。" getImage="GetIconImage"/>
@@ -21,17 +21,19 @@
 
 	<contextMenus>
 		<!-- セルコンテキストメニュー -->
-		<contextMenu idMso="ContextMenuCell">
-			<menuSeparator id="CellSeparator" />
-			<button id="CellStampButton" label="スタンプ貼り付け"
-					insertBeforeMso="HyperlinkInsert" onAction="OnClickStampButton" getImage="GetIconImage"/>
+		<contextMenu idMso="ContextMenuCell" >
+			<menuSeparator id="CellSeparatorTop" insertAfterMso="Copy"/>
+			<button id="CellStampButton" label="スタンプ貼り付け" insertAfterMso="Copy"
+					 onAction="OnClickStampButton" getImage="GetIconImage"/>
+			<menuSeparator id="CellSeparatorBottom" insertAfterMso="Copy"/>
 		</contextMenu>
 
 		<!-- 図形コンテキストメニュー -->
 		<contextMenu idMso="ContextMenuShape">
-			<menuSeparator id="ShapeSeparator" />
-			<button id="ShapeStampButton" label="スタンプ貼り付け"
-					insertBeforeMso="HyperlinkInsert" onAction="OnClickStampButton" getImage="GetIconImage"/>
+			<menuSeparator id="ShapeSeparatorTop" insertAfterMso="Copy"/>
+			<button id="ShapeStampButton" label="スタンプ貼り付け" insertAfterMso="Copy"
+					 onAction="OnClickStampButton" getImage="GetIconImage"/>
+			<menuSeparator id="ShapeSeparatorBottom" insertAfterMso="Copy"/>
 		</contextMenu>
 
 	</contextMenus>
