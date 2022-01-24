@@ -1,27 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using System.Text;
 using Office = Microsoft.Office.Core;
 using StampImages.OfficeAddIn.Excel.Services;
 using Microsoft.Office.Core;
 using Microsoft.Office.Interop.Excel;
-using Microsoft.Office.Tools.Ribbon;
 using StampImages.Core;
-using StampImages.OfficeAddIn.Excel.Services;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
 using Shape = Microsoft.Office.Interop.Excel.Shape;
-using stdole;
-using System.Windows.Forms;
 using System.Drawing;
+
 
 
 // TODO:  リボン (XML) アイテムを有効にするには、次の手順に従います。
@@ -132,6 +120,8 @@ namespace StampImages.OfficeAddIn.Excel
             {
                 try
                 {
+                    // セルや図形等でLeft、Topが定義される共通のインターフェースを持たないようなので
+                    // dynamicのまま処理して、例外発生時にA1にする
                     left = (float)selection.Left;
                     top = (float)selection.Top;
                 }
@@ -151,12 +141,47 @@ namespace StampImages.OfficeAddIn.Excel
             Shape stampShape
                   = activeSheet.Shapes.AddPicture(imagePath, MsoTriState.msoCTrue, MsoTriState.msoCTrue,
                                             left, top, width, height);
-
             stampShape.ScaleHeight(1.0F, MsoTriState.msoCTrue);
             stampShape.ScaleWidth(1.0F, MsoTriState.msoCTrue);
 
+            if (selection != null)
+            {
+                // 以下図形がフォーカスされている場合、サイズを合わせる
+                if (selection is Microsoft.Office.Interop.Excel.Rectangle rect)
+                {
+                    AdjustForSelectionShape(stampShape, rect.Width, rect.Height);
+                }
+                else if (selection is Microsoft.Office.Interop.Excel.Oval oval)
+                {
+                    AdjustForSelectionShape(stampShape, oval.Width, oval.Height);
+                }
+            }
+
 
             File.Delete(imagePath);
+        }
+
+        /// <summary>
+        /// スタンプ画像のサイズと配置位置を調整します。
+        /// </summary>
+        /// <param name="stampShape"></param>
+        /// <param name="selectionWidth"></param>
+        /// <param name="selectionHeight"></param>
+        private void AdjustForSelectionShape(Shape stampShape, double selectionWidth, double selectionHeight)
+        {
+            var size = (float)Math.Min(selectionWidth, selectionHeight);
+            stampShape.Width = size;
+            stampShape.Height = size;
+
+            // 図形中心へ調整
+            if (selectionWidth > selectionHeight)
+            {
+                stampShape.Left += (float)(selectionWidth - stampShape.Width) / 2;
+            }
+            else if (selectionWidth < selectionHeight)
+            {
+                stampShape.Top += (float)(selectionHeight - stampShape.Height) / 2;
+            }
         }
 
         /// <summary>
