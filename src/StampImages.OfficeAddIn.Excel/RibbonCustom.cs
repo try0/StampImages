@@ -170,6 +170,11 @@ namespace StampImages.OfficeAddIn.Excel
             form.ShowDialog();
         }
 
+        /// <summary>
+        /// スタンプ設定ボタンクリック時に実行されます。
+        /// </summary>
+        /// <param name="control"></param>
+        public void OnClickStampConfigButton(Office.IRibbonControl control) => OnClickConfigDialogLauncher(control);
 
         #region ヘルパー
 
