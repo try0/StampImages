@@ -39,6 +39,29 @@ namespace StampImages.OfficeAddIn.Excel
 
             if (stamp != null)
             {
+
+                if (stamp.TopText == null)
+                {
+                    stamp.TopText = new StampText()
+                    {
+                        Size = 10
+                    };
+                }
+                if (stamp.MiddleText == null)
+                {
+                    stamp.MiddleText = new StampText()
+                    {
+                        Size = 10
+                    };
+                }
+                if (stamp.BottomText == null)
+                {
+                    stamp.BottomText = new StampText()
+                    {
+                        Size = 10
+                    };
+                }
+
                 txtTop.Text = stamp.TopText.Value;
                 txtMiddle.Text = DateTime.Today.ToString("yyyy/MM/dd");
                 txtBottom.Text = stamp.BottomText.Value;
