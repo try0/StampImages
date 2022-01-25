@@ -146,14 +146,25 @@ namespace StampImages.OfficeAddIn.Excel
 
             if (selection != null)
             {
-                // 以下図形がフォーカスされている場合、サイズを合わせる
+                // 以下オブジェクトがフォーカスされている場合、サイズを合わせる
+
                 if (selection is Microsoft.Office.Interop.Excel.Rectangle rect)
                 {
-                    AdjustForSelectionShape(stampShape, rect.Width, rect.Height);
+                    AdjustForSelectionObject(stampShape, rect.Width, rect.Height);
                 }
                 else if (selection is Microsoft.Office.Interop.Excel.Oval oval)
                 {
-                    AdjustForSelectionShape(stampShape, oval.Width, oval.Height);
+                    AdjustForSelectionObject(stampShape, oval.Width, oval.Height);
+                }
+                else if (selection is Microsoft.Office.Interop.Excel.Range range)
+                {
+                    // 傾斜角から、ある程度の領域が確保されたセルか判定する
+                    var angleRadian = Math.Atan(range.Height / range.Width);
+                    var angleDegree = angleRadian * (180 / Math.PI);
+                    if (angleDegree > 27 && angleDegree < 63)
+                    {
+                        AdjustForSelectionObject(stampShape, range.Width, range.Height);
+                    }
                 }
             }
 
@@ -167,7 +178,7 @@ namespace StampImages.OfficeAddIn.Excel
         /// <param name="stampShape"></param>
         /// <param name="selectionWidth"></param>
         /// <param name="selectionHeight"></param>
-        private void AdjustForSelectionShape(Shape stampShape, double selectionWidth, double selectionHeight)
+        private void AdjustForSelectionObject(Shape stampShape, double selectionWidth, double selectionHeight)
         {
             var size = (float)Math.Min(selectionWidth, selectionHeight);
             stampShape.Width = size;
