@@ -158,12 +158,15 @@ namespace StampImages.OfficeAddIn.Excel
                 }
                 else if (selection is Microsoft.Office.Interop.Excel.Range range)
                 {
-                    // 傾斜角から、ある程度の領域が確保されたセルか判定する
-                    var angleRadian = Math.Atan(range.Height / range.Width);
-                    var angleDegree = angleRadian * (180 / Math.PI);
-                    if (angleDegree > 27 && angleDegree < 63)
+                    // 選択範囲の大きさと傾斜角から、ある程度の領域が確保されたセルか判定する
+                    if (range.Height > 45 && range.Width > 45)
                     {
-                        AdjustForSelectionObject(stampShape, range.Width, range.Height);
+                        var angleRadian = Math.Atan(range.Height / range.Width);
+                        var angleDegree = angleRadian * (180 / Math.PI);
+                        if (angleDegree > 27 && angleDegree < 63)
+                        {
+                            AdjustForSelectionObject(stampShape, range.Width, range.Height);
+                        }
                     }
                 }
             }
