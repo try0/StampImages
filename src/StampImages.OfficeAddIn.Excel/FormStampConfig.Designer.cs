@@ -53,7 +53,7 @@ namespace StampImages.OfficeAddIn.Excel
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(288, 198);
+            this.btnSave.Location = new System.Drawing.Point(292, 198);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(110, 23);
             this.btnSave.TabIndex = 0;
@@ -90,7 +90,7 @@ namespace StampImages.OfficeAddIn.Excel
             // picStamp
             // 
             this.picStamp.BackColor = System.Drawing.Color.White;
-            this.picStamp.Location = new System.Drawing.Point(288, 12);
+            this.picStamp.Location = new System.Drawing.Point(292, 12);
             this.picStamp.Name = "picStamp";
             this.picStamp.Size = new System.Drawing.Size(110, 110);
             this.picStamp.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -151,14 +151,14 @@ namespace StampImages.OfficeAddIn.Excel
             // ddlFontFamily
             // 
             this.ddlFontFamily.FormattingEnabled = true;
-            this.ddlFontFamily.Location = new System.Drawing.Point(288, 128);
+            this.ddlFontFamily.Location = new System.Drawing.Point(292, 128);
             this.ddlFontFamily.Name = "ddlFontFamily";
             this.ddlFontFamily.Size = new System.Drawing.Size(110, 20);
             this.ddlFontFamily.TabIndex = 8;
             // 
             // btnColor
             // 
-            this.btnColor.Location = new System.Drawing.Point(288, 155);
+            this.btnColor.Location = new System.Drawing.Point(292, 155);
             this.btnColor.Name = "btnColor";
             this.btnColor.Size = new System.Drawing.Size(110, 23);
             this.btnColor.TabIndex = 9;
@@ -188,7 +188,7 @@ namespace StampImages.OfficeAddIn.Excel
             // 
             // btnClear
             // 
-            this.btnClear.Location = new System.Drawing.Point(172, 198);
+            this.btnClear.Location = new System.Drawing.Point(176, 198);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(110, 23);
             this.btnClear.TabIndex = 14;
@@ -200,7 +200,7 @@ namespace StampImages.OfficeAddIn.Excel
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(410, 233);
+            this.ClientSize = new System.Drawing.Size(414, 241);
             this.Controls.Add(this.btnClear);
             this.Controls.Add(this.chkFill);
             this.Controls.Add(this.chkEdgeType);

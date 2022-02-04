@@ -9,6 +9,10 @@ using Microsoft.Office.Interop.Excel;
 using StampImages.Core;
 using Shape = Microsoft.Office.Interop.Excel.Shape;
 using System.Drawing;
+using System.Windows.Forms;
+using System.Drawing.Imaging;
+using System.Text.RegularExpressions;
+using System.Diagnostics;
 
 
 
@@ -78,7 +82,23 @@ namespace StampImages.OfficeAddIn.Excel
             this.ribbon = ribbonUI;
         }
 
+        /// <summary>
+        /// スタンプデータを取得します。
+        /// </summary>
+        /// <returns></returns>
+        private ThreeAreaCircularStamp GetStampData()
+        {
+            // 設定ロード
+            ThreeAreaCircularStamp stamp = (ThreeAreaCircularStamp)ConfigService.Load(typeof(ThreeAreaCircularStamp));
 
+            if (stamp == null)
+            {
+                return null;
+            }
+            stamp.MiddleText.Value = DateTime.Today.ToString("yyyy/MM/dd");
+
+            return stamp;
+        }
 
         /// <summary>
         /// スタンプボタンクリック時に実行します。
@@ -87,15 +107,23 @@ namespace StampImages.OfficeAddIn.Excel
         /// <param name="e"></param>
         public void OnClickStampButton(Office.IRibbonControl control)
         {
-            // 設定ロード
-            ThreeAreaCircularStamp stamp = (ThreeAreaCircularStamp)ConfigService.Load(typeof(ThreeAreaCircularStamp));
+            var selection = Globals.ThisAddIn.Application.Selection;
+            PutStampImage(selection);
+
+        }
+
+        /// <summary>
+        /// スタンプ画像を配置します。
+        /// </summary>
+        /// <param name="selection"></param>
+        private void PutStampImage(dynamic selection)
+        {
+            ThreeAreaCircularStamp stamp = GetStampData();
 
             if (stamp == null)
             {
                 return;
             }
-            stamp.MiddleText.Value = DateTime.Today.ToString("yyyy/MM/dd");
-
             // 一時ディレクトリーへ書き出し
             string tempPath = Path.Combine(Path.GetTempPath(), "tmpshape");
             if (!Directory.Exists(tempPath))
@@ -115,7 +143,7 @@ namespace StampImages.OfficeAddIn.Excel
             float left = (float)rangeA1.Left;
             float top = (float)rangeA1.Top;
 
-            var selection = Globals.ThisAddIn.Application.Selection;
+
             if (selection != null)
             {
                 try
@@ -150,11 +178,16 @@ namespace StampImages.OfficeAddIn.Excel
 
                 if (selection is Microsoft.Office.Interop.Excel.Rectangle rect)
                 {
+                    Debug.WriteLine(rect.Name);
                     AdjustForSelectionObject(stampShape, rect.Width, rect.Height);
                 }
                 else if (selection is Microsoft.Office.Interop.Excel.Oval oval)
                 {
                     AdjustForSelectionObject(stampShape, oval.Width, oval.Height);
+                }
+                else if (selection is Microsoft.Office.Interop.Excel.Shape shape)
+                {
+                    AdjustForSelectionObject(stampShape, shape.Width, shape.Height);
                 }
                 else if (selection is Microsoft.Office.Interop.Excel.Range range)
                 {
@@ -173,6 +206,106 @@ namespace StampImages.OfficeAddIn.Excel
 
 
             File.Delete(imagePath);
+        }
+
+        /// <summary>
+        /// クリップボードに準備ボタンクリック時に実行されます。
+        /// </summary>
+        /// <param name="control"></param>
+        public void OnClickClipBoardButton(Office.IRibbonControl control)
+        {
+
+            using (var factory = new StampImageFactory())
+            {
+                ThreeAreaCircularStamp stamp = GetStampData();
+                var stampBitmap = factory.Create(stamp);
+                using (var ms = new MemoryStream())
+                {
+                    stampBitmap.Save(ms, ImageFormat.Png);
+                    Clipboard.SetData("PNG", ms);
+                }
+            }
+
+        }
+
+        /// <summary>
+        /// スタンプ配置ボタンクリック時に実行されます。
+        /// </summary>
+        /// <param name="control"></param>
+        public void OnClickPutStampButton(Office.IRibbonControl control)
+        {
+            Microsoft.Office.Interop.Excel.Application app = Globals.ThisAddIn.Application;
+            Workbook book = Globals.ThisAddIn.Application.ActiveWorkbook;
+            Worksheet sheet = Globals.ThisAddIn.Application.ActiveSheet;
+
+            var positions = ConfigService.LoadStampPostionList();
+
+            if (positions.Count == 0)
+            {
+
+                OnClickPositionConfigButton(control);
+
+                return;
+            }
+
+
+            foreach (var pos in positions)
+            {
+                // 指定ファイルパスフィルター
+                if (!string.IsNullOrEmpty(pos.FilePath))
+                {
+                    bool res = Regex.IsMatch(book.FullName, pos.FilePath);
+                    if (!res)
+                    {
+                        continue;
+                    }
+                }
+
+                // シート名フィルター
+                if (!string.IsNullOrEmpty(pos.SheetName))
+                {
+                    bool res = Regex.IsMatch(sheet.Name, pos.SheetName);
+                    if (!res)
+                    {
+                        continue;
+                    }
+                }
+
+                // スタンプ配置
+
+                // セル
+                try
+                {
+                    
+                    Range range = app.Range[pos.ObjectName];
+                    if (range == null)
+                    {
+                        continue;
+                    }
+                    PutStampImage(range);
+
+                    continue;
+                }
+                catch (Exception ignore)
+                {
+
+                }
+
+                // 図形
+                foreach (Shape shape in sheet.Shapes)
+                {
+                    if (shape.Name != pos.ObjectName)
+                    {
+                        continue;
+                    }
+
+                    PutStampImage(shape);
+                }
+
+
+
+            }
+
         }
 
         /// <summary>
@@ -206,6 +339,14 @@ namespace StampImages.OfficeAddIn.Excel
         public void OnClickConfigDialogLauncher(Office.IRibbonControl control)
         {
             var form = new FormStampConfig();
+            form.StartPosition = FormStartPosition.CenterParent;
+            form.ShowDialog();
+        }
+
+        public void OnClickPositionConfigButton(Office.IRibbonControl control)
+        {
+            var form = new FormStampPositionConfig();
+            form.StartPosition = FormStartPosition.CenterParent;
             form.ShowDialog();
         }
 

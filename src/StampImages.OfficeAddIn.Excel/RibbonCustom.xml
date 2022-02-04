@@ -6,9 +6,18 @@
 			<tab idMso="TabAddIns">
 				<group id="StampImagesGroup" label="StampImages">
 
-					<button id="textButton" label="Stamp" size="large"
+					<button id="stampButton" label="Stamp" size="large"
 						 screentip="スタンプ" onAction="OnClickStampButton"
 						 supertip="設定したスタンプの画像を貼り付けます。" getImage="GetIconImage"/>
+					<button id="CellClipBordButton" label="クリップボードに準備" imageMso="Copy"
+							onAction="OnClickClipBoardButton" screentip="クリップボードに準備"
+							supertip="クリップボードにスタンプ画像を準備します。手動で貼り付けを行ってください。ユーザー操作のため、以前の操作履歴が失われません。"/>
+					<button id="stampConfigButton" label="Stamp設定"
+						 screentip="スタンプ設定" onAction="OnClickStampConfigButton" imageMso="PhotoAlbumEdit"
+						 supertip="スタンプの内容を設定します。"/>
+					<button id="PositionConfigButton" label="配置設定" imageMso="DataRangeProperties"
+						 screentip="配置設定" onAction="OnClickPositionConfigButton"
+						 supertip="スタンプの配置場所を事前に設定します。" />
 					<dialogBoxLauncher>
 						<button id="ConfigLauncher" screentip="設定ダイアログ" supertip="スタンプの設定ダイアログを表示します。"
 								onAction="OnClickConfigDialogLauncher" />
@@ -24,9 +33,14 @@
 		<contextMenu idMso="ContextMenuCell">
 			<menuSeparator id="CellSeparatorTop" insertAfterMso="Copy"/>
 			<button id="CellStampConfigButton" label="スタンプ設定" insertAfterMso="Copy"
-					onAction="OnClickStampConfigButton" />
+					onAction="OnClickStampConfigButton"  imageMso="PhotoAlbumEdit"/>
+			<button id="CellPutStampButton" label="スタンプ配置" insertAfterMso="Copy"
+					onAction="OnClickPutStampButton" getImage="GetIconImage" />
+			<button id="CellClipBoardButton" label="クリップボードに準備" insertAfterMso="Copy"
+					onAction="OnClickClipBoardButton" imageMso="Copy"
+					supertip="クリップボードにスタンプ画像を準備します。手動で貼り付けを行ってください。ユーザー操作のため、以前の操作履歴が失われません。"/>
 			<button id="CellStampButton" label="スタンプ貼り付け" insertAfterMso="Copy"
-					 onAction="OnClickStampButton" getImage="GetIconImage"/>
+					onAction="OnClickStampButton" getImage="GetIconImage"/>
 			<menuSeparator id="CellSeparatorBottom" insertAfterMso="Copy"/>
 		</contextMenu>
 
@@ -34,7 +48,7 @@
 		<contextMenu idMso="ContextMenuShape">
 			<menuSeparator id="ShapeSeparatorTop" insertAfterMso="Copy"/>
 			<button id="ShapeStampConfigButton" label="スタンプ設定" insertAfterMso="Copy"
-					onAction="OnClickStampConfigButton" />
+					onAction="OnClickStampConfigButton" imageMso="PhotoAlbumEdit"/>
 			<button id="ShapeStampButton" label="スタンプ貼り付け" insertAfterMso="Copy"
 					 onAction="OnClickStampButton" getImage="GetIconImage"/>
 			<menuSeparator id="ShapeSeparatorBottom" insertAfterMso="Copy"/>

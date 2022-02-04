@@ -1,5 +1,7 @@
 ﻿using StampImages.Core;
+using StampImages.OfficeAddIn.Excel.Objects;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Text;
@@ -9,46 +11,11 @@ using System.Windows.Forms;
 
 namespace StampImages.OfficeAddIn.Excel.Services
 {
-    /// <summary>
-    /// 設定系サービス
-    /// </summary>
-    public interface IConfigurationService
-    {
-        /// <summary>
-        /// スタンプデータを保存します
-        /// </summary>
-        /// <param name="stamp"></param>
-        void Save(BaseStamp stamp);
-
-        /// <summary>
-        /// 保存してあるスタンプデータをロードします
-        /// </summary>
-        /// <param name="type"></param>
-        /// <returns></returns>
-        BaseStamp Load(Type type);
-
-        /// <summary>
-        /// スタンプデータをシリアライズします
-        /// </summary>
-        /// <param name="stamp"></param>
-        /// <returns></returns>
-        string Serialize(BaseStamp stamp);
-
-        /// <summary>
-        /// スタンプデータをデシリアライズします
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="json"></param>
-        /// <param name="type"></param>
-        /// <returns></returns>
-        T Deserialize<T>(string json, Type type = null) where T : BaseStamp;
-
-    }
 
     /// <summary>
     /// 設定系サービス実装（Json）
     /// </summary>
-    public class ConfigurationService : IConfigurationService
+    public class ConfigurationService 
     {
 
         private static readonly string CONFIG_FILE_DIR = Path.Combine(Application.UserAppDataPath, "Config");
@@ -147,11 +114,21 @@ namespace StampImages.OfficeAddIn.Excel.Services
 
         public string Serialize(BaseStamp stamp)
         {
-            var json = JsonSerializer.Serialize(stamp, stamp.GetType(), GetDefaultOptions());
+            return SerializeObject(stamp, stamp.GetType());
+        }
+
+        public string SerializeObject(object obj, Type type)
+        {
+            var json = JsonSerializer.Serialize(obj, type, GetDefaultOptions());
             return json;
         }
 
         public T Deserialize<T>(string json, Type type) where T : BaseStamp
+        {
+            return DeserializeObject<T>(json, type);
+        }
+
+        public T DeserializeObject<T>(string json, Type type)
         {
             if (type == null)
             {
@@ -160,5 +137,34 @@ namespace StampImages.OfficeAddIn.Excel.Services
             return (T)JsonSerializer.Deserialize(json, type, GetDefaultOptions());
         }
 
+        public List<StampPosition> LoadStampPostionList()
+        {
+            if (!File.Exists(Path.Combine(CONFIG_FILE_DIR, $"StampPositionList.json")))
+            {
+                return new List<StampPosition>();
+            }
+
+            using (var streamReader = new StreamReader(Path.Combine(CONFIG_FILE_DIR, $"StampPositionList.json"), Encoding.UTF8))
+            {
+                string json = streamReader.ReadToEnd();
+                return DeserializeObject<List<StampPosition>>(json, typeof(List<StampPosition>));
+            }
+        }
+
+        public void SaveStampPostionList(List<StampPosition> positions)
+        {
+            if (!File.Exists(CONFIG_FILE_DIR))
+            {
+                Directory.CreateDirectory(CONFIG_FILE_DIR);
+            }
+
+            var json = SerializeObject(positions, typeof(List<StampPosition>));
+
+            using (var streamWriter = new StreamWriter(Path.Combine(CONFIG_FILE_DIR, $"StampPositionList.json"), false, Encoding.UTF8))
+            {
+                streamWriter.WriteLine(json);
+                streamWriter.Flush();
+            }
+        }
     }
 }
