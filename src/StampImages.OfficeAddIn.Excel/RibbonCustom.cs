@@ -255,7 +255,7 @@ namespace StampImages.OfficeAddIn.Excel
                 // 指定ファイルパスフィルター
                 if (!string.IsNullOrEmpty(pos.FilePath))
                 {
-                    bool res = Regex.IsMatch(book.FullName, pos.FilePath);
+                    bool res = book.FullName == pos.FilePath || Regex.IsMatch(book.FullName, pos.FilePath);
                     if (!res)
                     {
                         continue;
@@ -265,7 +265,7 @@ namespace StampImages.OfficeAddIn.Excel
                 // シート名フィルター
                 if (!string.IsNullOrEmpty(pos.SheetName))
                 {
-                    bool res = Regex.IsMatch(sheet.Name, pos.SheetName);
+                    bool res = sheet.Name == pos.SheetName || Regex.IsMatch(sheet.Name, pos.SheetName);
                     if (!res)
                     {
                         continue;
