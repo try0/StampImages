@@ -13,6 +13,7 @@ using System.Windows.Forms;
 using System.Drawing.Imaging;
 using System.Text.RegularExpressions;
 using System.Diagnostics;
+using System.Collections;
 
 
 
@@ -276,7 +277,7 @@ namespace StampImages.OfficeAddIn.Excel
                 // セル
                 try
                 {
-                    
+
                     Range range = app.Range[pos.ObjectName];
                     if (range == null)
                     {
@@ -292,20 +293,49 @@ namespace StampImages.OfficeAddIn.Excel
                 }
 
                 // 図形
-                foreach (Shape shape in sheet.Shapes)
-                {
-                    if (shape.Name != pos.ObjectName)
-                    {
-                        continue;
-                    }
 
+                var shape = FindShape(sheet.Shapes, pos.ObjectName);
+
+                if (shape != null)
+                {
                     PutStampImage(shape);
                 }
 
+            }
 
+        }
+
+        /// <summary>
+        /// 指定された名前の図形を取得します。
+        /// </summary>
+        /// <param name="shapes"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        private Shape FindShape(IEnumerable shapes, string name)
+        {
+
+            foreach (Shape shape in shapes)
+            {
+
+                if (shape.Type == MsoShapeType.msoGroup && shape.GroupItems.Count != 0)
+                {
+                    // グループ化されている場合は、子要素も検索する
+                    var s = FindShape(shape.GroupItems, name);
+
+                    if (s != null)
+                    {
+                        return s;
+                    }
+                }
+
+                if (shape.Name == name)
+                {
+                    return shape;
+                }
 
             }
 
+            return null;
         }
 
         /// <summary>
