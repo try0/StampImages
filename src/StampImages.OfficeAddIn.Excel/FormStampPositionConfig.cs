@@ -55,9 +55,9 @@ namespace StampImages.OfficeAddIn.Excel
             {
                 var pos = new StampPosition()
                 {
-                    ObjectName = row.Cells[0].Value?.ToString(),
-                    SheetName = row.Cells[1].Value?.ToString(),
-                    FilePath = row.Cells[2].Value?.ToString(),
+                    ObjectName = row.Cells[0].Value?.ToString().Trim(),
+                    SheetName = row.Cells[1].Value?.ToString().Trim(),
+                    FilePath = row.Cells[2].Value?.ToString().Trim(),
                 };
 
                 if (string.IsNullOrEmpty(pos.ObjectName)
