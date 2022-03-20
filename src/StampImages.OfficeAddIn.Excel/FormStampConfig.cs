@@ -32,7 +32,8 @@ namespace StampImages.OfficeAddIn.Excel
             ddlFontFamily.DataSource = new InstalledFontCollection().Families;
             ddlFontFamily.ValueMember = "Name";
             ddlFontFamily.DisplayMember = "Name";
-
+            dtMiddle.CustomFormat = "yyyy/MM/dd";
+            dtMiddle.Format = DateTimePickerFormat.Custom;
 
             // 設定ロード
             ThreeAreaCircularStamp stamp = (ThreeAreaCircularStamp)ConfigService.Load(typeof(ThreeAreaCircularStamp));
@@ -63,7 +64,15 @@ namespace StampImages.OfficeAddIn.Excel
                 }
 
                 txtTop.Text = stamp.TopText.Value;
-                txtMiddle.Text = DateTime.Today.ToString("yyyy/MM/dd");
+                try
+                {
+                    dtMiddle.Value = string.IsNullOrEmpty(stamp.MiddleText.Value) ? DateTime.Today : DateTime.Parse(stamp.MiddleText.Value);
+                }
+                catch (Exception ignore)
+                {
+
+                }
+
                 txtBottom.Text = stamp.BottomText.Value;
 
                 numTopSize.Value = (decimal)Math.Max(stamp.TopText.Size, 1);
@@ -82,7 +91,7 @@ namespace StampImages.OfficeAddIn.Excel
             }
             else
             {
-                txtMiddle.Text = DateTime.Today.ToString("yyyy/MM/dd");
+                dtMiddle.Value = DateTime.Today;
                 ddlFontFamily.SelectedValue = "MS UI Gothic";
                 btnColor.BackColor = Color.Red;
             }
@@ -92,6 +101,7 @@ namespace StampImages.OfficeAddIn.Excel
 
 
             txtTop.TextChanged += OnPropertyChanged;
+            dtMiddle.ValueChanged += OnPropertyChanged;
             txtBottom.TextChanged += OnPropertyChanged;
 
             numTopSize.TextChanged += OnPropertyChanged;
@@ -132,7 +142,7 @@ namespace StampImages.OfficeAddIn.Excel
             ConfigService.Save(new ThreeAreaCircularStamp());
 
             txtTop.Text = "";
-            txtMiddle.Text = DateTime.Today.ToString("yyyy/MM/dd");
+            dtMiddle.Value = DateTime.Today;
             txtBottom.Text = "";
 
             numTopSize.Value = 10;
@@ -144,7 +154,6 @@ namespace StampImages.OfficeAddIn.Excel
             chkFill.Checked = false;
 
 
-            txtMiddle.Text = DateTime.Today.ToString("yyyy/MM/dd");
             ddlFontFamily.SelectedValue = "MS UI Gothic";
             btnColor.BackColor = Color.Red;
 
@@ -216,7 +225,7 @@ namespace StampImages.OfficeAddIn.Excel
             };
             stamp.MiddleText = new StampText
             {
-                Value = DateTime.Today.ToString("yyyy/MM/dd"),
+                Value = dtMiddle.Value.ToString("yyyy/MM/dd"),
                 Size = ((float)numMiddleSize.Value)
             };
             stamp.BottomText = new StampText
@@ -255,7 +264,6 @@ namespace StampImages.OfficeAddIn.Excel
             }
 
         }
-
 
 
     }

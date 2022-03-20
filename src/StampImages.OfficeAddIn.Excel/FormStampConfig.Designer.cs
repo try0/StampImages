@@ -32,7 +32,6 @@ namespace StampImages.OfficeAddIn.Excel
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormStampConfig));
             this.btnSave = new System.Windows.Forms.Button();
             this.txtTop = new System.Windows.Forms.TextBox();
-            this.txtMiddle = new System.Windows.Forms.TextBox();
             this.txtBottom = new System.Windows.Forms.TextBox();
             this.picStamp = new System.Windows.Forms.PictureBox();
             this.numTopSize = new System.Windows.Forms.NumericUpDown();
@@ -45,6 +44,7 @@ namespace StampImages.OfficeAddIn.Excel
             this.chkEdgeType = new System.Windows.Forms.CheckBox();
             this.chkFill = new System.Windows.Forms.CheckBox();
             this.btnClear = new System.Windows.Forms.Button();
+            this.dtMiddle = new System.Windows.Forms.DateTimePicker();
             ((System.ComponentModel.ISupportInitialize)(this.picStamp)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numTopSize)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numMiddleSize)).BeginInit();
@@ -69,14 +69,6 @@ namespace StampImages.OfficeAddIn.Excel
             this.txtTop.Name = "txtTop";
             this.txtTop.Size = new System.Drawing.Size(183, 19);
             this.txtTop.TabIndex = 1;
-            // 
-            // txtMiddle
-            // 
-            this.txtMiddle.Location = new System.Drawing.Point(12, 37);
-            this.txtMiddle.Name = "txtMiddle";
-            this.txtMiddle.ReadOnly = true;
-            this.txtMiddle.Size = new System.Drawing.Size(183, 19);
-            this.txtMiddle.TabIndex = 2;
             // 
             // txtBottom
             // 
@@ -196,11 +188,19 @@ namespace StampImages.OfficeAddIn.Excel
             this.btnClear.UseVisualStyleBackColor = true;
             this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
             // 
+            // dtMiddle
+            // 
+            this.dtMiddle.Location = new System.Drawing.Point(12, 37);
+            this.dtMiddle.Name = "dtMiddle";
+            this.dtMiddle.Size = new System.Drawing.Size(183, 19);
+            this.dtMiddle.TabIndex = 15;
+            // 
             // FormStampConfig
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(414, 241);
+            this.Controls.Add(this.dtMiddle);
             this.Controls.Add(this.btnClear);
             this.Controls.Add(this.chkFill);
             this.Controls.Add(this.chkEdgeType);
@@ -211,7 +211,6 @@ namespace StampImages.OfficeAddIn.Excel
             this.Controls.Add(this.numTopSize);
             this.Controls.Add(this.picStamp);
             this.Controls.Add(this.txtBottom);
-            this.Controls.Add(this.txtMiddle);
             this.Controls.Add(this.txtTop);
             this.Controls.Add(this.btnSave);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -231,7 +230,6 @@ namespace StampImages.OfficeAddIn.Excel
 
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.TextBox txtTop;
-        private System.Windows.Forms.TextBox txtMiddle;
         private System.Windows.Forms.TextBox txtBottom;
         private System.Windows.Forms.PictureBox picStamp;
         private System.Windows.Forms.NumericUpDown numTopSize;
@@ -244,5 +242,6 @@ namespace StampImages.OfficeAddIn.Excel
         private System.Windows.Forms.CheckBox chkEdgeType;
         private System.Windows.Forms.CheckBox chkFill;
         private System.Windows.Forms.Button btnClear;
+        private System.Windows.Forms.DateTimePicker dtMiddle;
     }
 }
