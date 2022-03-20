@@ -45,6 +45,7 @@ namespace StampImages.OfficeAddIn.Excel
             this.chkFill = new System.Windows.Forms.CheckBox();
             this.btnClear = new System.Windows.Forms.Button();
             this.dtMiddle = new System.Windows.Forms.DateTimePicker();
+            this.chkToday = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.picStamp)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numTopSize)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numMiddleSize)).BeginInit();
@@ -192,14 +193,25 @@ namespace StampImages.OfficeAddIn.Excel
             // 
             this.dtMiddle.Location = new System.Drawing.Point(12, 37);
             this.dtMiddle.Name = "dtMiddle";
-            this.dtMiddle.Size = new System.Drawing.Size(183, 19);
+            this.dtMiddle.Size = new System.Drawing.Size(123, 19);
             this.dtMiddle.TabIndex = 15;
+            // 
+            // chkToday
+            // 
+            this.chkToday.AutoSize = true;
+            this.chkToday.Location = new System.Drawing.Point(142, 38);
+            this.chkToday.Name = "chkToday";
+            this.chkToday.Size = new System.Drawing.Size(48, 16);
+            this.chkToday.TabIndex = 16;
+            this.chkToday.Text = "当日";
+            this.chkToday.UseVisualStyleBackColor = true;
             // 
             // FormStampConfig
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(414, 241);
+            this.Controls.Add(this.chkToday);
             this.Controls.Add(this.dtMiddle);
             this.Controls.Add(this.btnClear);
             this.Controls.Add(this.chkFill);
@@ -243,5 +255,6 @@ namespace StampImages.OfficeAddIn.Excel
         private System.Windows.Forms.CheckBox chkFill;
         private System.Windows.Forms.Button btnClear;
         private System.Windows.Forms.DateTimePicker dtMiddle;
+        private System.Windows.Forms.CheckBox chkToday;
     }
 }

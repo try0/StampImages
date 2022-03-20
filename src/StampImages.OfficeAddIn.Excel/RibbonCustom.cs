@@ -14,6 +14,7 @@ using System.Drawing.Imaging;
 using System.Text.RegularExpressions;
 using System.Diagnostics;
 using System.Collections;
+using StampImages.OfficeAddIn.Excel.Objects;
 
 
 
@@ -96,7 +97,13 @@ namespace StampImages.OfficeAddIn.Excel
             {
                 return null;
             }
-            stamp.MiddleText.Value = DateTime.Today.ToString("yyyy/MM/dd");
+
+            AppConfig config = ConfigService.LoadAppConfig();
+
+            if (config.ApplyToday)
+            {
+                stamp.MiddleText.Value = DateTime.Today.ToString("yyyy/MM/dd");
+            }
 
             return stamp;
         }

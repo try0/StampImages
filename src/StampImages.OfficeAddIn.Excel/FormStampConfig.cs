@@ -1,5 +1,6 @@
 ﻿
 using StampImages.Core;
+using StampImages.OfficeAddIn.Excel.Objects;
 using StampImages.OfficeAddIn.Excel.Services;
 using System;
 using System.Collections.Generic;
@@ -28,12 +29,24 @@ namespace StampImages.OfficeAddIn.Excel
         {
             InitializeComponent();
 
+            AppConfig config = ConfigService.LoadAppConfig();
 
             ddlFontFamily.DataSource = new InstalledFontCollection().Families;
             ddlFontFamily.ValueMember = "Name";
             ddlFontFamily.DisplayMember = "Name";
             dtMiddle.CustomFormat = "yyyy/MM/dd";
             dtMiddle.Format = DateTimePickerFormat.Custom;
+            chkToday.Checked = config.ApplyToday;
+            dtMiddle.Enabled = !chkToday.Checked;
+            chkToday.CheckedChanged += (s, e) =>
+            {
+                if (chkToday.Checked)
+                {
+                    dtMiddle.Value = DateTime.Today;
+                }
+
+                dtMiddle.Enabled = !chkToday.Checked;
+            };
 
             // 設定ロード
             ThreeAreaCircularStamp stamp = (ThreeAreaCircularStamp)ConfigService.Load(typeof(ThreeAreaCircularStamp));
@@ -127,7 +140,9 @@ namespace StampImages.OfficeAddIn.Excel
 
             var stamp = GetStamp();
             ConfigService.Save(stamp);
-
+            AppConfig config = ConfigService.LoadAppConfig();
+            config.ApplyToday = chkToday.Checked;
+            ConfigService.SaveAppConfig(config);
 
             Close();
         }
@@ -145,6 +160,8 @@ namespace StampImages.OfficeAddIn.Excel
             dtMiddle.Value = DateTime.Today;
             txtBottom.Text = "";
 
+            chkToday.Checked = true;
+
             numTopSize.Value = 10;
             numMiddleSize.Value = 10;
             numBottomSize.Value = 10;
@@ -156,6 +173,10 @@ namespace StampImages.OfficeAddIn.Excel
 
             ddlFontFamily.SelectedValue = "MS UI Gothic";
             btnColor.BackColor = Color.Red;
+
+            AppConfig config = ConfigService.LoadAppConfig();
+            config.ApplyToday = chkToday.Checked;
+            ConfigService.SaveAppConfig(config);
 
             UpdateStampImagePreview();
         }
@@ -264,7 +285,6 @@ namespace StampImages.OfficeAddIn.Excel
             }
 
         }
-
 
     }
 }

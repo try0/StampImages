@@ -166,5 +166,35 @@ namespace StampImages.OfficeAddIn.Excel.Services
                 streamWriter.Flush();
             }
         }
+
+        public AppConfig LoadAppConfig()
+        {
+            if (!File.Exists(Path.Combine(CONFIG_FILE_DIR, $"AppConfig.json")))
+            {
+                return new AppConfig();
+            }
+
+            using (var streamReader = new StreamReader(Path.Combine(CONFIG_FILE_DIR, $"AppConfig.json"), Encoding.UTF8))
+            {
+                string json = streamReader.ReadToEnd();
+                return DeserializeObject<AppConfig>(json, typeof(AppConfig));
+            }
+        }
+
+        public void SaveAppConfig(AppConfig config)
+        {
+            if (!File.Exists(CONFIG_FILE_DIR))
+            {
+                Directory.CreateDirectory(CONFIG_FILE_DIR);
+            }
+
+            var json = SerializeObject(config, typeof(AppConfig));
+
+            using (var streamWriter = new StreamWriter(Path.Combine(CONFIG_FILE_DIR, $"AppConfig.json"), false, Encoding.UTF8))
+            {
+                streamWriter.WriteLine(json);
+                streamWriter.Flush();
+            }
+        }
     }
 }
