@@ -38,6 +38,9 @@ namespace StampImages.App.WPF.ViewModels
         public ReactiveProperty<double> BottomFontSize { get; } = new ReactiveProperty<double>(27);
 
 
+        public ReactiveProperty<bool> ApplyToday { get; } = new ReactiveProperty<bool>(false);
+
+
 
 
 
@@ -54,7 +57,19 @@ namespace StampImages.App.WPF.ViewModels
             TopFontSize.Subscribe(_ => RequestUpdateStampImage());
             MiddleFontSize.Subscribe(_ => RequestUpdateStampImage());
             BottomFontSize.Subscribe(_ => RequestUpdateStampImage());
+            ApplyToday.Subscribe(val =>
+            {
+                if (val)
+                {
+                    MiddleText.Value = DateTime.Now.ToString("yyyy/MM/dd");
+                }
 
+                var appConfig = ConfigurationService.LoadAppConfig();
+                appConfig.ApplyToday = val;
+                ConfigurationService.SaveAppConfig(appConfig);
+
+                RequestUpdateStampImage();
+            });
         }
 
         protected override void LoadStamp(BaseStamp stamp)
@@ -69,6 +84,12 @@ namespace StampImages.App.WPF.ViewModels
             MiddleFontSize.Value = myStamp.MiddleText.Size;
             BottomFontSize.Value = myStamp.BottomText.Size;
 
+            var appConfig = ConfigurationService.LoadAppConfig();
+            ApplyToday.Value = appConfig.ApplyToday;
+            if (appConfig.ApplyToday)
+            {
+                MiddleText.Value = DateTime.Now.ToString("yyyy/MM/dd");
+            }
         }
 
 
@@ -83,6 +104,8 @@ namespace StampImages.App.WPF.ViewModels
             TopFontSize.Value = 27;
             MiddleFontSize.Value = 27;
             BottomFontSize.Value = 27;
+
+            ApplyToday.Value = false;
 
             base.ExecuteClearCommand();
 

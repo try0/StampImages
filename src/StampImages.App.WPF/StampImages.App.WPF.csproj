@@ -19,6 +19,7 @@
     <PackageReference Include="MahApps.Metro" Version="2.4.9" />
     <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications" Version="7.1.2" />
     <PackageReference Include="Prism.Unity" Version="8.1.97" />
+    <PackageReference Include="QuickConverter.NetCore" Version="1.2.5" />
     <PackageReference Include="ReactiveProperty.WPF" Version="8.0.3" />
     <PackageReference Include="System.Drawing.Common" Version="6.0.0" />
   </ItemGroup>
