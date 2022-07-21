@@ -6,18 +6,21 @@
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True"
              xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro" 
+             xmlns:qc="http://QuickConverter.CodePlex.com/"
              mc:Ignorable="d" 
-             d:DesignHeight="160" d:DesignWidth="260">
-    <Grid>
-        <TextBox HorizontalAlignment="Left" Margin="0,0,0,0" Text="{Binding TopText.Value, Mode=TwoWay}" TextWrapping="Wrap" VerticalAlignment="Top" Width="167"/>
-        <TextBox HorizontalAlignment="Left" Margin="0,31,0,0" Text="{Binding MiddleText.Value, Mode=TwoWay}" TextWrapping="Wrap" VerticalAlignment="Top" Width="136"/>
-        <TextBox HorizontalAlignment="Left" Margin="0,62,0,0" Text="{Binding BottomText.Value, Mode=TwoWay}" TextWrapping="Wrap" VerticalAlignment="Top" Width="167"/>
+             d:DesignHeight="160" d:DesignWidth="300">
+    <Grid Margin="0,0,-25,0">
+        <TextBox HorizontalAlignment="Left" Margin="0,0,0,0" Text="{Binding TopText.Value, Mode=TwoWay}" TextWrapping="Wrap" VerticalAlignment="Top" Width="201"/>
+        <TextBox HorizontalAlignment="Left" Margin="0,31,0,0" Text="{Binding MiddleText.Value, Mode=TwoWay}" TextWrapping="Wrap" VerticalAlignment="Top" Width="118" IsEnabled="{qc:Binding '!$P', P={Binding ApplyToday.Value}}"/>
+        <TextBox HorizontalAlignment="Left" Margin="0,62,0,0" Text="{Binding BottomText.Value, Mode=TwoWay}" TextWrapping="Wrap" VerticalAlignment="Top" Width="201"/>
 
-        <DatePicker HorizontalAlignment="Left" Margin="140,31,0,0" VerticalAlignment="Top" Width="25" Text="{Binding MiddleText.Value, Mode=TwoWay}"/>
+        <DatePicker HorizontalAlignment="Left" Margin="123,31,0,0" VerticalAlignment="Top" Width="25" Text="{Binding MiddleText.Value, Mode=TwoWay}" IsEnabled="{qc:Binding '!$P', P={Binding ApplyToday.Value}}"/>
 
-        <Controls:NumericUpDown HorizontalAlignment="Left" Margin="170,0,0,0" VerticalAlignment="Top" Value="{Binding TopFontSize.Value}"/>
-        <Controls:NumericUpDown HorizontalAlignment="Left" Margin="170,31,0,0" VerticalAlignment="Top" Value="{Binding MiddleFontSize.Value}"/>
-        <Controls:NumericUpDown HorizontalAlignment="Left" Margin="170,62,0,0" VerticalAlignment="Top" Value="{Binding BottomFontSize.Value}"/>
+        <Controls:NumericUpDown HorizontalAlignment="Left" Margin="206,0,0,0" VerticalAlignment="Top" Value="{Binding TopFontSize.Value}"/>
+        <Controls:NumericUpDown HorizontalAlignment="Left" Margin="206,31,0,0" VerticalAlignment="Top" Value="{Binding MiddleFontSize.Value}"/>
+        <Controls:NumericUpDown HorizontalAlignment="Left" Margin="206,62,0,0" VerticalAlignment="Top" Value="{Binding BottomFontSize.Value}"/>
+
+        <CheckBox Content="今日" HorizontalAlignment="Left" Margin="153,35,0,0" VerticalAlignment="Top" IsChecked="{Binding ApplyToday.Value, Mode=TwoWay}"/>
 
 
 

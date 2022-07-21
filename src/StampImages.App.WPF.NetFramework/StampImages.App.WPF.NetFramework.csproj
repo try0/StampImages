@@ -60,6 +60,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Objects\AppConfig.cs" />
     <Compile Include="Views\SquareStampPropControl.xaml.cs">
       <DependentUpon>SquareStampPropControl.xaml</DependentUpon>
     </Compile>
@@ -141,6 +142,9 @@
       <Version>7.1.2</Version>
     </PackageReference>
     <PackageReference Include="Prism.Unity" Version="8.1.97" />
+    <PackageReference Include="QuickConverter">
+      <Version>1.2.5</Version>
+    </PackageReference>
     <PackageReference Include="ReactiveProperty.WPF">
       <Version>8.0.3</Version>
     </PackageReference>
