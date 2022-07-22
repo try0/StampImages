@@ -143,7 +143,7 @@ namespace StampImages.App.WPF.ViewModels
             LoadedCommand = new DelegateCommand(ExecuteLoadedCommand);
             UnloadedCommand = new DelegateCommand(ExecuteUnloadedCommnad);
             CopyImageCommand = new DelegateCommand(ExecuteCopyImageCommand);
-            ClearCommand = new DelegateCommand(ExecuteClearCommand);
+            ClearCommand = new DelegateCommand(ExecuteClearConfirmCommand);
             ClearRotationCommand = new DelegateCommand(ExecuteClearRotationCommand);
             SaveImageCommand = new DelegateCommand(ExecuteSaveImageCommand);
             DragImageCommand = new DelegateCommand<MouseEventArgs>(ExecuteDragImageCommand);
@@ -238,6 +238,21 @@ namespace StampImages.App.WPF.ViewModels
                 .AddAudio(new ToastAudio() { Silent = true })
                 .AddText("クリップボードにコピーしました")
                 .Show();
+        }
+
+        protected virtual void ExecuteClearConfirmCommand()
+        {
+            string messageBoxText = "設定内容を破棄します。よろしいですか?";
+            string caption = "確認";
+            MessageBoxButton button = MessageBoxButton.OKCancel;
+            MessageBoxImage icon = MessageBoxImage.Warning;
+            MessageBoxResult result = MessageBox.Show(messageBoxText, caption, button, icon, MessageBoxResult.Cancel);
+
+            if (result == MessageBoxResult.OK)
+            {
+                ExecuteClearCommand();
+            }
+
         }
 
         /// <summary>
