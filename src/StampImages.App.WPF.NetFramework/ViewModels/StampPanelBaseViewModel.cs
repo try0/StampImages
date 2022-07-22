@@ -287,16 +287,25 @@ namespace StampImages.App.WPF.ViewModels
                 return;
             }
 
-            var isDirectory = File
-                .GetAttributes(dialog.FileName)
-                .HasFlag(FileAttributes.Directory);
-
-            if (isDirectory)
+            if (File.Exists(dialog.FileName))
             {
-                dialog.FileName = Path.Combine(dialog.FileName, "stamp.png");
+                var isDirectory = File
+                    .GetAttributes(dialog.FileName)
+                    .HasFlag(FileAttributes.Directory);
+
+                if (isDirectory)
+                {
+                    dialog.FileName = Path.Combine(dialog.FileName, "stamp.png");
+                }
             }
 
-            StampImage.Value.Save(dialog.FileName);
+            string fileName = dialog.FileName;
+            if (!fileName.ToLower().EndsWith(".png"))
+            {
+                fileName += ".png";
+            }
+
+            StampImage.Value.Save(fileName);
 
             new ToastContentBuilder()
                 .AddAudio(new ToastAudio() { Silent = true })
