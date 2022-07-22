@@ -309,7 +309,7 @@ namespace StampImages.App.WPF.ViewModels
 
             new ToastContentBuilder()
                 .AddAudio(new ToastAudio() { Silent = true })
-                .AddInlineImage(new Uri(dialog.FileName))
+                .AddInlineImage(new Uri(fileName))
                 .AddText("保存しました")
                 .Show();
         }
