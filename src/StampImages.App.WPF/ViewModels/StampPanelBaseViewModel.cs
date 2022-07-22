@@ -21,6 +21,9 @@ using System.Drawing.Imaging;
 using System.Windows.Input;
 using System.Diagnostics;
 using System.Linq;
+using MahApps.Metro.Controls.Dialogs;
+using MahApps.Metro.Controls;
+using ControlzEx.Theming;
 
 namespace StampImages.App.WPF.ViewModels
 {
@@ -125,6 +128,8 @@ namespace StampImages.App.WPF.ViewModels
         /// </summary>
         public DelegateCommand<DragEventArgs> DropItemCommand { get; }
 
+
+        public IDialogCoordinator MahAppsDialogCoordinator { get; set; }
 
 
         /// <summary>
@@ -240,15 +245,19 @@ namespace StampImages.App.WPF.ViewModels
                 .Show();
         }
 
-        protected virtual void ExecuteClearConfirmCommand()
+        protected virtual async void ExecuteClearConfirmCommand()
         {
             string messageBoxText = "設定内容を破棄します。よろしいですか?";
             string caption = "確認";
-            MessageBoxButton button = MessageBoxButton.OKCancel;
-            MessageBoxImage icon = MessageBoxImage.Warning;
-            MessageBoxResult result = MessageBox.Show(messageBoxText, caption, button, icon, MessageBoxResult.Cancel);
 
-            if (result == MessageBoxResult.OK)
+            // TODO Interface
+            var metroWindow = (Application.Current.MainWindow as MetroWindow);
+            var mySettings = new MetroDialogSettings()
+            {
+                ColorScheme = MetroDialogColorScheme.Accented
+            };
+            var select = await metroWindow.ShowMessageAsync(caption, messageBoxText, MessageDialogStyle.AffirmativeAndNegative, mySettings);
+            if (select == MessageDialogResult.Affirmative)
             {
                 ExecuteClearCommand();
             }
