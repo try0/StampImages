@@ -82,7 +82,7 @@ namespace StampImages.App.WPF.Services
             {
                 if (reader.GetString() == null || reader.GetString().Length == 0)
                 {
-                    return StampText.GetDefaultFontFamily();
+                    return new FontFamily(StampText.DEFAULT_FONT_FAMILY);
                 }
 
                 return new FontFamily(reader.GetString());

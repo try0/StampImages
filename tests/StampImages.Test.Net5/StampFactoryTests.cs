@@ -16,7 +16,6 @@ namespace StampImages.Test.Net5
         private void AssertSize(Size size, BaseStamp stamp)
         {
 
-            using (stamp)
             using (var bitmap = stampImageFactory.Create(stamp))
             {
                 Assert.AreEqual(size.Width, bitmap.Width);

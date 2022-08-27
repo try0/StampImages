@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
 
 namespace StampImages.Core
@@ -7,7 +6,7 @@ namespace StampImages.Core
     /// <summary>
     /// スタンプ
     /// </summary>
-    public abstract partial class BaseStamp : IDisposable
+    public abstract partial class BaseStamp
     {
 
         /// <summary>
@@ -65,11 +64,7 @@ namespace StampImages.Core
         /// 保持する<see cref="StampText"/>のフォントを一括で指定します。
         /// </summary>
         /// <param name="fontFamily"></param>
-        public abstract void SetFontFamily(FontFamily fontFamily);
+        public abstract void SetFontFamily(string fontFamily);
 
-        /// <inheritdoc />
-        public virtual void Dispose()
-        {
-        }
     }
 }

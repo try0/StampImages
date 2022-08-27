@@ -4,71 +4,6 @@
         <name>StampImages.Core</name>
     </assembly>
     <members>
-        <member name="T:StampImages.Core.ColorExtensions">
-            <summary>
-            <see cref="T:System.Drawing.Color"/> 拡張
-            </summary>
-        </member>
-        <member name="M:StampImages.Core.ColorExtensions.GetInvertColor(System.Drawing.Color)">
-            <summary>
-            RGBを反転させた<see cref="T:System.Drawing.Color"/>を取得します。
-            </summary>
-            <param name="color"></param>
-            <returns></returns>
-        </member>
-        <member name="T:StampImages.Core.GraphicsExtensions">
-            <summary>
-            <see cref="T:System.Drawing.Graphics"/> 拡張
-            </summary>
-        </member>
-        <member name="M:StampImages.Core.GraphicsExtensions.MeasureDrawedString(System.Drawing.Graphics,System.String,System.Drawing.Font,System.Drawing.Size,System.Drawing.StringFormat)">
-            <summary>
-            <see cref="M:System.Drawing.Graphics.DrawString(System.String,System.Drawing.Font,System.Drawing.Brush,System.Single,System.Single,System.Drawing.StringFormat)"/>で描画した文字列を測定します。
-            </summary>
-            <param name="graphics"></param>
-            <param name="text"></param>
-            <param name="font"></param>
-            <param name="size"></param>
-            <param name="format"></param>
-            <returns></returns>
-        </member>
-        <member name="M:StampImages.Core.GraphicsExtensions.FillRoundedRectangle(System.Drawing.Graphics,System.Drawing.SolidBrush,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">
-            <summary>
-            塗りつぶした丸角の四角形を描画します。
-            </summary>
-            <param name="graphics"></param>
-            <param name="brush"></param>
-            <param name="x"></param>
-            <param name="y"></param>
-            <param name="width"></param>
-            <param name="height"></param>
-            <param name="radius"></param>
-        </member>
-        <member name="M:StampImages.Core.GraphicsExtensions.DrawRoundedRectangle(System.Drawing.Graphics,System.Drawing.Pen,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">
-            <summary>
-            丸角の四角形を描画します。
-            </summary>
-            <param name="graphics"></param>
-            <param name="pen"></param>
-            <param name="x"></param>
-            <param name="y"></param>
-            <param name="width"></param>
-            <param name="height"></param>
-            <param name="radius"></param>
-        </member>
-        <member name="T:StampImages.Core.SizeExtensions">
-            <summary>
-            <see cref="T:System.Drawing.Size"/> 拡張
-            </summary>
-        </member>
-        <member name="M:StampImages.Core.SizeExtensions.GetRotatedContainerSize(System.Drawing.Size,System.Int32)">
-            <summary>
-            回転後のサイズを覆うサイズを取得します。
-            </summary>
-            <param name="size"></param>
-            <param name="angle"></param>
-            <returns></returns>
-        </member>
         <member name="T:StampImages.Core.StampMargin">
             <summary>
             余白情報
@@ -101,13 +36,6 @@
             スタンプテキスト
             </summary>
         </member>
-        <member name="M:StampImages.Core.StampText.GetDefaultFontFamily">
-            <summary>
-            デフォルトフォントを取得します。
-            <para>MS UI Gothic</para>
-            </summary>
-            <returns></returns>
-        </member>
         <member name="P:StampImages.Core.StampText.Value">
             <summary>
             出力対象文字列
@@ -133,100 +61,6 @@
             コンストラクター
             </summary>
             <param name="value"></param>
-        </member>
-        <member name="M:StampImages.Core.StampText.Dispose">
-            <inheritdoc />
-        </member>
-        <member name="T:StampImages.Core.StampImageFactory">
-            <summary>
-            職印画像生成処理
-            </summary>
-        </member>
-        <member name="P:StampImages.Core.StampImageFactory.Config">
-            <summary>
-            設定
-            </summary>
-        </member>
-        <member name="M:StampImages.Core.StampImageFactory.#ctor">
-            <summary>
-            コンストラクター
-            </summary>
-        </member>
-        <member name="M:StampImages.Core.StampImageFactory.#ctor(StampImages.Core.StampImageFactoryConfig)">
-            <summary>
-            コンストラクター
-            </summary>
-            <param name="config"></param>
-        </member>
-        <member name="M:StampImages.Core.StampImageFactory.Resize(System.Drawing.Bitmap,System.Int32,System.Int32)">
-            <summary>
-            リサイズ
-            </summary>
-            <param name="src"></param>
-            <param name="width"></param>
-            <param name="height"></param>
-            <returns></returns>
-        </member>
-        <member name="M:StampImages.Core.StampImageFactory.Save(StampImages.Core.BaseStamp,System.String)">
-            <summary>
-            イメージを保存します
-            </summary>
-            <param name="stamp"></param>
-            <param name="fileName"></param>
-        </member>
-        <member name="M:StampImages.Core.StampImageFactory.Create(StampImages.Core.BaseStamp)">
-            <summary>
-            イメージを作成します
-            </summary>
-            <param name="stamp"></param>
-            <returns></returns>
-        </member>
-        <member name="M:StampImages.Core.StampImageFactory.Create(StampImages.Core.ThreeAreaCircularStamp)">
-            <summary>
-            垂直に3分割した印鑑イメージを作成します。
-            <para>常に正円で描画されます。指定したWidth、Heightの小さいいずれかの値でスタンプを描画します。</para>
-            </summary>
-            <param name="stamp"></param>
-            <returns></returns>
-        </member>
-        <member name="M:StampImages.Core.StampImageFactory.Create(StampImages.Core.RectangleStamp)">
-            <summary>
-            4角形の印鑑イメージを作成します。
-            </summary>
-            <param name="stamp"></param>
-            <returns></returns>
-        </member>
-        <member name="M:StampImages.Core.StampImageFactory.Create(StampImages.Core.CircularStamp)">
-            <summary>
-            円形の印鑑イメージを作成します。
-            </summary>
-            <param name="stamp"></param>
-            <returns></returns>
-        </member>
-        <member name="M:StampImages.Core.StampImageFactory.AppendEffects(StampImages.Core.BaseStamp,System.Drawing.Bitmap)">
-            <summary>
-            加工処理を実行します
-            </summary>
-            <param name="stamp"></param>
-            <param name="stampImage"></param>
-        </member>
-        <member name="M:StampImages.Core.StampImageFactory.AppendNoise(StampImages.Core.BaseStamp,System.Drawing.Bitmap)">
-            <summary>
-            ランダムにノイズを付与します。
-            </summary>
-            <param name="stamp"></param>
-            <param name="stampImage"></param>
-        </member>
-        <member name="M:StampImages.Core.StampImageFactory.AppendGrunge(StampImages.Core.BaseStamp,System.Drawing.Bitmap)">
-            <summary>
-            汚し加工を付与します。
-            <para><see href="https://jp.freepik.com/photos/grunge"/>Freepik.comのリソースを使用しています</para>
-            </summary>
-            <param name="stamp"></param>
-            <param name="stampImage"></param>
-        </member>
-        <member name="M:StampImages.Core.StampImageFactory.Dispose">
-            <inheritdoc />
         </member>
         <member name="T:StampImages.Core.StampImageFactoryConfig">
             <summary>
@@ -291,14 +125,11 @@
             エフェクトリスト
             </summary>
         </member>
-        <member name="M:StampImages.Core.BaseStamp.SetFontFamily(System.Drawing.FontFamily)">
+        <member name="M:StampImages.Core.BaseStamp.SetFontFamily(System.String)">
             <summary>
             保持する<see cref="T:StampImages.Core.StampText"/>のフォントを一括で指定します。
             </summary>
             <param name="fontFamily"></param>
-        </member>
-        <member name="M:StampImages.Core.BaseStamp.Dispose">
-            <inheritdoc />
         </member>
         <member name="T:StampImages.Core.CircularStamp">
             <summary>
@@ -320,10 +151,7 @@
             コンストラクター
             </summary>
         </member>
-        <member name="M:StampImages.Core.CircularStamp.SetFontFamily(System.Drawing.FontFamily)">
-            <inheritdoc />
-        </member>
-        <member name="M:StampImages.Core.CircularStamp.Dispose">
+        <member name="M:StampImages.Core.CircularStamp.SetFontFamily(System.String)">
             <inheritdoc />
         </member>
         <member name="T:StampImages.Core.RectangleStamp">
@@ -351,10 +179,7 @@
             コンストラクター
             </summary>
         </member>
-        <member name="M:StampImages.Core.RectangleStamp.SetFontFamily(System.Drawing.FontFamily)">
-            <inheritdoc />
-        </member>
-        <member name="M:StampImages.Core.RectangleStamp.Dispose">
+        <member name="M:StampImages.Core.RectangleStamp.SetFontFamily(System.String)">
             <inheritdoc />
         </member>
         <member name="T:StampImages.Core.ThreeAreaCircularStamp">
@@ -387,10 +212,7 @@
             分割ラインから上段、下段の文字列までの間隔
             </summary>
         </member>
-        <member name="M:StampImages.Core.ThreeAreaCircularStamp.SetFontFamily(System.Drawing.FontFamily)">
-            <inheritdoc />
-        </member>
-        <member name="M:StampImages.Core.ThreeAreaCircularStamp.Dispose">
+        <member name="M:StampImages.Core.ThreeAreaCircularStamp.SetFontFamily(System.String)">
             <inheritdoc />
         </member>
         <member name="T:StampImages.Core.StampEdgeType">

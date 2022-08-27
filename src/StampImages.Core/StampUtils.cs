@@ -4,7 +4,7 @@ using System.Text;
 
 namespace StampImages.Core
 {
-    internal static class StampUtils
+    public static class StampUtils
     {
         public static bool IsDebug()
         {

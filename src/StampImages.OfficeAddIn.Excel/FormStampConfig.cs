@@ -92,7 +92,7 @@ namespace StampImages.OfficeAddIn.Excel
                 numMiddleSize.Value = (decimal)Math.Max(stamp.MiddleText.Size, 1);
                 numBottomSize.Value = (decimal)Math.Max(stamp.BottomText.Size, 1);
 
-                ddlFontFamily.SelectedValue = stamp.TopText.FontFamily.Name;
+                ddlFontFamily.SelectedValue = stamp.TopText.FontFamily;
 
                 btnColor.BackColor = stamp.Color;
 
@@ -232,7 +232,7 @@ namespace StampImages.OfficeAddIn.Excel
             }
 
             stamp.Color = btnColor.BackColor;
-            stamp.SetFontFamily(new FontFamily("MS UI Gothic"));
+            stamp.SetFontFamily("MS UI Gothic");
             stamp.Size = new Size(100, 100);
             stamp.EdgeWidth = 2;
             stamp.DividerWidth = 2;
@@ -255,7 +255,7 @@ namespace StampImages.OfficeAddIn.Excel
                 Size = ((float)numBottomSize.Value)
             };
 
-            stamp.SetFontFamily(((FontFamily[])ddlFontFamily.DataSource)[ddlFontFamily.SelectedIndex]);
+            stamp.SetFontFamily(((FontFamily[])ddlFontFamily.DataSource)[ddlFontFamily.SelectedIndex].Name);
 
             stamp.EdgeType = chkEdgeType.Checked ? StampEdgeType.Double : StampEdgeType.Single;
 

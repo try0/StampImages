@@ -24,6 +24,7 @@
     <PackageReference Include="System.Drawing.Common" Version="6.0.0" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\StampImages.Core.Drawing.Common\StampImages.Core.Drawing.Common.csproj" />
     <ProjectReference Include="..\StampImages.Core\StampImages.Core.csproj" />
   </ItemGroup>
   <ItemGroup>

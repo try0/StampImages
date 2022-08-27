@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\StampImages.Core.Drawing.Common\StampImages.Core.Drawing.Common.csproj" />
     <ProjectReference Include="..\StampImages.Core\StampImages.Core.csproj" />
   </ItemGroup>
 

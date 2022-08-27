@@ -12,7 +12,7 @@ namespace StampImages.Core
     /// <summary>
     /// 職印画像生成処理
     /// </summary>
-    public sealed class StampImageFactory : IDisposable
+    public class StampImageFactory : IDisposable, IStampImageFactory<Bitmap>
     {
         /// <summary>
         /// 設定
@@ -718,7 +718,7 @@ namespace StampImages.Core
         {
             Random rand = new Random();
 
-            Assembly assembly = Assembly.GetExecutingAssembly();
+            Assembly assembly = Assembly.Load("StampImages.Core");
             using (var grungeBitmap = new Bitmap(assembly.GetManifestResourceStream(@"StampImages.Core.Resource.effect_grunge.jpg")))
             {
 

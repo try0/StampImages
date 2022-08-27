@@ -272,6 +272,10 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\StampImages.Core.Drawing.Common\StampImages.Core.Drawing.Common.csproj">
+      <Project>{6388c92e-2295-4857-9828-b681bea4fe75}</Project>
+      <Name>StampImages.Core.Drawing.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\StampImages.Core\StampImages.Core.csproj">
       <Project>{FB25146D-7C51-45C4-B4B8-212C704E4A6B}</Project>
       <Name>StampImages.Core</Name>

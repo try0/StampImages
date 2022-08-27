@@ -17,9 +17,9 @@ namespace StampImages.Test.Net5
             {
                 Text = new StampText("Text")
             };
-            stamp.SetFontFamily(new FontFamily("Meiryo UI"));
+            stamp.SetFontFamily("Meiryo UI");
 
-            Assert.AreEqual("Meiryo UI", stamp.Text.FontFamily.Name);
+            Assert.AreEqual("Meiryo UI", stamp.Text.FontFamily);
         }
 
         [TestMethod]
@@ -29,9 +29,9 @@ namespace StampImages.Test.Net5
             {
                 Text = new StampText("Text")
             };
-            stamp.SetFontFamily(new FontFamily("Meiryo UI"));
+            stamp.SetFontFamily("Meiryo UI");
 
-            Assert.AreEqual("Meiryo UI", stamp.Text.FontFamily.Name);
+            Assert.AreEqual("Meiryo UI", stamp.Text.FontFamily);
         }
 
         [TestMethod]
@@ -43,11 +43,11 @@ namespace StampImages.Test.Net5
                 MiddleText = new StampText("MiddleText"),
                 BottomText = new StampText("BottomText")
             };
-            stamp.SetFontFamily(new FontFamily("Meiryo UI"));
+            stamp.SetFontFamily("Meiryo UI");
 
-            Assert.AreEqual("Meiryo UI", stamp.TopText.FontFamily.Name);
-            Assert.AreEqual("Meiryo UI", stamp.MiddleText.FontFamily.Name);
-            Assert.AreEqual("Meiryo UI", stamp.BottomText.FontFamily.Name);
+            Assert.AreEqual("Meiryo UI", stamp.TopText.FontFamily);
+            Assert.AreEqual("Meiryo UI", stamp.MiddleText.FontFamily);
+            Assert.AreEqual("Meiryo UI", stamp.BottomText.FontFamily);
         }
 
 

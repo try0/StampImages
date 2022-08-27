@@ -29,7 +29,7 @@ namespace StampImages.Core
         }
 
         /// <inheritdoc />
-        public override void SetFontFamily(FontFamily fontfamily)
+        public override void SetFontFamily(string fontfamily)
         {
             if (Text != null)
             {
@@ -37,14 +37,5 @@ namespace StampImages.Core
             }
         }
 
-        /// <inheritdoc />
-        public override void Dispose()
-        {
-            base.Dispose();
-            if (Text != null)
-            {
-                Text.Dispose();
-            }
-        }
     }
 }

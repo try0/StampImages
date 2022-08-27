@@ -30,10 +30,7 @@ namespace StampImages.Test.NetFramework
                 BottomText = new StampText { Value = "ユーザー名", Size = 25 }
             };
 
-            using (stamp)
-            {
-                stampImageFactory.Save(stamp, "./inkan_256.png");
-            }
+            stampImageFactory.Save(stamp, "./inkan_256.png");
         }
 
         /// <summary>
@@ -50,7 +47,6 @@ namespace StampImages.Test.NetFramework
             };
             stamp.EffectTypes.Add(StampEffectType.Noise);
 
-            using (stamp)
             using (var bitmap = stampImageFactory.Create(stamp))
             {
                 bitmap.Save("./inkan_sq_256.png");
@@ -73,7 +69,6 @@ namespace StampImages.Test.NetFramework
             };
             stamp.EffectTypes.Add(StampEffectType.Grunge);
 
-            using (stamp)
             using (var bitmap = stampImageFactory.Create(stamp))
             {
                 bitmap.Save("./stamp_sold_out.png");
@@ -91,7 +86,6 @@ namespace StampImages.Test.NetFramework
                 Text = new StampText { Value = "承認", Size = 60 },
             };
 
-            using (stamp)
             using (var bitmap = stampImageFactory.Create(stamp))
             {
                 bitmap.Save("./inkan_circular_256.png");
@@ -113,7 +107,6 @@ namespace StampImages.Test.NetFramework
                 BottomText = new StampText { Value = "ユーザー名", Size = 25 }
             };
 
-            using (stamp)
             using (Bitmap stampImage = stampImageFactory.Create(stamp))
             using (Bitmap resized = stampImageFactory.Resize(stampImage, 128, 128))
             {

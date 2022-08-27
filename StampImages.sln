@@ -29,6 +29,8 @@ Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "StampImages.OfficeAddIn.Exc
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "StampImages.App.WPF.Setup", "src\StampImages.App.WPF.Setup\StampImages.App.WPF.Setup.vdproj", "{6756CD70-71F0-48D2-924E-0D7B0BD585B7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StampImages.Core.Drawing.Common", "src\StampImages.Core.Drawing.Common\StampImages.Core.Drawing.Common.csproj", "{6388C92E-2295-4857-9828-B681BEA4FE75}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +77,10 @@ Global
 		{AB41676E-64C5-4ED4-9D17-C4D5F6DA5CD0}.Release|Any CPU.ActiveCfg = Release
 		{6756CD70-71F0-48D2-924E-0D7B0BD585B7}.Debug|Any CPU.ActiveCfg = Debug
 		{6756CD70-71F0-48D2-924E-0D7B0BD585B7}.Release|Any CPU.ActiveCfg = Release
+		{6388C92E-2295-4857-9828-B681BEA4FE75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6388C92E-2295-4857-9828-B681BEA4FE75}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6388C92E-2295-4857-9828-B681BEA4FE75}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6388C92E-2295-4857-9828-B681BEA4FE75}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -60,6 +60,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\src\StampImages.Core.Drawing.Common\StampImages.Core.Drawing.Common.csproj">
+      <Project>{6388c92e-2295-4857-9828-b681bea4fe75}</Project>
+      <Name>StampImages.Core.Drawing.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\src\StampImages.Core\StampImages.Core.csproj">
       <Project>{fb25146d-7c51-45c4-b4b8-212c704e4a6b}</Project>
       <Name>StampImages.Core</Name>

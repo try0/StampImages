@@ -155,7 +155,6 @@ namespace StampImages.App.WPF.ViewModels
             if (stamp != null)
             {
                 LoadStamp(stamp);
-                stamp.Dispose();
             }
             IsFillColor.Subscribe(_ => RequestUpdateStampImage());
             IsDoubleStampEdge.Subscribe(_ => RequestUpdateStampImage());
@@ -410,7 +409,6 @@ namespace StampImages.App.WPF.ViewModels
                 if (stamp != null)
                 {
                     LoadStamp(stamp);
-                    stamp.Dispose();
                 }
 
             }
@@ -439,7 +437,7 @@ namespace StampImages.App.WPF.ViewModels
             }
             var stamp = NewStamp();
 
-            stamp.SetFontFamily(new System.Drawing.FontFamily(FontFamily.Value.Source));
+            stamp.SetFontFamily(FontFamily.Value.Source);
 
             stamp.IsFillColor = IsFillColor.Value;
             stamp.EdgeType = IsDoubleStampEdge.Value ? StampEdgeType.Double : StampEdgeType.Single;
@@ -463,11 +461,6 @@ namespace StampImages.App.WPF.ViewModels
 
             Application.Current.Dispatcher.Invoke(() =>
             {
-                if (Stamp.Value != null)
-                {
-                    Stamp.Value.Dispose();
-                }
-
                 if (StampImage.Value != null)
                 {
                     StampImage.Value.Dispose();

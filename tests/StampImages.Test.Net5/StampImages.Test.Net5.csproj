@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\StampImages.Core.Drawing.Common\StampImages.Core.Drawing.Common.csproj" />
     <ProjectReference Include="..\..\src\StampImages.Core\StampImages.Core.csproj" />
   </ItemGroup>
 
