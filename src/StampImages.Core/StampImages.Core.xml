@@ -4,6 +4,31 @@
         <name>StampImages.Core</name>
     </assembly>
     <members>
+        <member name="T:StampImages.Core.ColorExtensions">
+            <summary>
+            <see cref="T:System.Drawing.Color"/> 拡張
+            </summary>
+        </member>
+        <member name="M:StampImages.Core.ColorExtensions.GetInvertColor(System.Drawing.Color)">
+            <summary>
+            RGBを反転させた<see cref="T:System.Drawing.Color"/>を取得します。
+            </summary>
+            <param name="color"></param>
+            <returns></returns>
+        </member>
+        <member name="T:StampImages.Core.SizeExtensions">
+            <summary>
+            <see cref="T:System.Drawing.Size"/> 拡張
+            </summary>
+        </member>
+        <member name="M:StampImages.Core.SizeExtensions.GetRotatedContainerSize(System.Drawing.Size,System.Int32)">
+            <summary>
+            回転後のサイズを覆うサイズを取得します。
+            </summary>
+            <param name="size"></param>
+            <param name="angle"></param>
+            <returns></returns>
+        </member>
         <member name="T:StampImages.Core.StampMargin">
             <summary>
             余白情報

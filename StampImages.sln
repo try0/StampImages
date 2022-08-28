@@ -29,7 +29,11 @@ Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "StampImages.OfficeAddIn.Exc
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "StampImages.App.WPF.Setup", "src\StampImages.App.WPF.Setup\StampImages.App.WPF.Setup.vdproj", "{6756CD70-71F0-48D2-924E-0D7B0BD585B7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StampImages.Core.Drawing.Common", "src\StampImages.Core.Drawing.Common\StampImages.Core.Drawing.Common.csproj", "{6388C92E-2295-4857-9828-B681BEA4FE75}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StampImages.Core.Drawing.Common", "src\StampImages.Core.Drawing.Common\StampImages.Core.Drawing.Common.csproj", "{6388C92E-2295-4857-9828-B681BEA4FE75}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StampImages.Core.SkiaSharp", "src\StampImages.Core.SkiaSharp\StampImages.Core.SkiaSharp.csproj", "{7E227AD4-EFF2-4B65-99F3-A627B12103DB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StampImages.Test.Net.SkiaSharp", "tests\StampImages.Test.Net.SkiaSharp\StampImages.Test.Net.SkiaSharp.csproj", "{A6AF95FF-07FC-4B7E-8E9A-18CDD2A2F94E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -81,6 +85,14 @@ Global
 		{6388C92E-2295-4857-9828-B681BEA4FE75}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6388C92E-2295-4857-9828-B681BEA4FE75}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6388C92E-2295-4857-9828-B681BEA4FE75}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E227AD4-EFF2-4B65-99F3-A627B12103DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E227AD4-EFF2-4B65-99F3-A627B12103DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E227AD4-EFF2-4B65-99F3-A627B12103DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E227AD4-EFF2-4B65-99F3-A627B12103DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A6AF95FF-07FC-4B7E-8E9A-18CDD2A2F94E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6AF95FF-07FC-4B7E-8E9A-18CDD2A2F94E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6AF95FF-07FC-4B7E-8E9A-18CDD2A2F94E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6AF95FF-07FC-4B7E-8E9A-18CDD2A2F94E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -96,6 +108,7 @@ Global
 		{1B2672F4-3588-45D4-BEA3-1D80DB820587} = {7082C113-2807-494B-BDCB-BA7AF59D988B}
 		{AB41676E-64C5-4ED4-9D17-C4D5F6DA5CD0} = {7082C113-2807-494B-BDCB-BA7AF59D988B}
 		{6756CD70-71F0-48D2-924E-0D7B0BD585B7} = {7082C113-2807-494B-BDCB-BA7AF59D988B}
+		{A6AF95FF-07FC-4B7E-8E9A-18CDD2A2F94E} = {53E79169-D876-41E6-A466-BA0DF1C564B1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0ADB583E-F09B-4BFF-8D7B-49AAB7FD8466}
