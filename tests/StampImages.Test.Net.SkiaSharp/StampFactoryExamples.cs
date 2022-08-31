@@ -11,7 +11,7 @@ namespace StampImages.Test.Net5
     public class StampFactoryExamples
     {
 
-        StampImageFactory stampImageFactory = new StampImageFactory(new Core.StampImageFactoryConfig());
+        StampImageFactory stampImageFactory = new StampImageFactory(new StampImageFactoryConfig());
 
         ~StampFactoryExamples()
         {
