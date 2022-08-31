@@ -130,6 +130,6 @@ Blazor(Server-Side)
 
 ## [StampImages.App.MAUI](https://github.com/try0/StampImages/tree/main/src/StampImages.App.MAUI)
 
-![maui](https://user-images.githubusercontent.com/17096601/187675990-a5ce9cc5-4610-4f65-b7fe-675196f6c4f5.jpg)
+![maui](https://user-images.githubusercontent.com/17096601/187679806-e5c05c7d-5e5e-40fa-bbfb-ebedb8767ac2.jpg)
 
 
