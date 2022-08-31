@@ -7,11 +7,8 @@ namespace StampImages.Core
     /// <summary>
     /// ファクトリーコンフィグ
     /// </summary>
-    public sealed class StampImageFactoryConfig : IDisposable
+    public interface IStampImageFactoryConfig : IDisposable
     {
-        /// <inheritdoc />
-        public void Dispose()
-        {
-        }
+
     }
 }

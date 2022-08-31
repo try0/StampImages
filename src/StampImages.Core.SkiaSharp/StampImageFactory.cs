@@ -241,11 +241,7 @@ namespace StampImages.Core.SkiaSharp
                 using (SKPaint fontPaint = new SKPaint())
                 {
 
-                    fontPaint.Typeface = SKTypeface.FromFamilyName(
-                        topText.FontFamily,
-                        SKFontStyleWeight.Normal,
-                        SKFontStyleWidth.Normal,
-                        SKFontStyleSlant.Upright);
+                    fontPaint.Typeface = Config.SKTypefaceProvider.Invoke(topText.FontFamily);
                     fontPaint.TextSize = topText.Size;
                     fontPaint.TextAlign = SKTextAlign.Center;
                     if (stamp.IsFillColor)
@@ -274,11 +270,7 @@ namespace StampImages.Core.SkiaSharp
             {
                 using (SKPaint fontPaint = new SKPaint())
                 {
-                    fontPaint.Typeface = SKTypeface.FromFamilyName(
-                        middleText.FontFamily,
-                        SKFontStyleWeight.Normal,
-                        SKFontStyleWidth.Normal,
-                        SKFontStyleSlant.Upright);
+                    fontPaint.Typeface = Config.SKTypefaceProvider.Invoke(topText.FontFamily);
                     fontPaint.TextSize = middleText.Size;
                     fontPaint.TextAlign = SKTextAlign.Center;
                     if (stamp.IsFillColor)
@@ -307,11 +299,7 @@ namespace StampImages.Core.SkiaSharp
 
                 using (SKPaint fontPaint = new SKPaint())
                 {
-                    fontPaint.Typeface = SKTypeface.FromFamilyName(
-                        bottomText.FontFamily,
-                        SKFontStyleWeight.Normal,
-                        SKFontStyleWidth.Normal,
-                        SKFontStyleSlant.Upright);
+                    fontPaint.Typeface = Config.SKTypefaceProvider.Invoke(topText.FontFamily);
                     fontPaint.TextSize = bottomText.Size;
                     fontPaint.TextAlign = SKTextAlign.Center;
                     if (stamp.IsFillColor)
@@ -442,11 +430,7 @@ namespace StampImages.Core.SkiaSharp
 
                 using (SKPaint fontPaint = new SKPaint())
                 {
-                    fontPaint.Typeface = SKTypeface.FromFamilyName(
-                        stampText.FontFamily,
-                        SKFontStyleWeight.Normal,
-                        SKFontStyleWidth.Normal,
-                        SKFontStyleSlant.Upright);
+                    fontPaint.Typeface = Config.SKTypefaceProvider.Invoke(stampText.FontFamily);
                     fontPaint.TextSize = stampText.Size;
                     fontPaint.TextAlign = SKTextAlign.Center;
                     if (stamp.IsFillColor)
@@ -570,11 +554,7 @@ namespace StampImages.Core.SkiaSharp
 
                 using (SKPaint fontPaint = new SKPaint())
                 {
-                    fontPaint.Typeface = SKTypeface.FromFamilyName(
-                        stampText.FontFamily,
-                        SKFontStyleWeight.Normal,
-                        SKFontStyleWidth.Normal,
-                        SKFontStyleSlant.Upright);
+                    fontPaint.Typeface = Config.SKTypefaceProvider.Invoke(stampText.FontFamily);
                     fontPaint.TextSize = stampText.Size;
                     fontPaint.TextAlign = SKTextAlign.Center;
                     if (stamp.IsFillColor)

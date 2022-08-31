@@ -29,6 +29,11 @@
             <param name="angle"></param>
             <returns></returns>
         </member>
+        <member name="T:StampImages.Core.IStampImageFactoryConfig">
+            <summary>
+            ファクトリーコンフィグ
+            </summary>
+        </member>
         <member name="T:StampImages.Core.StampMargin">
             <summary>
             余白情報
@@ -86,14 +91,6 @@
             コンストラクター
             </summary>
             <param name="value"></param>
-        </member>
-        <member name="T:StampImages.Core.StampImageFactoryConfig">
-            <summary>
-            ファクトリーコンフィグ
-            </summary>
-        </member>
-        <member name="M:StampImages.Core.StampImageFactoryConfig.Dispose">
-            <inheritdoc />
         </member>
         <member name="T:StampImages.Core.BaseStamp">
             <summary>

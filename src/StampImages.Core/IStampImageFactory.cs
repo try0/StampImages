@@ -4,7 +4,6 @@ namespace StampImages.Core
 {
     public interface IStampImageFactory<IMAGE_OBJECT>
     {
-        StampImageFactoryConfig Config { get; set; }
 
         IMAGE_OBJECT Create(BaseStamp stamp);
 
