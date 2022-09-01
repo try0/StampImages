@@ -1,6 +1,7 @@
 ﻿
 using Microsoft.Extensions.Configuration;
 using SkiaSharp;
+using StampImages.App.MAUI.Util;
 using StampImages.Core;
 using StampImages.Core.SkiaSharp;
 using System.Reflection;
@@ -10,31 +11,65 @@ namespace StampImages.App.MAUI
 {
     public partial class MainPage : ContentPage
     {
-        private StampImageFactory stampImageFactory = new StampImageFactory(new StampImageFactoryConfig()
-        {
-            SKTypefaceProvider = fn =>
-            {
-                var res = Assembly.GetExecutingAssembly().GetManifestResourceStream("StampImages.App.MAUI.Resources.Fonts.NotoSansJP-Regular.otf");
-                return SKTypeface.FromStream(res);
-            }
-        });
 
+        private StampImageFactory stampImageFactory;
+        private FontProvider fontProvider = new FontProvider();
         private bool init = true;
         private Random random = new Random();
         private Stream stream;
 
+
         public MainPage()
         {
+            stampImageFactory = new StampImageFactory(new StampImageFactoryConfig()
+            {
+                SKTypefaceProvider = fn =>
+                {
+
+                    if (FontPicker.SelectedItem != null)
+                    {
+                        var name = FontPicker.SelectedItem.ToString();
+
+#if ANDROID
+                        var path = fontProvider.GetFilePath(name);
+                        return SKTypeface.FromFile(path);
+#else
+                        return SKTypeface.FromFamilyName(name);
+#endif
+
+                    }
+
+                    // ドキュメントには、MauiAsset、 Resources/Rawについてしか記載がないが、
+                    // ビルドアクションがMauiFontでもOpenAppPackageFileAsyncで読めるっぽい
+                    // https://docs.microsoft.com/ja-jp/dotnet/maui/platform-integration/storage/file-system-helpers?tabs=windows#platform-differences
+                    var stream = FileSystem.Current.OpenAppPackageFileAsync("NotoSansJP-Regular.otf").Result;
+
+                    // 埋め込みリソースなら↓
+                    //var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("StampImages.App.MAUI.Resources.Fonts.NotoSansJP-Regular.otf");
+
+                    return SKTypeface.FromStream(stream);
+                }
+            });
+
             InitializeComponent();
+
+            FontPicker.ItemsSource = fontProvider.GetInstalledFontFamilyNames();
 
             RenderStampImageAsync();
 
         }
 
-        private void OnCounterClicked(object sender, EventArgs e)
+
+        private void OnUpdateClicked(object sender, EventArgs e)
         {
 
             UpdateBtn.IsEnabled = false;
+            RenderStampImageAsync();
+        }
+
+        private void OnFontChanged(object sender, EventArgs e)
+        {
+            FontPicker.IsEnabled = false;
             RenderStampImageAsync();
         }
 
@@ -82,7 +117,10 @@ namespace StampImages.App.MAUI
             img.Source = ImageSource.FromStream(() => stream);
 
             UpdateBtn.IsEnabled = true;
+            FontPicker.IsEnabled = true;
             init = false;
         }
+
+
     }
 }

@@ -16,6 +16,12 @@
                 HeightRequest="200"
                 HorizontalOptions="Center" />
 
+            <Picker 
+                x:Name="FontPicker" 
+                Title="Select Font" 
+                HorizontalOptions="Center"
+                SelectedIndexChanged="OnFontChanged"></Picker>
+
             <Label
                 Text="Hello, World!"
                 SemanticProperties.HeadingLevel="Level1"
@@ -33,7 +39,7 @@
                 x:Name="UpdateBtn"
                 Text="Update Image"
                 SemanticProperties.Hint="Counts the number of times you click"
-                Clicked="OnCounterClicked"
+                Clicked="OnUpdateClicked"
                 HorizontalOptions="Center" />
 
         </VerticalStackLayout>
