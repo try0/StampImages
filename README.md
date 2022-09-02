@@ -12,10 +12,11 @@ WPF/Blazor/MAUI/VSTO 画像ファイル 勉強用
 
 netstandard2.0  
 
-StampImages.Core.Drawing.Common
-[System.Drawing.Common](https://www.nuget.org/packages/System.Drawing.Common/)
+StampImages.Core.Drawing.Common  
+[System.Drawing.Common](https://www.nuget.org/packages/System.Drawing.Common/)  
+[system-drawing-common-windows-only](https://docs.microsoft.com/ja-jp/dotnet/core/compatibility/core-libraries/6.0/system-drawing-common-windows-only)
 
-StampImages.Core.SkiaSharp
+StampImages.Core.SkiaSharp  
 [SkiaSharp](https://www.nuget.org/packages/SkiaSharp/)
 
 --- 
