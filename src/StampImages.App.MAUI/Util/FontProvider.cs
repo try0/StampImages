@@ -6,6 +6,9 @@ using Android.Views;
 #elif IOS
 using UIKit;
 
+#elif MACCATALYST
+using UIKit;
+
 #elif WINDOWS
 using Microsoft.Graphics.Canvas.Text;
 
@@ -39,6 +42,9 @@ namespace StampImages.App.MAUI.Util
             fonts.AddRange(names);
 
 #elif IOS
+            fonts.AddRange(UIFont.FamilyNames);
+
+#elif MACCATALYST
             fonts.AddRange(UIFont.FamilyNames);
 
 #elif WINDOWS
