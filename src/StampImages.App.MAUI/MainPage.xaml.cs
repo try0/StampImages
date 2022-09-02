@@ -101,11 +101,18 @@ namespace StampImages.App.MAUI
                 stamp.EffectTypes.Add(StampEffectType.Noise);
             }
 
-            if (stream != null)
+            try
             {
-                stream.Dispose();
-                stream = null;
+                if (stream != null)
+                {
+                    stream.Dispose();
+                    stream = null;
+                }
             }
+            catch (Exception ignore)
+            {
+            }
+
 
             stream = await Task.Run(() =>
             {
