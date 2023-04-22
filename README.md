@@ -5,21 +5,26 @@
 印鑑画像 日付印 データネーム印 職印 スタンプ はんこ ただの画像  
 WPF/Blazor/MAUI/VSTO 画像ファイル 勉強用
 
+## StampImages.Core.SkiaSharp  
 
-## [StampImages.Core](https://github.com/try0/StampImages/tree/main/src/StampImages.Core)  
+[![Nuget](https://img.shields.io/nuget/v/StampImages.Core)](https://www.nuget.org/packages/StampImages.Core.SkiaSharp/)
 
-[![Nuget](https://img.shields.io/nuget/v/StampImages.Core)](https://www.nuget.org/packages/StampImages.Core/)
+netstandard2.0  
+  
+* [SkiaSharp](https://www.nuget.org/packages/SkiaSharp/)
+* StampImages.Core
+
+
+## StampImages.Core.Drawing.Common  
+
+[![Nuget](https://img.shields.io/nuget/v/StampImages.Core)](https://www.nuget.org/packages/StampImages.Core.Drawing.Common/)
 
 netstandard2.0  
 
-StampImages.Core.Drawing.Common  
 [system-drawing-common-windows-only](https://docs.microsoft.com/ja-jp/dotnet/core/compatibility/core-libraries/6.0/system-drawing-common-windows-only)
 * [System.Drawing.Common](https://www.nuget.org/packages/System.Drawing.Common/)  
 * StampImages.Core
 
-StampImages.Core.SkiaSharp  
-* [SkiaSharp](https://www.nuget.org/packages/SkiaSharp/)
-* StampImages.Core
 
 --- 
 
