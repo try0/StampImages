@@ -1,0 +1,55 @@
+﻿@inherits LayoutComponentBase
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>StampImages.WebApp.Blazor</title>
+
+
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css" />
+</head>
+<body>
+    <div>
+
+        <div>
+            <div class="ui secondary pointing blue inverted menu">
+                <span class="item large header">StampImages</span>
+                <div class="right menu">
+                    <a class="ui item" href="https://github.com/try0/StampImages"><i class="github large icon"></i></a>
+                </div>
+            </div>
+
+            <div class="ui container">
+                @Body
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
+
+
+
+@inject IJSRuntime JS
+@code {
+
+    IJSObjectReference semantic;
+
+    IJSObjectReference jq;
+
+    IJSObjectReference jc;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            jq = await JS.InvokeAsync<IJSObjectReference>("import", "https://code.jquery.com/jquery-3.5.1.min.js");
+            semantic = await JS.InvokeAsync<IJSObjectReference>("import", "https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js");
+            jc = await JS.InvokeAsync<IJSObjectReference>("import", "./Shared/MainLayout.razor.js");
+        }
+    }
+
+}
