@@ -166,7 +166,7 @@ namespace StampImages.Core.SkiaSharp
             if (stamp.EdgeType == StampEdgeType.Double)
             {
                 // 外円描画
-                graphics.DrawOval(imageWidth / 2, imageHeight / 2, r - outerSpaceX, r - outerSpaceY, edgePaint);
+                graphics.DrawOval(imageWidth / 2, imageHeight / 2, r, r, edgePaint);
 
                 // 内円の設定へ更新
                 r -= stamp.DoubleEdgeOffset;
@@ -179,7 +179,7 @@ namespace StampImages.Core.SkiaSharp
             int angle = 15;
 
             // 印鑑の縁
-            graphics.DrawOval(imageWidth / 2, imageHeight / 2, r - outerSpaceX, r - outerSpaceY, edgePaint);
+            graphics.DrawOval(imageWidth / 2, imageHeight / 2, r, r, edgePaint);
 
             if (stamp.IsFillColor)
             {
@@ -188,7 +188,7 @@ namespace StampImages.Core.SkiaSharp
                     fillEdgePaint.Color = new SKColor(stamp.Color.R, stamp.Color.G, stamp.Color.B);
                     fillEdgePaint.Style = SKPaintStyle.Fill;
 
-                    graphics.DrawOval(imageWidth / 2, imageHeight / 2, r - outerSpaceX, r - outerSpaceY, fillEdgePaint);
+                    graphics.DrawOval(imageWidth / 2, imageHeight / 2, r, r, fillEdgePaint);
                 }
 
             }
@@ -225,9 +225,9 @@ namespace StampImages.Core.SkiaSharp
 
 
             // 上部ライン
-            graphics.DrawLine(space + outerSpaceX + stamp.EdgeWidth, topLineY, imageWidth - (space + outerSpaceX) - stamp.EdgeWidth, topLineY, dividerPaint);
+            graphics.DrawLine(space + outerSpaceX + 1, topLineY, imageWidth - (space + outerSpaceX) - 1, topLineY, dividerPaint);
             // 下部ライン
-            graphics.DrawLine(space + outerSpaceX + stamp.EdgeWidth, bottomLineY, imageWidth - (space + outerSpaceX) - stamp.EdgeWidth, bottomLineY, dividerPaint);
+            graphics.DrawLine(space + outerSpaceX + 1, bottomLineY, imageWidth - (space + outerSpaceX) - 1, bottomLineY, dividerPaint);
 
 
 
